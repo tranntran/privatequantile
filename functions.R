@@ -68,7 +68,6 @@ getScale = function(logA, m, nbatch, start_scale = 0.1, lower_accept = 0.1, uppe
     return(0)
   }
   
-  message("Scale", scale)
   return(scale)
 }
 
@@ -169,7 +168,6 @@ constrGetScale = function(logA, init, nbatch, start_scale, lower_accept = 0.2,
   out = constrMetrop(logA = logA, init = init, nbatch = nbatch, scale = scale,
                           check_data = check_data, nonneg = nonneg, method = method, type = type)
   start_accept = out$accept
-  print(out$accept)
   while((out$accept < lower_accept | out$accept > upper_accept) & (count <= 10)){
     if (out$accept < lower_accept) {
       prevAbove = scale
@@ -189,12 +187,9 @@ constrGetScale = function(logA, init, nbatch, start_scale, lower_accept = 0.2,
   }
   
   if (count == 11) {
-    message('Scale did not converge. If this continues, adjust start_scale or acceptance rate range.', out$accept)
     return(list(0, start_accept))
   }
-  
-  message("Scale", scale)
-  print(out$accept)
+
   return(list(scale, start_accept))
 }
 
@@ -395,7 +390,6 @@ constrGetScaleSandwich = function(logA, init, nbatch, start_scale, lowerbeta, up
   
   out = constrMetropSandwich(logA = logA, init = init, nbatch = nbatch, scale = scale, lowerbeta = lowerbeta,
                              upperbeta = upperbeta, check_data = check_data, nonneg = nonneg, method = method)
-  print(out$accept)
   start_accept = out$accept
   while((out$accept < lower_accept | out$accept > upper_accept) & (count <= 10)){
     if (out$accept < lower_accept) {
@@ -410,15 +404,13 @@ constrGetScaleSandwich = function(logA, init, nbatch, start_scale, lowerbeta, up
       scale = 2*scale
     }
     
-    out = constrMetropSandwich(logA = logA, init = init, nbatch = nbatch, scale = scale, lowerbeta = lowerbeta,
-                               upperbeta = upperbeta, check_data = check_data, nonneg = nonneg, method = method)
-    print(out$accept)
+    out = constrMetropSandwich(logA = logA, init = init, nbatch = nbatch, scale = scale, 
+                               lowerbeta = lowerbeta, upperbeta = upperbeta, check_data = check_data, 
+                               nonneg = nonneg, method = method)
     count = count + 1
   }
   
   if (count == 11) {
-    message('Scale did not converge. If this continues, adjust start_scale or acceptance rate range.')
-    print(out$accept)
     return(list(0, start_accept))
   }
   
@@ -450,10 +442,10 @@ constrKNGSandwich = function(ep, tau, sumX, X, Y, init, nbatch = 1000, scale = 0
   
   count = 0
   while (scale == 0) {
-    ans = constrGetScaleSandwich(logA = logA, init = init, nbatch = nbatch, start_scale = start_scale, 
-                                   lowerbeta = lowerbeta, upperbeta = upperbeta, lower_accept = lower_accept, 
-                                   upper_accept = upper_accept, check_data = check_data, nonneg = nonneg, method = method)
-    print(ans)
+    ans = constrGetScaleSandwich(logA = logA, init = init, nbatch = nbatch, start_scale = start_scale,
+                                 lowerbeta = lowerbeta, upperbeta = upperbeta, lower_accept = lower_accept,
+                                 upper_accept = upper_accept, check_data = check_data, nonneg = nonneg,
+                                 method = method)
     scale = ans[[1]]
     start_accept = ans[[2]]
     count = count + 1
@@ -486,6 +478,7 @@ sandwichKNG = function(data, total_eps, median_eps = 0.7, main_tau_eps = 0.5,
                        method = c("koenker", "currentdata", "newdata"), nonneg = FALSE){
   main_tau_fac = as.factor(main_tau)
   sandwich_tau = tau[!tau %in% main_tau_fac]
+  main_tau_order = tau[tau %in% main_tau_fac]
   
   if(is.null(scale)){
     scale = rep(0, length(tau))
@@ -509,9 +502,8 @@ sandwichKNG = function(data, total_eps, median_eps = 0.7, main_tau_eps = 0.5,
   names(scale) = tau
   main_tau_scale = scale[names(scale) %in% main_tau]
   sandwich_scale = scale[!names(scale) %in% main_tau]
-  main_tau_order = tau[tau %in% main_tau]
-
   
+
   out = stepwiseKNG(data = data, total_eps = total_eps*main_tau_eps, median_eps = median_eps, 
                   tau = main_tau_order, scale = main_tau_scale, nbatch = nbatch, 
                   start_scale = main_tau_start_scale, median_start_scale = median_start_scale, 
