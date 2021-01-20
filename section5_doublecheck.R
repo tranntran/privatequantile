@@ -126,7 +126,7 @@ for (j in 1:length(allocate_eps)){
 }
 
 
-png("results/doublecheck_stepwise_slope_distance_koenker.png", width = 600, height = 400)
+png("results/doublecheck_stepwise_intercept_distance_koenker.png", width = 600, height = 400)
 colnames(dist_intercept) = tau
 rownames(dist_intercept) = allocate_eps
 dist_intercept_koenker = dist_intercept
@@ -141,7 +141,7 @@ ggplot(dist_intercept, aes(x = Quantile, log(Value))) +
   labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation")
 dev.off()
 
-png("results/doublecheck_stepwise_distance_slope_koenker.png", width = 600, height = 400)
+png("results/doublecheck_stepwise_slope_distance_koenker.png", width = 600, height = 400)
 colnames(dist_slope) = tau
 rownames(dist_slope) = allocate_eps
 dist_slope_koenker = dist_slope
@@ -155,6 +155,5 @@ ggplot(dist_slope, aes(x = Quantile, log(Value))) +
   ylab("log(Mean Distance)") +
   labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation")
 dev.off()
-
 save(list = c("dist_intercept_koenker", "dist_slope_koenker", "dist_intercept_data", "dist_slope_data"),
      file = "results/doublecheck_stepwise_distance.Rdata")
