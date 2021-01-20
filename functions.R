@@ -252,7 +252,7 @@ stepwiseKNG = function(data, total_eps, median_eps = 0.7, tau, scale = rep(0, le
                       lower_accept = 0.2, upper_accept = 0.25, check_data = NULL, d = 1e-04,
                       method = c("koenker", "currentdata", "newdata"), nonneg = FALSE){
   method = match.arg(method)
-  data = as.matrix(data)
+  #data = as.matrix(data)
   ep = total_eps*(1-median_eps)/(length(tau)-1)
   scale_kng = 0
   i = ncol(data)
