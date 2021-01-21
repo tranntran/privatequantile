@@ -254,7 +254,6 @@ stepwiseKNG = function(data, total_eps, median_eps = 0.7, tau, scale = rep(0, le
   method = match.arg(method)
   #data = as.matrix(data)
   ep = total_eps*(1-median_eps)/(length(tau)-1)
-  scale_kng = 0
   i = ncol(data)
   Y = data[,i]
   R = max(abs(Y))
