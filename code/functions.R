@@ -37,7 +37,7 @@ metrop = function(logA, init, nbatch = 1000, scale, nonneg = FALSE){
   return(out)
 }
 
-getScale = function(logA, m, nbatch, start_scale = 0.1, lower_accept = 0.1, upper_accept = 0.2, nonneg){
+getScale = function(logA, m, nbatch, start_scale = 0.1, lower_accept = 0.2, upper_accept = 0.25, nonneg){
   scale = start_scale
   prevBelow = 0
   prevAbove = Inf
@@ -45,11 +45,11 @@ getScale = function(logA, m, nbatch, start_scale = 0.1, lower_accept = 0.1, uppe
   
   init = rep(0, m)
   out = metrop(logA = logA, init = init, nbatch = nbatch, scale = scale, nonneg = nonneg)
-
+  start_accept = out$accept
   while((out$accept < lower_accept | out$accept > upper_accept) & (count <= 10)){
     if (out$accept < lower_accept) {
       prevAbove = scale 
-    } else if (out$accept > .2) {
+    } else if (out$accept > upper_accept) {
       prevBelow = scale 
     }
     
@@ -64,11 +64,10 @@ getScale = function(logA, m, nbatch, start_scale = 0.1, lower_accept = 0.1, uppe
   }
   
   if (count == 11) {
-    message('Scale did not converge. If this continues, adjust start_scale or acceptance rate range.')
-    return(0)
+    return(list(0, start_accept))
   }
   
-  return(scale)
+  return(list(scale, start_accept))
 }
 
 
@@ -83,15 +82,31 @@ KNG = function(ep, tau, sumX, X, Y, nbatch = 1000, scale = 0, start_scale = 0.1,
     ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*1)+ (-1/2)*(beta%*%beta)
     return(ans)
   }
+  
+  count = 0
   while(scale == 0){
-    scale = getScale(logA = logA, m = m, nbatch = nbatch, start_scale = start_scale, 
+    ans = getScale(logA = logA, m = m, nbatch = nbatch, start_scale = start_scale, 
                      lower_accept = lower_accept, upper_accept = upper_accept, nonneg = nonneg)
+    scale = ans[[1]]
+    start_accept = ans[[2]]
+    count = count + 1
+    if (count == 2){
+      if (start_accept < lower_accept){
+        message("Unable to get scale to converge. Automatically decrease starting scale.")
+        start_scale = start_scale*0.5
+      } else if (start_accept > upper_accept){
+        message("Unable to get scale to converge. Automatically increase starting scale.")
+        start_scale = start_scale*5
+      }
+      count = 0
+    }
   }
+  
   
   out = metrop(logA = logA, init = init, nbatch = nbatch, scale = scale, nonneg = nonneg)
   beta_kng = t(tail(out$batch, n = 1))
   
-  return(list(beta_kng, scale))
+  return(list(beta_kng, scale, out$accept))
 }
 
 
@@ -499,8 +514,8 @@ sandwichKNG = function(data, total_eps, median_eps = 0.7, main_tau_eps = 0.5,
     #one option is asking user to input checkdata as a design matrix
   }
   names(scale) = tau
-  main_tau_scale = scale[names(scale) %in% main_tau]
-  sandwich_scale = scale[!names(scale) %in% main_tau]
+  main_tau_scale = scale[names(scale) %in% main_tau_fac]
+  sandwich_scale = scale[!names(scale) %in% main_tau_fac]
   
 
   out = stepwiseKNG(data = data, total_eps = total_eps*main_tau_eps, median_eps = median_eps, 

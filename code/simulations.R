@@ -95,36 +95,41 @@ for (j in 1:reps){
     if (syn_var == "x1"){
       data = as.data.frame(x1)
       all_beta = list()
-      all_beta[[1]] = originalKNG(data = data, total_eps = ep, tau = tau, nonneg = TRUE)
+      all_beta[[1]] = originalKNG(data = data, total_eps = ep, tau = tau, start_scale = 0.01)
+      # 
+      # all_beta[[2]] = stepwiseKNG(data = data, total_eps = ep, median_eps = 1/length(tau), tau = tau,
+      #                             nbatch = runs, method = "koenker", nonneg = TRUE)[[1]]
+      # all_beta[[3]] = stepwiseKNG(data = data, total_eps = ep, median_eps = 1/length(tau), tau = tau,
+      #                             nbatch = runs, method = "currentdata", nonneg = TRUE)[[1]]
+      # all_beta[[4]] = sandwichKNG(data = data, total_eps = ep, median_eps = 1/length(main_tau), 
+      #                             main_tau_eps = length(main_tau)/length(tau),
+      #                             tau = tau, main_tau = main_tau, nbatch = runs, 
+      #                             method = "koenker", nonneg = TRUE)[[1]]
+      # all_beta[[5]] = sandwichKNG(data = data, total_eps = ep, median_eps = 1/length(main_tau), 
+      #                             main_tau_eps = length(main_tau)/length(tau),
+      #                             tau = tau, main_tau = main_tau, nbatch = runs, 
+      #                             method = "currentdata", nonneg = TRUE)[[1]]
+      # all_beta[[6]] = coef(rq(x1 ~ 1, tau))
       
-      all_beta[[2]] = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.5, tau = tau,
-                                  nbatch = runs, method = "koenker", nonneg = TRUE)[[1]]
-      all_beta[[3]] = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.6, tau = tau,
-                                  nbatch = runs, method = "currentdata", nonneg = TRUE)[[1]]
-      all_beta[[4]] = sandwichKNG(data = data, total_eps = ep, median_eps = 0.5, main_tau_eps = 0.7,
-                                  tau = tau, main_tau = main_tau, nbatch = runs, 
-                                  method = "koenker", nonneg = TRUE)[[1]]
-      all_beta[[5]] = sandwichKNG(data = data, total_eps = ep, median_eps = 0.6, main_tau_eps = 0.5,
-                                  tau = tau, main_tau = main_tau, nbatch = runs, 
-                                  method = "currentdata", nonneg = TRUE)[[1]]
-      all_beta[[6]] = coef(rq(x1 ~ 1, tau))
       
       
-      
-      X = rep(list(matrix(1, nrow = n)), 6)
+      #X = rep(list(matrix(1, nrow = n)), 6)
+      X = rep(list(matrix(1, nrow = n)), 1)
       synx1 = mapply(syndata, beta_result = all_beta, x = X, 
                    MoreArgs = list(sample(1:length(tau), n, replace = TRUE)), SIMPLIFY = FALSE)
       synall = synx1
-      synx1[[7]] = x1
-      names(synx1) = c("Original", "Stepwise-Koenker", "Stepwise-Data", "Sandwich-Koenker", "Sandwich-Data",
-                     "Non-Private", "Truth")
+      #synx1[[7]] = x1
+      # names(synx1) = c("Original", "Stepwise-Koenker", "Stepwise-Data", "Sandwich-Koenker", "Sandwich-Data",
+      #                "Non-Private", "Truth")
+      synx1[[2]] = x1
+      names(synx1) = c("Original", "Truth")
       plotdata = melt(synx1)
       plotdata$L1 = as.factor(plotdata$L1)
-      ggplot(plotdata, aes(x=value, fill = L1)) + facet_wrap(~L1, ncol = 4) +
+      print(ggplot(plotdata, aes(x=value, fill = L1)) + facet_wrap(~L1, ncol = 4) +
         stat_density(geom = "area", bw = 5, alpha = 0.5, size = 1) +
         scale_color_brewer(palette="Dark2") + theme_minimal() +
         theme(legend.position=c(0.9,0.2)) +
-        ggtitle(paste("Density of variable", syn_var, "- Rep", j))
+        ggtitle(paste("Density of variable", syn_var, "- Rep", j)))
       
     } else {
       if (syn_var == "x2"){
@@ -135,36 +140,39 @@ for (j in 1:reps){
         mod = "x3 ~ x1 + x2"
       }
       all_beta = list()
-      all_beta[[1]] = originalKNG(data = data, total_eps = ep, tau = tau, nonneg = TRUE)
-      
-      all_beta[[2]] = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.5, tau = tau,
-                                  nbatch = runs, method = "koenker", nonneg = TRUE)[[1]]
-      all_beta[[3]] = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.6, tau = tau,
-                                  nbatch = runs, method = "newdata", check_data = synall[[3]],
-                                  nonneg = TRUE)[[1]]
-      all_beta[[4]] = sandwichKNG(data = data, total_eps = ep, median_eps = 0.5, main_tau_eps = 0.7,
-                                  tau = tau, main_tau = main_tau, nbatch = runs, 
-                                  method = "koenker", nonneg = TRUE)[[1]]
-      all_beta[[5]] = sandwichKNG(data = data, total_eps = ep, median_eps = 0.6, main_tau_eps = 0.5,
-                                  tau = tau, main_tau = main_tau, nbatch = runs, 
-                                  method = "newdata", check_data = synall[[5]], nonneg = TRUE)[[1]]
-      all_beta[[6]] = coef(rq(mod, tau))
-      X = mapply(cbind, synall, rep(list(matrix(1, nrow = n)), 6), SIMPLIFY = FALSE)
+      all_beta[[1]] = originalKNG(data = data, total_eps = ep, tau = tau)
+      # 
+      # all_beta[[2]] = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.5, tau = tau,
+      #                             nbatch = runs, method = "koenker", nonneg = TRUE)[[1]]
+      # all_beta[[3]] = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.6, tau = tau,
+      #                             nbatch = runs, method = "newdata", check_data = synall[[3]],
+      #                             nonneg = TRUE)[[1]]
+      # all_beta[[4]] = sandwichKNG(data = data, total_eps = ep, median_eps = 0.5, main_tau_eps = 0.7,
+      #                             tau = tau, main_tau = main_tau, nbatch = runs, 
+      #                             method = "koenker", nonneg = TRUE)[[1]]
+      # all_beta[[5]] = sandwichKNG(data = data, total_eps = ep, median_eps = 0.6, main_tau_eps = 0.5,
+      #                             tau = tau, main_tau = main_tau, nbatch = runs, 
+      #                             method = "newdata", check_data = synall[[5]], nonneg = TRUE)[[1]]
+      # all_beta[[6]] = coef(rq(mod, tau))
+      #X = mapply(cbind, synall, rep(list(matrix(1, nrow = n)), 6), SIMPLIFY = FALSE)
+      X = mapply(cbind, synall, rep(list(matrix(1, nrow = n)), 1), SIMPLIFY = FALSE)
       syn = mapply(syndata, beta_result = all_beta, x = X, 
                      MoreArgs = list(sample(1:length(tau), n, replace = TRUE)), SIMPLIFY = FALSE)
       synall = mapply(cbind, synall, syn, SIMPLIFY = FALSE)
-      syn[[7]] = data[syn_var]
-      names(syn) = c("Original", "Stepwise-Koenker", "Stepwise-Data", "Sandwich-Koenker", 
-                       "Sandwich-Data", "Non-Private", "Truth")
+      #syn[[7]] = data[, ncol(data)]
+      # names(syn) = c("Original", "Stepwise-Koenker", "Stepwise-Data", "Sandwich-Koenker", 
+      #                  "Sandwich-Data", "Non-Private", "Truth")
+      syn[[2]] = data[, ncol(data)]
+      names(syn) = c("Original", "Truth")
       plotdata = melt(syn)
       plotdata$L1 = as.factor(plotdata$L1)
-      ggplot(plotdata, aes(x=value, fill = L1)) + facet_wrap(~L1, ncol = 4) +
-        stat_density(geom = "area", bw = 10, alpha = 0.5, size = 1) + 
+      print(ggplot(plotdata, aes(x=value, fill = L1)) + facet_wrap(~L1, ncol = 4) +
+        stat_density(geom = "area", bw = ifelse(syn_var == "x2", 40, 80), alpha = 0.5, size = 1) + 
         scale_color_brewer(palette="Dark2") + theme_minimal() +
-        coord_cartesian(xlim=c(-50, max(x2)+100)) +
+        coord_cartesian(xlim=c(-200, max(data[,ncol(data)])+250)) +
         theme(legend.position=c(0.9,0.2)) +
         ggtitle(paste("Density of variable", syn_var, "- Rep", j)) +
-        labs(fill="Methods") 
+        labs(fill="Methods")) 
       
     }
 
@@ -181,7 +189,8 @@ for (j in 1:reps){
 
 tab1 = rbind(apply(ut_logit, 1, median), apply(ut_logit_inter, 1, median))
 rownames(tab1) = c("Utility Logit", "Utility Logit Inter")
-colnames(tab1) = c("Sandwich KNG", "constrKNG", "KNG", "Non-Private")
+colnames(tab1) = c("Original", "Stepwise-Koenker", "Stepwise-Data", "Sandwich-Koenker", "Sandwich-Data",
+                   "Non-Private")
 tab1
 
 
