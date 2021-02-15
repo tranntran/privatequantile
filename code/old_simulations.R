@@ -17,7 +17,7 @@ utility_logit_inter = function(data, inds){
 }
 
 syndata = function(beta_result, x, select_quantile){
-  #  print(head(select_quantile))
+#  print(head(select_quantile))
   allsyn = x%*%beta_result
   coord = cbind(c(1:nrow(x)), select_quantile)
   ans = allsyn[coord]
@@ -68,13 +68,13 @@ originalKNG = function(data, total_eps, tau, nbatch = 1000, scale = rep(0, lengt
 library(quantreg)
 library(reshape2)
 library(ggplot2)
-t = 2
+t = 1
 set.seed(t)
 reps = 1000
 ut_logit = matrix(NA, nrow = 6, ncol = reps)
 ut_logit_inter = matrix(NA, nrow = 6, ncol = reps)
-main_tau = c(0.05, 0.25, 0.5, 0.75, 0.95, 0.99)
-tau = c(seq(0.05, 0.95, 0.05), 0.99)
+main_tau = c(0.05, 0.25, 0.5, 0.75, 0.95)
+tau = c(seq(0.05, 0.95, 0.05))
 
 ep = 0.25
 n = 5000
@@ -90,11 +90,11 @@ b2 = 1
 #why ggplot is not plotting
 #what is this error No id variables; using all as measure variables
 par(mfrow = c(1,1))
-scale_x1 = rep(list(c(rep(0.01, 10), rep(0.03, 10))), 5)
+scale_x1 = rep(list(c(rep(0.01, 10), rep(0.03, 9))), 5)
 accept_x1 = rep(list(rep(0, length(tau))), 5)
-scale_x2 = rep(list(c(rep(0.0005, 9), 0.001, rep(0.0005, 10))), 5)
+scale_x2 = rep(list(c(rep(0.0005, 9), 0.001, rep(0.0005, 9))), 5)
 accept_x2 = rep(list(rep(0, length(tau))), 5)
-scale_x3 = rep(list(c(rep(0.0001, 10), rep(0.0001, 10))), 5)
+scale_x3 = rep(list(c(rep(0.0001, 10), rep(0.0001, 9))), 5)
 accept_x3 = rep(list(rep(0, length(tau))), 5)
 for (j in 1:reps){
   print(j)
@@ -111,11 +111,11 @@ for (j in 1:reps){
       data = as.data.frame(x1)
       all_beta = list()
       temp = originalKNG(data = data, total_eps = ep, tau = tau, start_scale = 0.01,
-                         scale = scale_x1[[1]])
+                                  scale = scale_x1[[1]])
       all_beta[[1]] = temp[[1]]
       scale_x1[[1]] = temp[[2]]
       accept_x1[[1]] = temp[[3]]
-      
+
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 1/length(tau), 
                          tau = tau, nbatch = runs, method = "koenker", nonneg = TRUE,
                          scale = scale_x1[[2]])
@@ -131,18 +131,18 @@ for (j in 1:reps){
       accept_x1[[3]] = temp[[3]]
       
       temp = sandwichKNG(data = data, total_eps = ep, median_eps = 1/length(main_tau),
-                         main_tau_eps = length(main_tau)/length(tau),
-                         tau = tau, main_tau = main_tau, nbatch = runs,
-                         method = "koenker", nonneg = TRUE, scale = scale_x1[[4]])
+                                  main_tau_eps = length(main_tau)/length(tau),
+                                  tau = tau, main_tau = main_tau, nbatch = runs,
+                                  method = "koenker", nonneg = TRUE, scale = scale_x1[[4]])
       all_beta[[4]] = temp[[1]]
       scale_x1[[4]] = temp[[2]]
       accept_x1[[4]] = temp[[3]]
       
       
       temp = sandwichKNG(data = data, total_eps = ep, median_eps = 1/length(main_tau),
-                         main_tau_eps = length(main_tau)/length(tau),
-                         tau = tau, main_tau = main_tau, nbatch = runs,
-                         method = "currentdata", nonneg = TRUE, scale = scale_x1[[5]])
+                                  main_tau_eps = length(main_tau)/length(tau),
+                                  tau = tau, main_tau = main_tau, nbatch = runs,
+                                  method = "currentdata", nonneg = TRUE, scale = scale_x1[[5]])
       all_beta[[5]] = temp[[1]]
       scale_x1[[5]] = temp[[2]]
       accept_x1[[5]] = temp[[3]]
@@ -153,7 +153,7 @@ for (j in 1:reps){
       X = rep(list(matrix(1, nrow = n)), 6)
       #X = rep(list(matrix(1, nrow = n)), 1)
       synx1 = mapply(syndata, beta_result = all_beta, x = X, 
-                     MoreArgs = list(sample(1:length(tau), n, replace = TRUE)), SIMPLIFY = FALSE)
+                   MoreArgs = list(sample(1:length(tau), n, replace = TRUE)), SIMPLIFY = FALSE)
       synall = synx1
       synx1[[7]] = x1
       names(synx1) = c("Original", "Stepwise-Koenker", "Stepwise-Data", 
@@ -163,10 +163,10 @@ for (j in 1:reps){
       plotdata = melt(synx1)
       plotdata$L1 = as.factor(plotdata$L1)
       print(ggplot(plotdata, aes(x=value, fill = L1)) + facet_wrap(~L1, ncol = 4) +
-              stat_density(geom = "area", bw = 5, alpha = 0.5, size = 1) +
-              scale_color_brewer(palette="Dark2") + theme_minimal() +
-              theme(legend.position=c(0.9,0.2)) +
-              ggtitle(paste("Density of variable", syn_var, "- Rep", j)))
+        stat_density(geom = "area", bw = 5, alpha = 0.5, size = 1) +
+        scale_color_brewer(palette="Dark2") + theme_minimal() +
+        theme(legend.position=c(0.9,0.2)) +
+        ggtitle(paste("Density of variable", syn_var, "- Rep", j)))
       
     } else {
       if (syn_var == "x2"){
@@ -187,7 +187,7 @@ for (j in 1:reps){
         scale_x3[[1]] = temp[[2]]
         accept_x3[[1]] = temp[[3]]
       }
-      
+
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.5, tau = tau,
                          nbatch = runs, method = "koenker", nonneg = TRUE,
                          scale = if(syn_var == "x2") scale_x2[[2]] else scale_x3[[2]])
@@ -241,25 +241,25 @@ for (j in 1:reps){
       X = mapply(cbind, rep(list(matrix(1, nrow = n)), 6), synall, SIMPLIFY = FALSE)
       #X = mapply(cbind, synall, rep(list(matrix(1, nrow = n)), 1), SIMPLIFY = FALSE)
       syn = mapply(syndata, beta_result = all_beta, x = X, 
-                   MoreArgs = list(sample(1:length(tau), n, replace = TRUE)), SIMPLIFY = FALSE)
+                     MoreArgs = list(sample(1:length(tau), n, replace = TRUE)), SIMPLIFY = FALSE)
       synall = mapply(cbind, synall, syn, SIMPLIFY = FALSE)
       syn[[7]] = data[, ncol(data)]
       names(syn) = c("Original", "Stepwise-Koenker", "Stepwise-Data", "Sandwich-Koenker",
-                     "Sandwich-Data", "Non-Private", "Truth")
+                       "Sandwich-Data", "Non-Private", "Truth")
       # syn[[2]] = data[, ncol(data)]
       # names(syn) = c("Original", "Truth")
       plotdata = melt(syn)
       plotdata$L1 = as.factor(plotdata$L1)
       print(ggplot(plotdata, aes(x=value, fill = L1)) + facet_wrap(~L1, ncol = 4) +
-              stat_density(geom = "area", bw = ifelse(syn_var == "x2", 40, 80), alpha = 0.5, size = 1) + 
-              scale_color_brewer(palette="Dark2") + theme_minimal() +
-              coord_cartesian(xlim=c(-200, max(data[,ncol(data)])+250)) +
-              theme(legend.position=c(0.9,0.2)) +
-              ggtitle(paste("Density of variable", syn_var, "- Rep", j)) +
-              labs(fill="Methods")) 
+        stat_density(geom = "area", bw = ifelse(syn_var == "x2", 40, 80), alpha = 0.5, size = 1) + 
+        scale_color_brewer(palette="Dark2") + theme_minimal() +
+        coord_cartesian(xlim=c(-200, max(data[,ncol(data)])+250)) +
+        theme(legend.position=c(0.9,0.2)) +
+        ggtitle(paste("Density of variable", syn_var, "- Rep", j)) +
+        labs(fill="Methods")) 
       
     }
-    
+
   }
   
   synall_name = lapply(synall, `colnames<-`, vars)
@@ -270,20 +270,20 @@ for (j in 1:reps){
   ut_logit_inter[, j] = sapply(ut.data, utility_logit_inter, inds)
 }
 
+ut = ut_logit[,1:300]
+ut_i = ut_logit_inter[, 1:300]
+filename = paste("output/utility_", t, ".Rdata", sep = "")
 
-
-tab1 = apply(ut_logit, 1, quantile)
-colnames(tab1) = c("Original", "Stepwise-Koenker", "Stepwise-Data", "Sandwich-Koenker", 
-                   "Sandwich-Data", "Non-Private")
+tab1 = apply(ut, 1, quantile)
+#rownames(tab1) = c("Utility Logit", "Utility Logit Inter")
+colnames(tab1) = c("Original", "Stepwise-Koenker", "Stepwise-Data", "Sandwich-Koenker", "Sandwich-Data",
+                   "Non-Private")
 tab1
 
-
-
-
-tab2 = apply(ut_logit_inter, 1, quantile)
-colnames(tab2) = c("Original", "Stepwise-Koenker", "Stepwise-Data", "Sandwich-Koenker", 
-                   "Sandwich-Data", "Non-Private")
-tab2
-
-filename = paste("output/utility_", t, ".Rdata", sep = "")
 save(list = c("ut_logit", "ut_logit_inter", "tab1"), file = filename)
+
+
+tab2 = rbind(apply(ut_logit, 1, mean), apply(ut_logit_inter, 1, mean))
+rownames(tab2) = c("Utility Logit", "Utility Logit Inter")
+colnames(tab2) = c("Sandwich KNG", "constrKNG", "KNG", "Non-Private")
+tab2
