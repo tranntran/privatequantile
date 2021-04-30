@@ -1,14 +1,16 @@
 library(doParallel)
 library(snow)
 library(doRNG)
-source("functions_amh_cx.R")
+source("code/functions_amh_cx.R") #change directory
 num_cores=detectCores()-1
+#the above uses all cores available except 1, but you can set it manually too.
+
 workers=makeCluster(num_cores,type="SOCK",outfile="log.txt")
 registerDoParallel(workers)
 
-# Stepwise KNG using current data method
+
 total_eps = 0.1
-reps = 1000 #remember to change reps
+reps = 1000 #change reps
 n = 5000
 runs = 10000
 lambda = 0.1
@@ -23,12 +25,12 @@ true_beta[1,] = sapply(tau, invert_quantile) + a0
 colnames(true_beta) = paste("q", tau*100, sep = "")
 true_beta = apply(true_beta, 2, rep, reps)
 
-distance_median_eps_stepd = function(median_eps){
+
+distance_median_eps = function(median_eps){
   dist_intercept = matrix(NA, nrow = length(allocate_eps), ncol = length(tau))
   dist_slope = matrix(NA, nrow = length(allocate_eps), ncol = length(tau))
   scale_vec = rep(0, length(tau))
   beta_ans = matrix(NA, nrow = 2*reps, ncol = length(tau))
-  # for each median eps allocation, scale is calculated once and can be reused
   for (i in 1:reps){
     print(paste("Allocate eps:", median_eps, "reps: ", i))
     x1 = rexp(n, lambda)
@@ -36,8 +38,8 @@ distance_median_eps_stepd = function(median_eps){
     data = cbind(x1, x2)
     mod = "x2 ~ x1"
     
-    temp = stepwiseKNG(data = data, total_eps = total_eps, median_eps = median_eps, 
-                       tau = tau, scale = 0.001, nbatch = 10000, method = "varying_currentdata", 
+    ans = stepwiseKNG(data = data, total_eps = total_eps, median_eps = median_eps, 
+                       tau = tau, scale = 0.001, nbatch = 10000, method = "fixed", 
                        nonneg = TRUE, lower_accept = 0.2, upper_accept = 0.6, 
                        update_after = 10, adjust_scale_by = 2, formula = mod)
     
@@ -59,25 +61,27 @@ distance_median_eps_stepd = function(median_eps){
   dist_l2 = apply(beta_ans_l2, 2, mean)
   sd_l2 = apply(beta_ans_l2, 2, sd)
   
+  print(beta_ans)
   return(list(dist_intercept, dist_slope, dist_l2, sd_intercept, sd_slope, sd_l2))
-
 }
 
-ctype = rbind
-t = 1
-Out = foreach(median_eps = allocate_eps,.combine = ctype, .errorhandling = 'stop',
-              .options.RNG = t) %dorng% distance_median_eps_stepd(median_eps)
 
-stepwise_data_int = matrix(unlist(Out[,1]), nrow = 9, byrow = TRUE)
-stepwise_data_slope = matrix(unlist(Out[,2]), nrow = 9, byrow = TRUE)
-stepwise_data_l2 = matrix(unlist(Out[,3]), nrow = 9, byrow = TRUE)
+ctype = rbind #you can choose how you want the results combined across loop iterations
+t = 1
+Out = foreach(median_eps = allocate_eps,.combine=ctype, .errorhandling='stop',
+              .options.RNG = t) %dorng% distance_median_eps(median_eps)
+
+stepwise_fixed_int = matrix(unlist(Out[,1]), nrow = 9, byrow = TRUE)
+stepwise_fixed_slope = matrix(unlist(Out[,2]), nrow = 9, byrow = TRUE)
+stepwise_fixed_l2 = matrix(unlist(Out[,3]), nrow = 9, byrow = TRUE)
 
 sd_int = matrix(unlist(Out[,4]), nrow = 9, byrow = TRUE)
 sd_slope = matrix(unlist(Out[,5]), nrow = 9, byrow = TRUE)
 sd_l2 = matrix(unlist(Out[,6]), nrow = 9, byrow = TRUE)
 
-filename = paste("../output/stepwise_data_sd_", t, "_e",total_eps, ".Rdata", sep = "")
-save(list = c("stepwise_data_int", "stepwise_data_slope", "stepwise_data_l2",
+filename = paste("../output/stepwise_fixed_sd_", t, "_e",total_eps, ".Rdata", sep = "")
+
+save(list = c("stepwise_fixed_int", "stepwise_fixed_slope", "stepwise_fixed_l2",
               "sd_int", "sd_slope", "sd_l2"), file = filename)
 
 stopCluster(workers)

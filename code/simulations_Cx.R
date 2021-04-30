@@ -1,4 +1,4 @@
-source("code/functions.R")
+source("code/functions_Cx.R")
 
 utility_logit = function(data, inds){
   data = cbind(data, inds)
@@ -92,9 +92,9 @@ b2 = 1
 par(mfrow = c(1,1))
 scale_x1 = rep(list(c(rep(0.01, 10), rep(0.03, 10))), 5)
 accept_x1 = rep(list(rep(0, length(tau))), 5)
-scale_x2 = rep(list(c(rep(0.0005, 9), 0.001, rep(0.0005, 10))), 5)
+scale_x2 = rep(list(c(rep(0.0005, 9), 0.001, rep(0.0001, 10))), 5)
 accept_x2 = rep(list(rep(0, length(tau))), 5)
-scale_x3 = rep(list(c(rep(0.0001, 10), rep(0.0001, 10))), 5)
+scale_x3 = rep(list(c(rep(0.0001, 10), rep(0.00001, 10))), 5)
 accept_x3 = rep(list(rep(0, length(tau))), 5)
 for (j in 1:reps){
   print(j)
@@ -157,7 +157,7 @@ for (j in 1:reps){
       synall = synx1
       synx1[[7]] = x1
       names(synx1) = c("Original", "Stepwise-Fixed Slope", "Stepwise-Varying Slope", 
-                       "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private")
+                       "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private", "Truth")
       # synx1[[2]] = x1
       # names(synx1) = c("Original", "Truth")
       plotdata = melt(synx1)
@@ -245,15 +245,15 @@ for (j in 1:reps){
       synall = mapply(cbind, synall, syn, SIMPLIFY = FALSE)
       syn[[7]] = data[, ncol(data)]
       names(syn) = c("Original", "Stepwise-Fixed Slope", "Stepwise-Varying Slope", 
-                     "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private")
+                     "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private", "Truth")
       # syn[[2]] = data[, ncol(data)]
       # names(syn) = c("Original", "Truth")
       plotdata = melt(syn)
       plotdata$L1 = as.factor(plotdata$L1)
       print(ggplot(plotdata, aes(x=value, fill = L1)) + facet_wrap(~L1, ncol = 4) +
-              stat_density(geom = "area", bw = ifelse(syn_var == "x2", 40, 80), alpha = 0.5, size = 1) + 
+              stat_density(geom = "area", bw = ifelse(syn_var == "x2", 40, 100), alpha = 0.5, size = 1) + 
               scale_color_brewer(palette="Dark2") + theme_minimal() +
-              coord_cartesian(xlim=c(-200, max(data[,ncol(data)])+250)) +
+              coord_cartesian(xlim=c(-50, max(data[,ncol(data)])+300)) +
               theme(legend.position=c(0.9,0.2)) +
               ggtitle(paste("Density of variable", syn_var, "- Rep", j)) +
               labs(fill="Methods")) 
@@ -276,11 +276,10 @@ tab1 = apply(ut_logit, 1, quantile)
 colnames(tab1) = c("Original", "Stepwise-Fixed Slope", "Stepwise-Varying Slope", 
                    "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private")
 tab1
-rownames(tab1) = c("Min", "Q1", "Median", "Q3", "Max")
 
 library(gridExtra)
-png(paste("utility_", t, "_edited.png", sep =""), height = 30*nrow(tab1), 
-    width = 150*ncol(tab1))
+png(paste("plot/utility_", t, "_Cx.png", sep =""), height = 30*nrow(tab1), 
+    width = 120*ncol(tab1))
 grid.table(round(tab1, 5))
 dev.off()
 
@@ -288,14 +287,13 @@ dev.off()
 
 
 tab2 = apply(ut_logit_inter, 1, quantile)
-colnames(tab2) = c("Original", "Stepwise-Fixed Slope", "Stepwise-Varying Slope", 
-                   "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private")
+colnames(tab2) = c("Original", "Stepwise-Koenker", "Stepwise-Data", "Sandwich-Koenker", 
+                   "Sandwich-Data", "Non-Private")
 tab2
-rownames(tab2) = c("Min", "Q1", "Median", "Q3", "Max")
-png(paste("utility_inter_", t, "_edited.png", sep =""), height = 30*nrow(tab2), 
-    width = 150*ncol(tab2))
+png(paste("plot/utility_inter_", t, "_Cx.png", sep =""), height = 30*nrow(tab2), 
+    width = 120*ncol(tab2))
 grid.table(round(tab2, 5))
 dev.off()
 
-filename = paste("output/utility_", t, "_edited.Rdata", sep = "")
+filename = paste("output/utility_", t, "_Cx.Rdata", sep = "")
 save(list = c("ut_logit", "ut_logit_inter", "tab1", "tab2"), file = filename)

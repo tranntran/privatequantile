@@ -68,9 +68,9 @@ originalKNG = function(data, total_eps, tau, nbatch = 1000, scale = rep(0, lengt
 library(quantreg)
 library(reshape2)
 library(ggplot2)
-t = 2
+t = 3
 set.seed(t)
-reps = 100
+reps =100
 ut_logit = matrix(NA, nrow = 6, ncol = reps)
 ut_logit_inter = matrix(NA, nrow = 6, ncol = reps)
 main_tau = c(0.05, 0.25, 0.5, 0.75, 0.95, 0.99)
@@ -90,11 +90,11 @@ b2 = 1
 #why ggplot is not plotting
 #what is this error No id variables; using all as measure variables
 par(mfrow = c(1,1))
-scale_x1 = rep(list(c(rep(0.01, 10), rep(0.03, 10))), 5)
+scale_x1 = rep(list(c(rep(0.001, 9), 0.001, rep(0.005, 10))), 5)
 accept_x1 = rep(list(rep(0, length(tau))), 5)
-scale_x2 = rep(list(c(rep(0.0005, 9), 0.001, rep(0.0005, 10))), 5)
+scale_x2 = rep(list(c(rep(0.00001, 9), 0.01, rep(0.0005, 10))), 5)
 accept_x2 = rep(list(rep(0, length(tau))), 5)
-scale_x3 = rep(list(c(rep(0.0001, 10), rep(0.0001, 10))), 5)
+scale_x3 = rep(list(c(rep(0.000001, 9), 0.01, rep(0.0001, 10))), 5)
 accept_x3 = rep(list(rep(0, length(tau))), 5)
 for (j in 1:reps){
   print(j)
@@ -111,13 +111,13 @@ for (j in 1:reps){
       data = as.data.frame(x1)
       all_beta = list()
       temp = originalKNG(data = data, total_eps = ep, tau = tau, start_scale = 0.01,
-                         scale = scale_x1[[1]])
+                         scale = scale_x1[[1]], nonneg = FALSE)
       all_beta[[1]] = temp[[1]]
       scale_x1[[1]] = temp[[2]]
       accept_x1[[1]] = temp[[3]]
       
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 1/length(tau), 
-                         tau = tau, nbatch = runs, method = "koenker", nonneg = TRUE,
+                         tau = tau, nbatch = runs, method = "koenker", nonneg = FALSE,
                          scale = scale_x1[[2]])
       all_beta[[2]] = temp[[1]]
       scale_x1[[2]] = temp[[2]]
@@ -125,7 +125,7 @@ for (j in 1:reps){
       
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 1/length(tau), 
                          tau = tau, nbatch = runs, method = "currentdata", 
-                         nonneg = TRUE, scale_x1[[3]])
+                         nonneg = FALSE, scale_x1[[3]])
       all_beta[[3]] = temp[[1]]
       scale_x1[[3]] = temp[[2]]
       accept_x1[[3]] = temp[[3]]
@@ -133,7 +133,7 @@ for (j in 1:reps){
       temp = sandwichKNG(data = data, total_eps = ep, median_eps = 1/length(main_tau),
                          main_tau_eps = length(main_tau)/length(tau),
                          tau = tau, main_tau = main_tau, nbatch = runs,
-                         method = "koenker", nonneg = TRUE, scale = scale_x1[[4]])
+                         method = "koenker", nonneg = FALSE, scale = scale_x1[[4]])
       all_beta[[4]] = temp[[1]]
       scale_x1[[4]] = temp[[2]]
       accept_x1[[4]] = temp[[3]]
@@ -142,7 +142,7 @@ for (j in 1:reps){
       temp = sandwichKNG(data = data, total_eps = ep, median_eps = 1/length(main_tau),
                          main_tau_eps = length(main_tau)/length(tau),
                          tau = tau, main_tau = main_tau, nbatch = runs,
-                         method = "currentdata", nonneg = TRUE, scale = scale_x1[[5]])
+                         method = "currentdata", nonneg = FALSE, scale = scale_x1[[5]])
       all_beta[[5]] = temp[[1]]
       scale_x1[[5]] = temp[[2]]
       accept_x1[[5]] = temp[[3]]
@@ -156,8 +156,8 @@ for (j in 1:reps){
                      MoreArgs = list(sample(1:length(tau), n, replace = TRUE)), SIMPLIFY = FALSE)
       synall = synx1
       synx1[[7]] = x1
-      names(synx1) = c("Original", "Stepwise-Fixed Slope", "Stepwise-Varying Slope", 
-                       "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private")
+      names(synx1) = c("Original", "Stepwise-Koenker", "Stepwise-Data", 
+                       "Sandwich-Koenker", "Sandwich-Data", "Non-Private", "Truth")
       # synx1[[2]] = x1
       # names(synx1) = c("Original", "Truth")
       plotdata = melt(synx1)
@@ -177,7 +177,7 @@ for (j in 1:reps){
         mod = "x3 ~ x1 + x2"
       }
       all_beta = list()
-      temp = originalKNG(data = data, total_eps = ep, tau = tau, 
+      temp = originalKNG(data = data, total_eps = ep, tau = tau, nonneg = FALSE,
                          scale = if(syn_var == "x2") scale_x2[[1]] else scale_x3[[1]])
       all_beta[[1]] = temp[[1]]
       if (syn_var == "x2") {
@@ -188,8 +188,8 @@ for (j in 1:reps){
         accept_x3[[1]] = temp[[3]]
       }
       
-      temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.7, tau = tau,
-                         nbatch = runs, method = "koenker", nonneg = TRUE,
+      temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.5, tau = tau,
+                         nbatch = runs, method = "koenker", nonneg = FALSE,
                          scale = if(syn_var == "x2") scale_x2[[2]] else scale_x3[[2]])
       all_beta[[2]] = temp[[1]]
       if (syn_var == "x2") {
@@ -200,9 +200,9 @@ for (j in 1:reps){
         accept_x3[[2]] = temp[[3]]
       }
       
-      temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.4, tau = tau,
+      temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.6, tau = tau,
                          nbatch = runs, method = "newdata", check_data = synall[[3]],
-                         nonneg = TRUE, scale = if(syn_var == "x2") scale_x2[[3]] else scale_x3[[3]])
+                         nonneg = FALSE, scale = if(syn_var == "x2") scale_x2[[3]] else scale_x3[[3]])
       all_beta[[3]] = temp[[1]]
       if (syn_var == "x2") {
         scale_x2[[3]] = temp[[2]]
@@ -212,9 +212,9 @@ for (j in 1:reps){
         accept_x3[[3]] = temp[[3]]
       }
       
-      temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.7, main_tau_eps = 0.8,
+      temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.5, main_tau_eps = 0.7,
                          tau = tau, main_tau = main_tau, nbatch = runs, method = "koenker", 
-                         nonneg = TRUE, scale = if(syn_var == "x2") scale_x2[[4]] else scale_x3[[4]])
+                         nonneg = FALSE, scale = if(syn_var == "x2") scale_x2[[4]] else scale_x3[[4]])
       all_beta[[4]] = temp[[1]]
       if (syn_var == "x2") {
         scale_x2[[4]] = temp[[2]]
@@ -224,9 +224,9 @@ for (j in 1:reps){
         accept_x3[[4]] = temp[[3]]
       }
       
-      temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.4, main_tau_eps = 0.9,
+      temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.6, main_tau_eps = 0.5,
                          tau = tau, main_tau = main_tau, nbatch = runs, method = "newdata", 
-                         check_data = synall[[5]], nonneg = TRUE,
+                         check_data = synall[[5]], nonneg = FALSE,
                          scale = if(syn_var == "x2") scale_x2[[5]] else scale_x3[[5]])
       all_beta[[5]] = temp[[1]]
       if (syn_var == "x2") {
@@ -244,8 +244,8 @@ for (j in 1:reps){
                    MoreArgs = list(sample(1:length(tau), n, replace = TRUE)), SIMPLIFY = FALSE)
       synall = mapply(cbind, synall, syn, SIMPLIFY = FALSE)
       syn[[7]] = data[, ncol(data)]
-      names(syn) = c("Original", "Stepwise-Fixed Slope", "Stepwise-Varying Slope", 
-                     "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private")
+      names(syn) = c("Original", "Stepwise-Koenker", "Stepwise-Data", "Sandwich-Koenker",
+                     "Sandwich-Data", "Non-Private", "Truth")
       # syn[[2]] = data[, ncol(data)]
       # names(syn) = c("Original", "Truth")
       plotdata = melt(syn)
@@ -270,32 +270,15 @@ for (j in 1:reps){
   ut_logit_inter[, j] = sapply(ut.data, utility_logit_inter, inds)
 }
 
-
-
-tab1 = apply(ut_logit, 1, quantile)
-colnames(tab1) = c("Original", "Stepwise-Fixed Slope", "Stepwise-Varying Slope", 
-                   "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private")
+tab1 = apply(ut_logit, 1, quantile, na.rm = TRUE)
+colnames(tab1) = c("Original", "Stepwise-Koenker", "Stepwise-Data", "Sandwich-Koenker", 
+                   "Sandwich-Data", "Non-Private")
 tab1
-rownames(tab1) = c("Min", "Q1", "Median", "Q3", "Max")
-
-library(gridExtra)
-png(paste("utility_", t, "_edited.png", sep =""), height = 30*nrow(tab1), 
-    width = 150*ncol(tab1))
-grid.table(round(tab1, 5))
-dev.off()
 
 
 
 
-tab2 = apply(ut_logit_inter, 1, quantile)
-colnames(tab2) = c("Original", "Stepwise-Fixed Slope", "Stepwise-Varying Slope", 
-                   "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private")
+tab2 = apply(ut_logit_inter, 1, quantile, na.rm = TRUE)
+colnames(tab2) = c("Original", "Stepwise-Koenker", "Stepwise-Data", "Sandwich-Koenker", 
+                   "Sandwich-Data", "Non-Private")
 tab2
-rownames(tab2) = c("Min", "Q1", "Median", "Q3", "Max")
-png(paste("utility_inter_", t, "_edited.png", sep =""), height = 30*nrow(tab2), 
-    width = 150*ncol(tab2))
-grid.table(round(tab2, 5))
-dev.off()
-
-filename = paste("output/utility_", t, "_edited.Rdata", sep = "")
-save(list = c("ut_logit", "ut_logit_inter", "tab1", "tab2"), file = filename)

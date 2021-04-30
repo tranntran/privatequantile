@@ -3,7 +3,7 @@
 library(ggplot2)
 library(data.table)
 rm(list = ls())
-filename = "stepwise_data_sd_1_e0.1"
+filename = "stepwise_data_sd_6_e0.1"
 load(paste("output/", filename, ".Rdata", sep = ""))
 
 tau = c(seq(0.05, 0.95, 0.05), 0.99)
@@ -64,8 +64,9 @@ ggplot(stepwise_data_l2, aes(x = Quantile, log(Value))) +
   scale_x_continuous(breaks= tau) +
   ggtitle("L2 Distance to the Truth by Epsilon Allocation to the Median") +
   ylab("log(Mean Distance)") +
-  labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation") + 
-  ylim(c(1.25, 3))
+  labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation")
+# + 
+#   ylim(c(1.25, 3))
 dev.off()
 
 
@@ -89,10 +90,11 @@ ggplot(stepwise_data_l2, aes(x = Quantile, log(Value), ymin=log(Value-2*Sd_n),
   geom_line(aes(color = Eps), size = 1) +
   geom_ribbon(alpha = 0.2) +
   scale_x_continuous(breaks= tau[seq(1, 20, 3)]) +
-  ggtitle("L2 Distance to the Truth by Epsilon Allocation to the Main Quantiles") + 
+  ggtitle("L2 Distance to the Truth by Epsilon Allocation to the Median") + 
   ylab("log(Mean Distance)") +
-  labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation") +
-  ylim(c(1.25, 3.25))
+  labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation") 
+# +
+#   ylim(c(1.25, 3.25))
 dev.off()
 
 

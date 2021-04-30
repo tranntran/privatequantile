@@ -6,17 +6,17 @@
 library(doParallel)
 library(snow)
 library(doRNG)
-source("functions.R") #change directory
+source("functions_amh_cx.R") #change directory
 num_cores=detectCores()-1 #use all available core but 1
 
 workers=makeCluster(num_cores,type="SOCK",outfile="log.txt")
 registerDoParallel(workers)
 
 
-total_eps = 1
+total_eps = 0.1
 reps = 1000 #change reps
 n = 5000
-runs = 1000
+runs = 10000
 lambda = 0.1
 a0 = 4
 b0 = 10
@@ -44,12 +44,13 @@ distance_maintau_eps = function(main_tau_eps){
     x1 = rexp(n, lambda)
     x2 = a0 + b0*x1 + rexp(n, lambda)
     data = cbind(x1, x2)
+    mod = "x2 ~ x1"
     
-    
-    ans = sandwichKNG(data = data, total_eps = total_eps, tau = tau, 
-                      main_tau = main_tau, median_eps = 0.7, scale = scale_vec, 
-                      method = "currentdata", lower_accept = 0.2, upper_accept = 0.25,
-                      main_tau_eps = main_tau_eps, nonneg = TRUE)
+    ans = sandwichKNG(data = data, total_eps = total_eps, median_eps = 0.4, #fill in 
+                main_tau_eps = main_tau_eps, tau = tau, main_tau = main_tau, 
+                scale = 0.01, nbatch = runs, method = "varying_currentdata", 
+                nonneg = TRUE, lower_accept = 0.2, upper_accept = 0.6, 
+                update_after = 10, adjust_scale_by = 2, formula = mod)
     beta_ans[c(i*2-1, i*2), ] = ans[[1]]
     scale_vec = ans[[2]]
   }

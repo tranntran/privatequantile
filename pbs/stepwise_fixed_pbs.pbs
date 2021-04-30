@@ -33,7 +33,7 @@
  module load r/3.4
 
  # assign the R code to run
- Rscript icds_distance_stepwise_data.R
+ Rscript icds_distance_stepwise_fixed.R
 
  # print the ending time
  date

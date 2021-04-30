@@ -79,7 +79,7 @@ KNG = function(ep, tau, sumX, X, Y, nbatch = 1000, scale = 0, start_scale = 0.1,
   logA = function(beta){
     left = cbind(Y, X)%*% c(1, -beta)
     lessEq = (left <= 0)
-    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*1)+ (-1/2)*(beta%*%beta)
+    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*1*max(X))+ (-1/2)*(beta%*%beta)
     return(ans)
   }
   
@@ -229,7 +229,7 @@ constrKNG = function(ep, tau, sumX, X, Y, init, nbatch = 1000, scale = 0, start_
   logA = function(beta) {
     left = cbind(Y, X) %*% c(1,-beta)
     lessEq = (left <= 0)
-    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*1) + (-1/2)*(beta%*%beta)
+    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*1*max(X)) + (-1/2)*(beta%*%beta)
     return(ans)
   }
   
@@ -457,7 +457,7 @@ constrKNGSandwich = function(ep, tau, sumX, X, Y, init, nbatch = 1000, scale = 0
   logA = function(beta) {
     left = cbind(Y, X) %*% c(1,-beta)
     lessEq = (left <= 0)
-    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*1) + (-1/2)*(beta%*%beta)
+    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*1*max(X)) + (-1/2)*(beta%*%beta)
     return(ans)
   }
   
