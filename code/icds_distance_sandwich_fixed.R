@@ -33,7 +33,7 @@ true_beta = apply(true_beta, 2, rep, reps)
 # Scale is set by default as a vector of 0. For each allocation amount, scale 
 # will be calculated once and will be reuse in subsequent reps.
 # Privacy budget allocated to the median is 0.7, based on the result of file
-# icds_distance_stepwise_koenker.R.
+# icds_distance_stepwise_fixed.R.
 distance_maintau_eps = function(main_tau_eps){
   dist_intercept = matrix(NA, nrow = length(allocate_eps), ncol = length(tau))
   dist_slope = matrix(NA, nrow = length(allocate_eps), ncol = length(tau))
@@ -78,9 +78,9 @@ t = 1
 Out = foreach(main_tau_eps = allocate_eps,.combine=ctype, .errorhandling='stop',
               .options.RNG = t) %dorng% distance_maintau_eps(main_tau_eps)
 
-sandwich_koenker_int = matrix(unlist(Out[,1]), nrow = 9, byrow = TRUE)
-sandwich_koenker_slope = matrix(unlist(Out[,2]), nrow = 9, byrow = TRUE)
-sandwich_koenker_l2 = matrix(unlist(Out[,3]), nrow = 9, byrow = TRUE)
+sandwich_fixed_int = matrix(unlist(Out[,1]), nrow = 9, byrow = TRUE)
+sandwich_fixed_slope = matrix(unlist(Out[,2]), nrow = 9, byrow = TRUE)
+sandwich_fixed_l2 = matrix(unlist(Out[,3]), nrow = 9, byrow = TRUE)
 
 sd_int = matrix(unlist(Out[,4]), nrow = 9, byrow = TRUE)
 sd_slope = matrix(unlist(Out[,5]), nrow = 9, byrow = TRUE)
