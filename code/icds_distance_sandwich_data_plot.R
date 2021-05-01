@@ -3,11 +3,12 @@
 library(ggplot2)
 library(data.table)
 rm(list = ls())
-filename = "sandwich_data_sd_4_e0.1"
+filename = "sandwich_data_sd_2_e0.1"
 load(paste("output/", filename, ".Rdata", sep = ""))
 
 tau = c(seq(0.05, 0.95, 0.05), 0.99)
 allocate_eps = seq(0.1, 0.9, 0.1)
+reps = 100
 
 
 png(paste("plot/", filename, "_distance_intercept.png", sep = ""), 
@@ -24,8 +25,7 @@ ggplot(sandwich_data_int, aes(x = Quantile, log(Value))) +
   scale_x_continuous(breaks= tau)  +
   ggtitle("Distance to the True Intercept by Epsilon Allocation to the Main Quantiles") +
   ylab("log(Mean Distance)") +
-  labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation") + 
-  ylim(c(1.25, 3.25))
+  labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation")
 dev.off()
 
 png(paste("plot/", filename, "_distance_slope.png", sep = ""), 
@@ -42,8 +42,7 @@ ggplot(sandwich_data_slope, aes(x = Quantile, log(Value))) +
   scale_x_continuous(breaks= tau) +
   ggtitle("Distance to the True Slope by Epsilon Allocation to the Main Quantiles") +
   ylab("log(Mean Distance)") +
-  labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation") +
-  ylim(c(-2, 2))
+  labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation")
 dev.off()
 
 
@@ -64,8 +63,7 @@ ggplot(sandwich_data_l2, aes(x = Quantile, log(Value))) +
   scale_x_continuous(breaks= tau) +
   ggtitle("L2 Distance to the Truth by Epsilon Allocation to the Main Quantiles") +
   ylab("log(Mean Distance)") +
-  labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation") + 
-  ylim(c(1.25, 3))
+  labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation")
 dev.off()
 
 
@@ -79,20 +77,19 @@ sd_l2_m$Quantile = as.numeric(as.character(sd_l2_m$Quantile))
 setkey(sandwich_data_l2, Eps, Quantile)
 setkey(sd_l2_m, Eps, Quantile)
 sandwich_data_l2 = merge(sandwich_data_l2, sd_l2_m, all.x = T)
-sandwich_data_l2$Sd_n = sandwich_data_l2$Sd/sqrt(1000)
+sandwich_data_l2$Sd_n = sandwich_data_l2$Sd/sqrt(reps)
 
 png(paste("plot/", filename, "_distance_l2se.png", sep = ""), 
     width = 600, height = 400)
-ggplot(sandwich_data_l2, aes(x = Quantile, log(Value), ymin=log(Value-2*Sd_n), 
-                                ymax=log(Value+2*Sd_n), fill = Eps)) + 
+ggplot(sandwich_data_l2, aes(x = Quantile, Value, ymin=Value-2*Sd_n, 
+                                ymax=Value+2*Sd_n, fill = Eps)) + 
   facet_wrap(~Eps) +
   geom_line(aes(color = Eps), size = 1) +
   geom_ribbon(alpha = 0.2) +
   scale_x_continuous(breaks= tau[seq(1, 20, 3)]) +
   ggtitle("L2 Distance to the Truth by Epsilon Allocation to the Main Quantiles") + 
   ylab("log(Mean Distance)") +
-  labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation") +
-  ylim(c(1.25, 3.25))
+  labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation") + ylim(c(0, 50))
 dev.off()
 
 
