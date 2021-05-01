@@ -36,7 +36,7 @@ distance_median_eps_stepd = function(median_eps){
     data = cbind(x1, x2)
     mod = "x2 ~ x1"
     
-    temp = stepwiseKNG(data = data, total_eps = total_eps, median_eps = median_eps, 
+    ans = stepwiseKNG(data = data, total_eps = total_eps, median_eps = median_eps, 
                        tau = tau, scale = 0.001, nbatch = 10000, method = "varying_currentdata", 
                        nonneg = TRUE, lower_accept = 0.2, upper_accept = 0.6, 
                        update_after = 10, adjust_scale_by = 2, formula = mod)

@@ -14,7 +14,7 @@ registerDoParallel(workers)
 
 
 total_eps = 0.1
-reps = 1000 #change reps
+reps = 100 #change reps
 n = 5000
 runs = 10000
 lambda = 0.1
@@ -46,7 +46,7 @@ distance_maintau_eps = function(main_tau_eps){
     data = cbind(x1, x2)
     mod = "x2 ~ x1"
     
-    ans = sandwichKNG(data = data, total_eps = total_eps, median_eps = 0.4, #fill in 
+    ans = sandwichKNG(data = data, total_eps = total_eps, median_eps = 0.9, #fill in 
                 main_tau_eps = main_tau_eps, tau = tau, main_tau = main_tau, 
                 scale = 0.01, nbatch = runs, method = "varying_currentdata", 
                 nonneg = TRUE, lower_accept = 0.2, upper_accept = 0.6, 
