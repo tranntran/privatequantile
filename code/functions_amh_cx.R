@@ -102,7 +102,8 @@ constrMetrop = function(logA, init, nbatch = 10000, scale = 1e-4, check_beta, ch
 
     if (method == "fixed") {
       propose_val = batch[i-1, ]
-      propose_val[1] = propose_val[1] + rnorm(1, 0, sigma)
+      #print(sigma)
+      propose_val[1] = propose_val[1] + rnorm(1, 0, scale)
       check = check & ifelse(type == "lower", propose_val[1] < check_beta[1], propose_val[1] > check_beta[1])
       # if (nonneg){
       #   check = check & (propose_val[1] >= 0)
@@ -122,7 +123,10 @@ constrMetrop = function(logA, init, nbatch = 10000, scale = 1e-4, check_beta, ch
     # print(dim(check_data))
     # print(as.matrix(propose_val))
     # print(t(t(propose_val)))
-    check = check & max(as.matrix(check_data) %*% as.matrix(propose_val))<= max(Y)
+    if (nonneg){
+      check = check & max(as.matrix(check_data) %*% as.matrix(propose_val))<= max(Y)
+    }
+    
     check = check & min(as.matrix(check_data) %*% as.matrix(propose_val)) >= min(Y)
 
     if ((log(u[i]) < logA(c(propose_val)) - logA(batch[i-1, ])) & check){
@@ -149,7 +153,7 @@ constrMetrop = function(logA, init, nbatch = 10000, scale = 1e-4, check_beta, ch
         scale = scale*adjust_scale_by
       }
       sigma = sigma*scale
-      print(sigma)
+      #print(sigma)
       ct = 0
     }
     mean_acc = cbind(mean_acc, mean(accept[1:i]))
@@ -210,10 +214,10 @@ stepwiseKNG = function(data, total_eps, median_eps = NULL, tau, scale = 1e-4,
                        upper_accept = 0.5, update_after = 10, adjust_scale_by = 2,
                        formula = NULL){
   method = match.arg(method)
-  print(method)
+  #print(method)
   #data = as.matrix(data)
   if(is.null(median_eps)){
-    median_eps = ifelse(method == "fixed", 0.7, 0.4)
+    median_eps = ifelse(method == "fixed", 0.8, 0.9)
   }
   ep = total_eps*(1-median_eps)/(length(tau)-1)
   i = ncol(data)
@@ -255,7 +259,7 @@ stepwiseKNG = function(data, total_eps, median_eps = NULL, tau, scale = 1e-4,
     check_beta = median_beta_kng
     for (i in 1:length(tau_lower)){
       new_tau = tau_lower[i]
-      print(new_tau)
+      #print(new_tau)
       nonpriv = quantreg::rq(formula, data = as.data.frame(data), tau = new_tau)
       out = constrKNG(init = check_beta, ep = ep, tau = new_tau, sumX = sumX, X = X, Y = Y, 
                       nbatch = nbatch, scale = scale, check_beta = check_beta, 
@@ -277,7 +281,7 @@ stepwiseKNG = function(data, total_eps, median_eps = NULL, tau, scale = 1e-4,
     check_beta = median_beta_kng
     for (i in 1:length(tau_upper)){
       new_tau = tau_upper[i]
-      print(new_tau)
+      #print(new_tau)
       nonpriv = quantreg::rq(formula, data = as.data.frame(data), tau = new_tau)
       out = constrKNG(init = check_beta, ep = ep, tau = new_tau, sumX = sumX, X = X, Y = Y, 
                       nbatch = nbatch, scale = scale, check_beta = check_beta, 
@@ -337,8 +341,11 @@ constrMetropSandwich = function(logA, init, nbatch = 10000, scale = 1e-4, lowerb
         all(check_data %*% propose_val < check_data %*% upperbeta) &
         all(check_data %*% propose_val > check_data %*% lowerbeta)
     }
+    
+    if (nonneg){
+      check = check & (max(as.matrix(check_data) %*% as.matrix(propose_val)) <= max(Y))
+    }
 
-    check = check & (max(as.matrix(check_data) %*% as.matrix(propose_val)) <= max(Y))
     check = check & (min(as.matrix(check_data) %*% as.matrix(propose_val)) >= min(Y))
     
     if ((log(u[i]) < logA(c(propose_val)) - logA(batch[i-1, ])) & check){
@@ -365,7 +372,7 @@ constrMetropSandwich = function(logA, init, nbatch = 10000, scale = 1e-4, lowerb
         scale = scale*adjust_scale_by
       }
       sigma = sigma*scale
-      print(sigma)
+      #print(sigma)
       ct = 0
     }
     mean_acc = cbind(mean_acc, mean(accept[1:i]))
@@ -487,7 +494,7 @@ sandwichKNG = function(data, total_eps, median_eps = NULL, main_tau_eps = NULL,
     names(accept_rate_lower) = sandwich_tau_lower
     for (i in 1:length(sandwich_tau_lower)){
       curr_tau = sandwich_tau_lower[i]
-      print(curr_tau)
+      #print(curr_tau)
       update_tau = sort(c(update_tau, curr_tau))
       idx = which(update_tau == curr_tau)
       lowertau = update_tau[idx-1]
@@ -523,7 +530,7 @@ sandwichKNG = function(data, total_eps, median_eps = NULL, main_tau_eps = NULL,
     names(accept_rate_upper) = sandwich_tau_upper
     for (i in 1:length(sandwich_tau_upper)){
       curr_tau = sandwich_tau_upper[i]
-      print(curr_tau)
+      #print(curr_tau)
       update_tau = sort(c(update_tau, curr_tau))
       idx = which(update_tau == curr_tau)
       lowertau = update_tau[idx-1]
