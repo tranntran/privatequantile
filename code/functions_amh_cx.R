@@ -332,7 +332,7 @@ constrMetropSandwich = function(logA, init, nbatch = 10000, scale = 1e-4, lowerb
     
     if (method == "fixed") {
       propose_val = batch[i-1, ]
-      propose_val[1] = propose_val[1] + rnorm(1, 0, sigma)
+      propose_val[1] = propose_val[1] + rnorm(1, 0, scale)
       check = check & (propose_val[1] < upperbeta[1]) & (propose_val[1] > lowerbeta[1])
       
     } else if (method == "varying_currentdata" | method == "varying_newdata") {
