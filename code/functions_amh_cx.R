@@ -183,11 +183,10 @@ constrKNG = function(init, ep, tau, sumX, X, Y, nbatch = 10000, scale = 1e-4,
       check_data = X
     }
   } else {
-    if (method == "varying_newdata") {
-      check_data = as.matrix(check_data)
-      check_data = as.matrix(cbind(rep(1, nrow(check_data)), check_data))
-    }
+    check_data = as.matrix(check_data)
+    check_data = as.matrix(cbind(rep(1, nrow(check_data)), check_data))
   }
+
   
   logA = function(beta) {
     left = cbind(Y, X) %*% c(1,-beta)
@@ -398,10 +397,8 @@ constrKNGSandwich = function(init, ep, tau, sumX, X, Y, nbatch = 1000, scale = 1
       check_data = X
     }
   } else {
-    if (method == "varying_newdata") {
-      check_data = as.matrix(check_data)
-      check_data = as.matrix(cbind(rep(1, nrow(check_data)), check_data))
-    }
+    check_data = as.matrix(check_data)
+    check_data = as.matrix(cbind(rep(1, nrow(check_data)), check_data))
   }
   
   logA = function(beta) {
