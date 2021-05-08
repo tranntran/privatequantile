@@ -3,7 +3,7 @@
 library(ggplot2)
 library(data.table)
 rm(list = ls())
-filename = "sandwich_data_sd_2_e0.1"
+filename = "sandwich_data_sd_2_e1"
 load(paste("output/", filename, ".Rdata", sep = ""))
 
 tau = c(seq(0.05, 0.95, 0.05), 0.99)
@@ -15,16 +15,16 @@ png(paste("plot/", filename, "_distance_intercept.png", sep = ""),
     width = 600, height = 400)
 colnames(sandwich_data_int) = tau
 sandwich_data_int = as.data.table(sandwich_data_int)
-sandwich_data_int$Eps = allocate_eps
+sandwich_data_int$Eps = paste0(allocate_eps*100, '%')
 sandwich_data_int = melt(id.vars = 21, sandwich_data_int)
 colnames(sandwich_data_int) = c("Eps", "Quantile", "Value")
 sandwich_data_int$Eps = as.factor(sandwich_data_int$Eps)
 sandwich_data_int$Quantile = as.numeric(as.character(sandwich_data_int$Quantile))
-ggplot(sandwich_data_int, aes(x = Quantile, log(Value))) +
+ggplot(sandwich_data_int, aes(x = Quantile, log10(Value))) +
   geom_line(aes(group = Eps, color = Eps, linetype = Eps),  size = 1) +
   scale_x_continuous(breaks= tau)  +
   ggtitle("Distance to the True Intercept by Epsilon Allocation to the Main Quantiles") +
-  ylab("log(Mean Distance)") +
+  ylab("log10(Mean Distance)") +
   labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation")
 dev.off()
 
@@ -32,16 +32,16 @@ png(paste("plot/", filename, "_distance_slope.png", sep = ""),
     width = 600, height = 400)
 colnames(sandwich_data_slope) = tau
 sandwich_data_slope = as.data.table(sandwich_data_slope)
-sandwich_data_slope$Eps = allocate_eps
+sandwich_data_slope$Eps = paste0(allocate_eps*100, '%')
 sandwich_data_slope = melt(id.vars = 21, sandwich_data_slope)
 colnames(sandwich_data_slope) = c("Eps", "Quantile", "Value")
 sandwich_data_slope$Eps = as.factor(sandwich_data_slope$Eps)
 sandwich_data_slope$Quantile = as.numeric(as.character(sandwich_data_slope$Quantile))
-ggplot(sandwich_data_slope, aes(x = Quantile, log(Value))) +
+ggplot(sandwich_data_slope, aes(x = Quantile, log10(Value))) +
   geom_line(aes(group = Eps, color = Eps, linetype = Eps),  size = 1) +
   scale_x_continuous(breaks= tau) +
   ggtitle("Distance to the True Slope by Epsilon Allocation to the Main Quantiles") +
-  ylab("log(Mean Distance)") +
+  ylab("log10(Mean Distance)") +
   labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation")
 dev.off()
 
@@ -49,7 +49,7 @@ dev.off()
 
 colnames(sandwich_data_l2) = tau
 sandwich_data_l2 = as.data.table(sandwich_data_l2)
-sandwich_data_l2$Eps = allocate_eps
+sandwich_data_l2$Eps = paste0(allocate_eps*100, '%')
 sandwich_data_l2 = melt(id.vars = c(21), sandwich_data_l2)
 sandwich_data_l2 = sandwich_data_l2[order(sandwich_data_l2$Eps)]
 colnames(sandwich_data_l2) = c("Eps", "Quantile", "Value")
@@ -58,18 +58,18 @@ sandwich_data_l2$Quantile = as.numeric(as.character(sandwich_data_l2$Quantile))
 
 png(paste("plot/", filename, "_distance_meanl2.png", sep = ""), 
     width = 600, height = 400)
-ggplot(sandwich_data_l2, aes(x = Quantile, log(Value))) +
+ggplot(sandwich_data_l2, aes(x = Quantile, log10(Value))) +
   geom_line(aes(group = Eps, color = Eps, linetype = Eps),  size = 1) +
   scale_x_continuous(breaks= tau) +
   ggtitle("L2 Distance to the Truth by Epsilon Allocation to the Main Quantiles") +
-  ylab("log(Mean Distance)") +
+  ylab("log10(Mean Distance)") +
   labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation")
 dev.off()
 
 
 colnames(sd_l2) = tau
 sd_l2 = as.data.table(sd_l2)
-sd_l2$Eps = allocate_eps
+sd_l2$Eps = paste0(allocate_eps*100, '%')
 sd_l2_m = melt(sd_l2, id.vars = "Eps")
 colnames(sd_l2_m) = c("Eps", "Quantile", "Sd")
 sd_l2_m$Eps = as.factor(sd_l2_m$Eps)
@@ -88,7 +88,7 @@ ggplot(sandwich_data_l2, aes(x = Quantile, Value, ymin=Value-2*Sd_n,
   geom_ribbon(alpha = 0.2) +
   scale_x_continuous(breaks= tau[seq(1, 20, 3)]) +
   ggtitle("L2 Distance to the Truth by Epsilon Allocation to the Main Quantiles") + 
-  ylab("log(Mean Distance)") +
+  ylab("Mean Distance") +
   labs(color = "Epsilon \nAllocation", linetype = "Epsilon \nAllocation") + ylim(c(0, 50))
 dev.off()
 

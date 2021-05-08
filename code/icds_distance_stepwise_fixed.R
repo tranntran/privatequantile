@@ -1,7 +1,7 @@
 library(doParallel)
 library(snow)
 library(doRNG)
-source("code/functions_amh_cx.R") #change directory
+source("functions_final.R") #change directory
 num_cores=detectCores()-1
 #the above uses all cores available except 1, but you can set it manually too.
 
@@ -9,13 +9,13 @@ workers=makeCluster(num_cores,type="SOCK",outfile="log.txt")
 registerDoParallel(workers)
 
 
-total_eps = 0.1
-reps = 1000 #change reps
+total_eps = 0.5
+reps = 100 #change reps
 n = 5000
 runs = 10000
 lambda = 0.1
 a0 = 4
-b0 = 10
+b0 = 3
 tau = c(seq(0.05, 0.95, 0.05), 0.99)
 allocate_eps = seq(0.1, 0.9, 0.1)
 
@@ -39,9 +39,8 @@ distance_median_eps = function(median_eps){
     mod = "x2 ~ x1"
     
     ans = stepwiseKNG(data = data, total_eps = total_eps, median_eps = median_eps, 
-                       tau = tau, scale = 0.001, nbatch = 10000, method = "fixed", 
-                       nonneg = TRUE, lower_accept = 0.2, upper_accept = 0.6, 
-                       update_after = 10, adjust_scale_by = 2, formula = mod)
+                      tau = tau, scale = 0.01, nbatch = 10000, method = "fixed", 
+                      lb = 0, ub = 1000, formula = mod)
     
     beta_ans[c(i*2-1, i*2), ] = ans[[1]]
     scale_vec = ans[[2]]
