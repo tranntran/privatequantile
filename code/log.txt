@@ -100,11 +100,15 @@ Acceptance rate of 0.85: 0.9885
 Acceptance rate of 0.9: 0.9793
 Acceptance rate of 0.95: 0.9935
 Acceptance rate of 0.99: 0.9779
-1
- 0.99:Acceptance rate of 0.9Acceptance rate of 0.99:[1] "AllocAcceptance rate of 0.45:AcceptanAcceptance rate of 0.4: 0AcceptAcceptance rate of 0.35: 0AcceptaAcceptance rate of 0.3: 0.995
-Acceptance rate of 0.25: 0.AcceptAcceptance rate of 0.2: 0.9AccepAcceptance rate of 0.15: 0.AccepAcceptance rate of 0.1: 0.9936
-Acceptance rate of 0.05: 0.9992
-Acceptance rate of 0.55: 0.9AccepAcceptance rate of 0.6: 0.9978
+Error in unserialize(node$con) : error reading from connection
+Calls: local ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+1: package 'doRNG' was built under R version 3.6.3 
+2: package 'foreach' was built under R version 3.6.3 
+3: package 'rngtools' was built under R version 3.6.3 
+Execution halted
+d
+ptance rate of 0.55: 0.9AccepAcceptance rate of 0.6: 0.9978
 Acceptance rate of 0.65: 0.9AccepAcceptance rate of 0.7: 0.9931
 Acceptance rate of 0.75: 0.9861
 Acceptance rate of 0.8: 0.9966
@@ -112,4 +116,10 @@ Acceptance rate of 0.85: 0.9916
 Acceptance rate of 0.9: 0.9947
 Acceptance rate of 0.95: 0.9958
 Acceptance rate of 0.99: 0.9919
-tance rate of Acceptance rate of 0.99: 0.9905
+Error in unserialize(node$con) : error reading Error in unserialize(node$con) : error reading from connection
+Calls: local ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+1: package 'doRNG' was built under R version 3.6.3 
+2: package 'foreach' was built under R version 3.6.3 
+3: package 'rngtools' was built under R version 3.6.3 
+Execution halted

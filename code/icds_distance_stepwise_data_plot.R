@@ -3,7 +3,7 @@
 library(ggplot2)
 library(data.table)
 rm(list = ls())
-filename = "stepwise_data_sd_0_e0.5"
+filename = "stepwise_data_sd_1_e0.5"
 load(paste("output/", filename, ".Rdata", sep = ""))
 
 tau = c(seq(0.05, 0.95, 0.05), 0.99)

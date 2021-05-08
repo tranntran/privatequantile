@@ -68,9 +68,9 @@ originalKNG = function(data, total_eps, tau, nbatch = 10000, scale = 1e-4,
 library(quantreg)
 library(reshape2)
 library(ggplot2)
-t = 1
+t = 100
 set.seed(t)
-reps = 1 #change reps
+reps = 10 #change reps
 ut_logit = matrix(NA, nrow = 6, ncol = reps) #6
 ut_logit_inter = matrix(NA, nrow = 6, ncol = reps)
 main_tau = c(0.05, 0.25, 0.5, 0.75, 0.95, 0.99)
@@ -170,7 +170,7 @@ for (j in 1:reps){
                                                    "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
                                                    "Sandwich-Fixed Slope", "Sandwich-Varying Slope"))
       filename = paste(paste0('seed', t), paste0('rep', j), paste0('e', ep*3), syn_var, sep = '_')
-      png(paste("plot/simulations/eps1/simulation_", filename, ".png", sep = ""), 
+      png(paste("../plot/simulations/eps1/simulation_", filename, ".png", sep = ""), 
           width = 700, height = 400)
       print(ggplot(plotdata, aes(x=value, fill = L1)) + facet_wrap(~L1, ncol = 4) +
               stat_density(geom = "area", bw = 5, alpha = 0.5, size = 1) +
@@ -200,8 +200,8 @@ for (j in 1:reps){
         accept_x3[[1]] = temp[[3]]
       }
       
-      temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.7, #0.003
-                         tau = tau, scale = 0.02, nbatch = 10000, method = "fixed", 
+      temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.6, #0.003
+                         tau = tau, scale = 0.03, nbatch = 10000, method = "fixed", 
                          lb = 0, ub = ifelse(syn_var == "x2", 1000, 2000), formula = mod,
                          check_data = synall[[2]])
       all_beta[[2]] = temp[[1]]
@@ -213,7 +213,7 @@ for (j in 1:reps){
         accept_x3[[2]] = temp[[3]]
       }
       
-      temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.4, #0.003
+      temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.8, #0.003
                          tau = tau, scale = 5e-5, nbatch = 10000, method = "varying", 
                          lb = 0, ub = ifelse(syn_var == "x2", 1000, 2000), formula = mod, 
                          check_data = synall[[3]])
@@ -226,7 +226,7 @@ for (j in 1:reps){
         accept_x3[[3]] = temp[[3]]
       }
       
-      temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.4, main_tau_eps = 0.7,
+      temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.6, main_tau_eps = 0.7,
                          tau = tau, main_tau = main_tau, scale = 0.05, sw_scale = 0.01,
                          nbatch = runs, method = "fixed", lb = 0, check_data = synall[[4]],
                          ub = ifelse(syn_var == "x2", 1000, 2000), formula = mod)
@@ -240,8 +240,8 @@ for (j in 1:reps){
         accept_x3[[4]] = temp[[3]]
       }
       
-      temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.4, main_tau_eps = 0.7,
-                         tau = tau, main_tau = main_tau, scale = 0.0005, sw_scale = 0.0001,
+      temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.8, main_tau_eps = 0.8,
+                         tau = tau, main_tau = main_tau, scale = 0.00005, sw_scale = 0.00001,
                          nbatch = runs, method = "varying", lb = 0, 
                          ub = ifelse(syn_var == "x2", 1000, 2000), formula = mod, 
                          check_data = synall[[5]])
@@ -282,7 +282,7 @@ for (j in 1:reps){
                                                    "Sandwich-Fixed Slope", "Sandwich-Varying Slope"))
       
       filename = paste(paste0('seed', t), paste0('rep', j), paste0('e', ep*3), syn_var, sep = '_')
-      png(paste("plot/simulations/eps1/simulation_", filename, ".png", sep = ""), 
+      png(paste("../plot/simulations/eps1/simulation_", filename, ".png", sep = ""), 
           width = 700, height = 400)
       print(ggplot(plotdata, aes(x=value, fill = L1)) + facet_wrap(~L1, ncol = 4) +
               stat_density(geom = "area", bw = ifelse(syn_var == "x2", 40, 80), alpha = 0.5, size = 1) + 
@@ -319,11 +319,11 @@ for (j in 1:reps){
 # score = sum((preds-0.5)^2)/nrow(test)
 # score
 # 
-tab3 = cbind(ut_logit, ut_logit_inter)
-rownames(tab3) = c("Original", "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
-  "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private")
-colnames(tab3) = c("W/out interaction", "W/ interaction")
-tab3
+# tab3 = cbind(ut_logit, ut_logit_inter)
+# rownames(tab3) = c("Original", "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
+#   "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private")
+# colnames(tab3) = c("W/out interaction", "W/ interaction")
+# tab3
 # 
 # tab1 = apply(ut_logit, 1, quantile, na.rm = T)
 # colnames(tab1) = c("Original", "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
@@ -351,6 +351,6 @@ tab3
 # grid.table(round(tab2, 5))
 # dev.off()
 
-filename = paste("output/simulations_seed", t, "_e", ep*3, "_10reps.Rdata", sep = "")
+filename = paste("../output/simulations_seed", t, "_e", ep*3, "_10reps.Rdata", sep = "")
 save(list = c("ut_logit", "ut_logit_inter", "all_beta_x1", 
               "all_beta_x2", "all_beta_x3"), file = filename)
