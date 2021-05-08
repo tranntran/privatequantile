@@ -1,0 +1,26 @@
+# log in
+ssh tnt5276@aci-b.aci.ics.psu.edu
+ssh tnt5276@submit.aci.ics.psu.edu
+
+# transfer code up
+scp C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/code/icds_distance_stepwise_fixed.R tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/code/
+
+scp C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/code/icds_distance_sandwich_fixed.R tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/code/
+
+scp C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/pbs/sandwich_fixed_pbs.pbs tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/code/
+
+scp C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/code/functions_final.R tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/code/
+
+scp C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/code/simulations_final.R tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/code/
+
+# transfer code down
+scp -r tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/output/stepwise_fixed_sd_0_e0.5.Rdata C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/output/
+
+scp -r tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/output/sandwich_data_sd_1_e0.5.Rdata C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/output/
+
+
+
+scp -r tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/code/functions_amh_cx.R C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/
+# copy file to a directory and name the file
+cp step_k.pbs ~/work/privatequantile/code/step_k_copy.pbs
+cp icds_distance_stepwise_data.R ~/work/privatequantile/code/icds_distance_stepwise_data_copy.R
