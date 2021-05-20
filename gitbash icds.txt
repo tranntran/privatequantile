@@ -18,7 +18,7 @@ scp -r tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/output/stepwise_fix
 
 scp -r tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/output/sandwich_data_sd_1_e0.5.Rdata C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/output/
 
-
+scp -r tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/plot/simulations/eps1/*.png C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/plot/simulations/eps1/
 
 scp -r tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/code/functions_amh_cx.R C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/
 # copy file to a directory and name the file

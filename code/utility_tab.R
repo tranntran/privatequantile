@@ -36,7 +36,7 @@ tab3 = rbind(apply(ut_logit, 1, mean), apply(ut_logit_inter, 1, mean))
 rownames(tab3) = c("Mean Utility", "Mean Utility w/ Interaction")
 colnames(tab3) = c("Original", "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
                    "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private")
-round(tab3, 5)
+t(round(tab3, 5))
 png(paste("./plot/utility_mean_seed100104.png", sep =""), height = 30*nrow(tab3),
     width = 150*ncol(tab3))
 grid.table(round(tab3, 5))
