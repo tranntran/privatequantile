@@ -1,5 +1,5 @@
-library(mvtnorm)
-library(quantreg)
+# library(mvtnorm)
+# library(quantreg)
 metrop = function(logA, init, nbatch = 10000, scale = 1e-4, X = X,
                   ub = Inf, lb = -Inf, lower_accept = 0, upper_accept = 1,
                   update_after = 10, adjust_scale_by = 2){
@@ -97,7 +97,13 @@ constrMetrop = function(logA, init, nbatch = 10000, scale = 1e-4, check_beta, ch
       check = check & ifelse(type == "lower", propose_val[1] < check_beta[1], propose_val[1] > check_beta[1])
       
     } else if (method == "varying") {
-      propose_val = t(mvtnorm::rmvnorm(1, t(batch[i-1,]), sigma))
+      if (dim == 1) {
+        propose_val = batch[i-1, ] + rnorm(1, 0, sigma)
+        
+      } else {
+        propose_val = t(mvtnorm::rmvnorm(1, t(batch[i-1,]), sigma))
+        
+      }
       check = check & ifelse(type == "lower",
                              all(check_data %*% propose_val < check_data %*% t(check_beta)),
                              all(check_data %*% propose_val > check_data %*% t(check_beta)))
@@ -115,7 +121,7 @@ constrMetrop = function(logA, init, nbatch = 10000, scale = 1e-4, check_beta, ch
     }
     
     if (ct == update_after){
-      if (method == "fixed") {
+      if (method == "fixed" | dim == 1) {
         sigma = 1
       } else {
         sigma = cor(na.omit(batch)) + diag(dim)*0.00002 
@@ -290,7 +296,12 @@ constrMetropSandwich = function(logA, init, nbatch = 10000, scale = 1e-4, lowerb
       check = check & (propose_val[1] < upperbeta[1]) & (propose_val[1] > lowerbeta[1])
       
     } else if (method == "varying") {
-      propose_val = t(mvtnorm::rmvnorm(1, t(batch[i-1,]), sigma))
+      if (dim == 1){
+        propose_val = batch[i-1, ] + rnorm(1, 0, sigma)
+      } else {
+        propose_val = t(mvtnorm::rmvnorm(1, t(batch[i-1,]), sigma))
+      }
+
       check = check & 
         all(check_data %*% propose_val < check_data %*% upperbeta) &
         all(check_data %*% propose_val > check_data %*% lowerbeta)
@@ -308,7 +319,7 @@ constrMetropSandwich = function(logA, init, nbatch = 10000, scale = 1e-4, lowerb
     }
     
     if (ct == update_after){
-      if (method == "fixed") {
+      if (method == "fixed" | dim == 1) {
         sigma = 1
       } else {
         sigma = cor(na.omit(batch)) + diag(dim)*0.00002 
