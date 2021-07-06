@@ -13,8 +13,14 @@ scp C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/code/functions_final.R 
 
 scp C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/code/simulations_final.R tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/code/
 
+scp C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/code/icds_compare_pMSE_data.R tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/code/
+
+scp C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/pbs/compare_pMSE_pbs.pbs tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/code/
+
 # transfer code down
 scp -r tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/output/stepwise_fixed_sd_0_e0.5.Rdata C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/output/
+
+scp -r tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/output/data_eps1.Rdata C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/output/
 
 scp -r tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/output/sandwich_data_sd_1_e0.5.Rdata C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/output/
 

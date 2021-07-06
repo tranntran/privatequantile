@@ -1,125 +1,436 @@
-starting worker for localhost:11328 
+starting worker for localhost:11717 
 Type: EXEC 
-Loading required package: foreach
-Loading required package: rngtools
 Type: EXEC 
-[1] "Allocate eps: 0.5 reps:  1"
-Acceptance rate of 0.45: 0.9599
-Acceptance rate of 0.4: 0.9709
-Acceptance rate of 0.35: 0.996
-Acceptance rate of 0.3: 0.9953AAcceptance rate of 0.25: 0.9935AAcceptance rate of 0.2: 0.9711AAcceptance rate of 0.15: 0.8517AAcceptance rate of 0.1: 0.8617AAcceptance rate of 0.05: 0.7474AAcceptance rate of 0.55: 0.9746AAcceptance rate of 0.6: 0.9816AAcceptance rate of 0.65: 0.9639AAAcceptance rate of 0.7: 0.9892AAcceptance rate of 0.75: 0.9967AAcceptance rate of 0.8: 0.9904AAAcceptance rate of 0.85: 0.9965AcAcceptance rate of 0.9: 0.9939AcAcceptance rate of 0.95: 0.9811AcAcceptance rate of 0.99: 0.9953
-[1] "Allocate eps: 0.4 reps:  2AccAcceptance rate of 0.45: 0.974AccAcceptance rate of 0.4: 0.97AccAcceptance rate of 0.35: 0.99AccAcAcceptance rate of 0.3: 0.9AccAcAcceptance rate of 0.25: 0.AcceAcAcceptance rate of 0.2: 0.AcceAcAcceptance rate of 0.15: 0.AcceAcAcceptance rate of 0.1: 0.AcceAcAcceptance rate of 0.05: 0.AcceptAcceptance rate of 0.55: 0AcceptaAcceptance rate of 0.6: 0AcceptAAcceptance rate of 0.65: AcceptaAAcceptance rate of 0.7: AcceptaAAcceptance rate of 0.75: AcceptaAAcceptance rate of 0.8: AcceptaAAcceptance rate of 0.85: AcceptAcAcceptance rate of 0.9: AcceptAcAcceptance rate of 0.95:AcceptaAcAcceptance rate of 0.99: 0.994
-[1] "Allocate eps: 0.5 repAcceptaAAcceptance rate of 0.45: AcceptaAAcceptance rate of 0.4: AcceptaAAcceptance rate of 0.35: AcceptaAAcceptance rate of 0.3: AcceptaAAcceptance rate of 0.25: AccepAcAAcceptance rate of 0.2: AcceptaAAcceptance rate of 0.15: AcceptaAAcceptance rate of 0.1: AcceptaAAcceptance rate of 0.05: AcceptaAAcceptance rate of 0.55: AcceptaAAcceptance rate of 0.6: AcceptaAAcceptance rate of 0.65: AcceptaAcceptance rate of 0.7: AAccepAcAcceptance rate of 0.75: AAccepAcAcceptance rate of 0.8: AAccepAcAcceptance rate of 0.85:AcAccepAcAcceptance rate of 0.9:AcAccepAcAcceptance rate of 0.95:AcAccepAcAcceptance rate of 0.99: 0.9848
-[1] "Allocate eps: 0.5 rAccAcceptaAcceptance rate of 0.45AccAcceptaAcceptance rate of 0.4AccAcceptaAcceptance rate of 0.35AccAcceptaAcceptance rate of 0.AcceAcceptaAcceptance rate of 0.2AcceAcceptaAcceptance rate of 0.AcceAcceptaAcceptance rate of 0.1AcceAcceptaAcceptance rate of 0.AcceAcceptaAcceptance rate of 0.0AcceAcceptaAcceptance rate of 0.5AcceAcceptaAcceptance rate of 0.AcceAcceptaAcceptance rate of 0.6AcceAcceptaAcceptance rate of 0.AccAcceptanAcceptance rate of 0.7AccAcceptanAcceptance rate of 0.AccAcceptanAcceptance rate of 0.AcceAcceptanAcceptance rate of 0AcceAcceAcceAcceptance rate of 0.AcceAcceAccAcceptance rate of 0.99: 0.9843
-[1] "Allocate eps: 0.4 AcceAcceAccAcceptance rate of 0.4AcceAcceAccAcceptance rate of 0.AccAccepAcAcceptance rate of 0.35AccAccepAcAcceptance rate of 0.3AccAccepAcAcceptance rate of 0.25AcAcceptAcAcceptance rate of 0AcceAcceptAcAcceptance rate of 0.AcceAcceptAcAcceptance rate of AccepAcceptAcAcceptance rate of 0AccepAcceptAcAcceptance rate of 0AccepAcceptAAAcceptance rate of AccepAcceptAcAcceptance rate of 0AccepAcceptAcAcceptance rate of AccepAcceptAcAcceptance rate of 0AccepAcceptAcAcceptance rate of AccepAcceptAcAcceptance rate of AcceptAcceptAcAcceptance rate ofAccepAcceptaAcAcceptance rate of AccepAcceptaAcAcceptance rate of 0.99: 0.9925
-[1] "Allocate eps: AcceptAcceptaAcAcceptance rate ofAcceptAcceptaAcAcceptance rate oAcceptAcceptaAcAcceptance rate oAcceptaAcceptaAcAcceptance rate AcceptaAcceptaAcAcceptance rate oAcceptaAcceptaAcAcceptance rate AcceptaAcceptaAcAcceptance rate oAcceptaAcceptaAcAcceptance rate AcceptaAcceptaAcAcceptance rate oAcceptAcceptanAcAcceptance rate oAcceptAcceptanAcAcceptance rate AcceptAcceptanAcAcceptance rate oAcceptAcceptaAccAcceptance rate AcceptAcceptaAccAcceptance rate oAcceptAcceptaAccAcceptance rate AcceptAcceptaAccAcceptance rate oAcceptAcceptaAccAcceptance rate AcceptAcceptaAccAcceptance rate oAcceptAcceptAcceAcceptance rate of 0.99: 0.9942
-[1] "Allocate eps:AcceptAcceptAcceAcceptance rate oAcceptAcceptAcceAcceptance rate AcceptAcceptAcceAcceptance rate oAcceptAcceptAcceAcceptance rate AcceptAcceptAcceAcceptance rate oAcceptAcceptAcceptance rate of 0AcceptAcceptAcAcceptance rate of AcceptAccepAccAcceptance rate ofAcceptAcceAcceAcceptance rate of AcceptAccAccepAcceptance rate of AccepAcceAccepAcceptance rate oAcceptAcceAccepAcceptance rate ofAccepAccepAcceAcceptance rate ofAccepAccepAcceAcceptance rate of AccepAccepAccAcceptance rate of AccepAcceAcceAcceptance rate of AccepAccepAcceAcceptance rate ofAccepAccepAcceAcceptance rate of AccepAccepAcceAcceptance rate of 0.99: 0.9896
-[1] "Allocate eps: 0AccepAccepAcceAcceptance rate of AccepAccepAcceAcceptance rate ofAccepAccepAcceAcceptance rate of AccepAccepAcceAcceptance rate ofAccepAccepAcceAcceptance rate of AccepAccepAcceAcceptance rate oAcceptAccepAcceAcceptance rate ofAcceptAccepAcceAcceptance rate oAcceptAccepAcceAcceptance rate ofAcceptAccepAcceAcceptance rate ofAcceptAccepAcceAcceptance rate oAcceptAccepAcceAcceptance rate ofAcceptAccepAcceAcceptance rate oAcceAcceptaAcceAcceptance rate ofAcceAcceptaAcceAcceptance rate oAcceAcceptaAcceAcceptance rate ofAcceAcceptaAcceAcceptance rate AccepAcceptaAcceAcceptance rate oAccepAcceptaAcceAcceptance rate of 0.99: 0.9953
-[1] "Allocate eps:AccepAcceptaAcceAcceptance rate oAccepAcceptaAcceAcceptance rateAcceptAcceptaAcceAcceptance rate AccepAcceptanAcceAcceptance rateAccepAcceptanAcceAcceptance rate AccepAcceptanAcceAcceptance rateAcceAcceptancAcceAcceptance rate AcceAcceptancAcceAcceptance ratAccepAcceptanAccepAcceptance rateAccepAcceptanAccepAcceptance rateAccepAcceptanAccepAcceptance ratAccepAcceptanAccepAcceptance rateAccepAcceptanAccepAcceptance ratAccepAcceptanAccepAcceptance rateAccepAcceptanAccepAcceptance ratAccepAcceptanAccepAcceptance rateAccepAcceptanAccepAcceptance ratAccepAcceptanAccepAcceptance rateAcceAcceptanAcceptAcceptance rate of 0.99: 0.9798
-[1] "Allocate epsAcceAcceptanAcceptAcceptance rateAcceAcceptaAcceptaAcceptance rate ofAcceptaAcceptaAcceptance rate of AcceptAcceptanAcceptance rate ofAcceptAcceptanAcceptance rate of AccepAcceptancAcceptance ratAcceAccepAcceptancAcceptance rateAcceAccepAcceptancAcceptance raAccepAccepAcceptanAcceptance rateAccepAccepAcceptanAcceptance rateAccepAccepAcceptaAcceptance ratAcceptAcceAcceptanAcceptance rateAcceptAcceAcceptaAcceptance ratAcceptAccepAcceptaAcceptance rateAcceptAccepAcceptaAcceptance ratAcceptAccepAcceptaAcceptance ratAcceptaAccepAcceptaAcceptance raAcceptaAccAcceptanAcceptance rateAcceptaAcAcceptanAcceptance rate of 0.99: 0.9944
-[1] "Allocate eps:AcceptaAcAcceptanAcceptance rateAcceptanAcAcceptanAcceptance ratAcceptanAcAcceptanAcceptance ratAcceptancAcAcceptanAcceptance raAcceptancAcAcceptanAcceptance ratAcceptancAcAcceptanAcceptance raAcceptancAcceptanceAcceptance ratAcceptancAcceptanceAcceptance raAcceptancAcceptancAcceptAcceptanAcceptancAcceptanceAcceptAcceptanAcceptancAcceptanceAcceptance raAcceptancAcceptanceAcceptAcceptanAcceptancAcceptanceAcceptance raAcceptancAcceptance rate of 0.75:AcceptancAcceptancAcceptance ratAcceptancAcceptancAcceptance rateAcceptancAcceptancAcceptance raAcceptancAcceptanceAcceptance raAcceptanceAcceptanceAcceptance rate of 0.99: 0.9943
-[1] "Allocate eAcceptanceAcceptanceAcceptance raAcceptanceAcceptanceAcceptAcceptAcceptanceAcceptanceAcceptAcceptAcceptance AcceptanceAcceptAccepAcceptance Acceptance rate AcceptAcceptance Acceptance rateAcceptAcceptance Acceptance rate of 0.1Acceptance Acceptance rate of 0.Acceptance Acceptance rate of 0.0Acceptance Acceptance rate of 0.5Acceptance Acceptance rate of 0.Acceptance Acceptance rate of 0.6Acceptance Acceptance rate of 0.AcceptanceAAcceptance rate of 0.7AcceptanceAAcceptance rate of 0.AcceptanceAAcceptance rate of 0.8AcceptanceAAcceptance rate of 0.AcceptanceAAcceptance rate of 0.9AcceptanceAAcceptance rate of 0.99: 0.9977
-[1] "Allocate eps: 0.1 rAcceptanceAAcceptance rate of 0.4AcceptanceAAcceptance rate of 0.AcceptanceAAcceptance rate of 0.3AcceptanceAAcceptance rate of 0Acceptance AAcceptance rate of 0.25: 0.9951AAcceptance rate of 0.2: 0.9789AAcceptance rate of 0.15: 0.9726AAcceptance rate of 0.1: 0.9602AAcceptance rate of 0.05: 0.9305AAcceptance rate of 0.55: 0.9599AAcceptance rate of 0.6: 0.9636AAcceptance rate of 0.65: 0.9717AAcceptance rate of 0.7: 0.9783AAcceptance rate of 0.75: 0.9955AAcceptance rate of 0.8: 0.9877AcAcceptance rate of 0.85: 0.9829AcAcceptance rate of 0.9: 0.991AccAcceptance rate of 0.95: 0.996AccAcceptance rate of 0.99: 0.9856
-[1] "Allocate eps: 0Acceptance rAccAcceptance rate of 0.45: 0.96AcceAcceptance rate of 0.4: 0.99AcceAcceptance rate of 0.35: 0.99AcceAcceptance rate of 0.3: 0.99AccAcceptance rate of 0.25: 0.992AccAcceptance rate of 0.2: 0.762AccAcceptance rate of 0.15: 0.74AcceAcceptance rate of 0.1: 0.36AcceAcceptance rate of 0.05: 0.2AccepAcceptance rate of 0.55: 0.9AccepAcceptance rate of 0.6: 0.9AccepAcceptance rate of 0.65: 0.9AccepAcceptance rate of 0.7: 0.9AccepAcceptance rate of 0.75: 0.9AccepAcceptance rate of 0.8: 0.9AccepAcceptance rate of 0.85: 0.9AccepAcceptance rate of 0.9: 0.9AccepAcceptance rate of 0.95: 0.9AcceAcceptance rate of 0.99: 0.9843
-[1] "Allocate eps: 0.AcceptanceAcceAcceptance rate of 0.45: 0.94AcceAcceptance rate of 0.4: 0.97AcceAcceptance rate of 0.35: 0.98AccAcceptance rate of 0.3: 0.988AccAcceptance rate of 0.25: 0.991AccAcceptance rate of 0.2: 0.991AccAcceptance rate of 0.15: 0.997AccAcceptance rate of 0.1: 0.991AccAcceptance rate of 0.05: 0.99AcceAcceptance rate of 0.55: 0.97AccAcceptance rate of 0.6: 0.987AccAcceptance rate of 0.65: 0.996AccAcceptance rate of 0.7: 0.985AccAcceptance rate of 0.75: 0.99AcceAcceptance rate of 0.8: 0.99AcceAcceptance rate of 0.85: 0.98AcceAcceptance rate of 0.9: 0.9AccepAcceptance rate of 0.95: 0.9AccepAcceptance rate of 0.99: 0.9886
-[1] "Allocate eps:Acceptance rAccepAcceptance rate of 0.45: 0.9AccepAcceptance rate of 0.4: 0.9AccepAcceptance rate of 0.35: 0.9AccepAcceptance rate of 0.3: 0.9AccepAcceptance rate of 0.25: 0.9AccepAcceptance rate of 0.2: 0.9AccepAcceptance rate of 0.15: 0.9AccepAcceptance rate of 0.1: 0.9AccepAcceptance rate of 0.05: 0.8AccepAcceptance rate of 0.55: 0.9AccepAcceptance rate of 0.6: 0.9AccepAcceptance rate of 0.65: 0.9AccepAcceptance rate of 0.7: 0.9AccepAcceptance rate of 0.75: 0.9AccepAcceptance rate of 0.8: 0.9AccepAcceptance rate of 0.85: 0.9AccepAcceptance rate of 0.9: 0.9AcceAcceptance rate of 0.95: 0.99AcceAcceptance rate of 0.99: 0.9917
-[1] "Allocate epsAcceptance ratAcceAcceptance rate of 0.45: 0.97AcceAcceptance rate of 0.4: 0.98AcceAcceptance rate of 0.35: 0.98AcceAcceptance rate of 0.3: 0.99AcceAcceptance rate of 0.25: 0.9AccepAcceptance rate of 0.2: 0.9AccepAcceptance rate of 0.15: 0.9AccepAcceptance rate of 0.1: 0.9AccepAcceptance rate of 0.05: 0.9AccepAcceptance rate of 0.55: 0.9AcceAcceptance rate of 0.6: 0.97AcceAcceptance rate of 0.65: 0.97AcceAcceptance rate of 0.7: 0.98AccAcceptance rate of 0.75: 0.993AccAcceptance rate of 0.8: 0.996AccAcceptance rate of 0.85: 0.991AccAcceptance rate of 0.9: 0.995AcAcceptance rate of 0.95: 0.995AccAcceptance rate of 0.99: 0.9969
-[1] "Allocate epAcceptance rate AccAcceptance rate of 0.45: 0.950AccAcceptance rate of 0.4: 0.990AccAcceptance rate of 0.35: 0.984AccAcceptance rate of 0.3: 0.998AccAcceptance rate of 0.25: 0.971AccAcceptance rate of 0.2: 0.932AccAcceptance rate of 0.15: 0.760AccAcceptance rate of 0.1: 0.100AccAcceptance raAcceptance rate oAccAcceptance raAcceptance rate oAccAcceptance rAcceptance rate oAccAcceptance rate of 0.65: 0.99AcceAcceptance rate of 0.7: 0.99AccAcceptance rate of 0.75: 0.995AccAcceptance rate of 0.8: 0.989AccAcceptance rate of 0.85: 0.99AcceAcceptance rate of 0.9: 0.98AcceAcceptance Acceptance rate ofAcceAcceptance rate of 0.99: 0.992
-[1] "Allocate Acceptance rate ofAccAcceptance rAcceptance rate oAcceAcceptance Acceptance rate oAccAcceptance raAcceptance rate oAccAcceptance rAcceptance rate oAccAcceptance raAcceptance rate oAccAcceptance rAcceptance rate oAccAcceptance raAcceptance rate oAcAcceptance Acceptance rate of AcAcceptance rAcceptance rate of AcAcceptance rAcceptance rate ofAccAcceptance Acceptance rate ofAcceptance rateAcceptance rate oAcceptance rateAcceptance rate oAcceAcceptance rAcceptance rate oAcceAcceptanceAcceptance rate ofAcceAcceptance Acceptance rate ofAcceAcceptanceAcceptance rate ofAcceAcceptance Acceptance rate oAccepAcceptance rate of 0.99: 0.9872
-[1] "AllocateAcceptance rate oAcceptance rate Acceptance rate oAcceptance rateAcceptance rate oAcceptance rate Acceptance rate oAcceptance rateAcceptance rate oAcceptance rate Acceptance rate Acceptance rate Acceptance rate Acceptance rate oAcceptance rate AcceptAcceptanceAcceptance rate AcceptAcceptance Acceptance rate AcceptAcceptance Acceptance rate AcceptAcceptancAcceptance rate oAcceptAcceptanceAcceptance rate oAcceptAcceptance rate of 0.7: 0.AcceptAcceptance rate of 0.75: 0.AcceptAcceptance rate of 0.8: 0.AcceptAcceptance rate of 0.85: 0.AcceptAcceptance rate of 0.9: 0.AccepAcceptance rate of 0.95: 0.9AccepAcceptance rate of 0.99: 0.9944
-[1] "AllocateAcceptance rate oAccepAcceptance rate of 0.45: 0.9AccepAcceptance rate of 0.4: 0.9AcceAcceptance rate of 0.35: 0.99AcceAcceptance rate of 0.3: 0.50AccAcceptance rate of 0.25: 0.358AcAcceptance rate of 0.2: 0.358AAcceptance rate of 0.15: 0.2286AcAcceptance rate of 0.1: 0.0145AcAcceptance rateAcceptance rate AcAcceptance rateAcceptance rate AcAcceptance ratAcceptance rateAccAcceptance rateAcceptance rateAccAcceptance ratAcceptance rateAccAcceptance rate of 0.75: 0.990AccAcceptance ratAcceptance rateAccAcceptance rate of 0.85: 0.985AccAcceptance ratAcceptance rateAcceptance rate ofAcceptance rateAcceptance rate of 0.99: 0.9899
-[1] "Allocate eps: 0Acceptance rateAcceptance rate of 0.45: 0.9608
-Acceptance rate of 0.4: 0.9858
-Acceptance rate of 0.35: 0.997
-Acceptance rate of 0.3: 0.9943
-Acceptance rate of 0.25: 0.9924
-Acceptance rate of 0.2: 0.9556
-Acceptance rate of 0.15: 0.9351
-Acceptance rate of 0.1: 0.9312
-Acceptance rate of 0.05: 0.8912
-Acceptance rate of 0.55: 0.9774
-Acceptance rate of 0.6: 0.9859AAcceptance rate of 0.65: 0.9731AcAcceptance rate of 0.7: 0.9828AcAcceptance rate of 0.75: 0.9841AcAcceptance rate of 0.8: 0.9938AcAcceptance rate of 0.85: 0.9906AcAcceptance rate of 0.9: 0.9961AcAcceptance rate of 0.95: 0.9979AcAcceptance rate of 0.99: 0.9977
-[1] "Allocate eps: Acceptance ratAcAcceptance rate of 0.45: 0.9929AcAcceptance rate of 0.4: 0.979AAcceptance rate of 0.35: 0.986
-Acceptance rate of 0.3: 0.9928
-Acceptance rate of 0.25: 0.999
-Acceptance rate of 0.2: 0.9948
-Acceptance rate of 0.15: 0.9942
-Acceptance rate of 0.1: 0.9852
-Acceptance rate of 0.05: 0.826
-Acceptance rate of 0.55: 0.9766
-Acceptance rate of 0.6: 0.9901
-Acceptance rate of 0.65: 0.9839
+
+Attaching package: 'rmutil'
+
+The following object is masked from 'package:stats':
+
+    nobs
+
+The following objects are masked from 'package:base':
+
+    as.data.frame, units
+
+
+Attaching package: 'mcmc'
+
+The following object is masked _by_ '.GlobalEnv':
+
+    metrop
+
+Loading required package: SparseM
+
+Attaching package: 'SparseM'
+
+The following object is masked from 'package:base':
+
+    backsolve
+
+Registered S3 methods overwritten by 'tibble':
+  method     from  
+  format.tbl pillar
+  print.tbl  pillar
+[1] "x1"
+Acceptance rate of 0.45: 0.962
+Acceptance rate of 0.4: 0.951
+Acceptance rate of 0.35: 0.961
+Acceptance rate of 0.3: 0.942
+Acceptance rate of 0.25: 0.968
+Acceptance rate of 0.2: 0.961
+Acceptance rate of 0.15: 0.962
+Acceptance rate of 0.1: 0.951
+Acceptance rate of 0.05: 0.958
+Acceptance rate of 0.55: 0.955
+Acceptance rate of 0.6: 0.957
+Acceptance rate of 0.65: 0.972
+Acceptance rate of 0.7: 0.949
+Acceptance rate of 0.75: 0.953
+Acceptance rate of 0.8: 0.971
+Acceptance rate of 0.85: 0.967
+Acceptance rate of 0.9: 0.953
+Acceptance rate of 0.95: 0.942
+Acceptance rate of 0.99: 0.AcceAcceptance rate of 0.45: 0.943
+Acceptance rate of 0.4: 0.939
+Acceptance rate of 0.35: 0.946
+Acceptance rate of 0.3: 0.974
+Acceptance rate of 0.25: 0.9
+Acceptance rate of 0.2: 0.877
+Acceptance rate of 0.15: 0.949
+Acceptance rate of 0.1: 0.88
+Acceptance rate of 0.05: 0.928
+Acceptance rate of 0.55: 0.909
+Acceptance rate of 0.6: 0.918
+Acceptance rate of 0.65: 0.955
+Acceptance rate of 0.7: 0.96
+Acceptance rate of 0.75: 0.966
+Acceptance rate of 0.8: 0.936
+Acceptance rate of 0.85: 0.951
+Acceptance rate of 0.9: 0.949
+Acceptance rate of 0.95: 0.929
+Acceptance rate of 0.99: 0.878
+Acceptance rate of 0.25: 0.929
+Acceptance rate of 0.05: 0.912
+Acceptance rate of 0.75: 0.93
+Acceptance rate of 0.95: 0.87
+Acceptance rate of 0.99: 0.877
+Acceptance rate of 0.25: 0.924
+Acceptance rate of 0.05: 0.918
+Acceptance rate of 0.75: 0.91
+Acceptance rate of 0.95: 0.868
+Acceptance rate of 0.99: 0.877
+[1] "x2"
+AcAcAcceptance rate of 0.45: 0.9935AcAcceptance rate of 0.4: 0.9902AcAcceptance rate of 0.35: 0.98AcAcAcceptance rate of 0.3: 0.9AccAcAcceptance rate of 0.25: 0.9AccAcAcceptance rate of 0.2: 0.AcceAcAcceptance rate of 0.15: 0.AccAccAcceptance rate of 0.1: 0.AccAccAcceptance rate of 0.05: 0.AccAcAcceptance rate of 0.55: 0.9AccAcAcceptance rate of 0.6: 0.9AccAcAcceptance rate of 0.65: 0.9AccAcAcceptance rate of 0.7: 0.9AccAcAcceptance rate of 0.75: 0.9AccAcAcceptance rate of 0.8: 0.9AccAcAcceptance rate of 0.85: 0.9AccAcAcceptance rate of 0AcceptaAccAcAcceptance rate of 0.AcceptaAccAcAcceptance rate of 0.AcceptaAcAAcceptance rate of 0.45AcceptaAcAAcceptance rate of 0.4AcceptaAcAAcceptance rate of 0.35AcceptaAAcAcceptance rate of 0.3AcceptaAAcAcceptance rate of 0.25AcceptAAccAcceptance rate of 0.2AccepAcAAcAcceptance rate of 0.15AccepAcAAcAccepAcceptance rate oAccepAcAccAccepAcceptance rate ofAccepAcAccAccepAcceptance rate ofAccepAcAAcceptaAcceptance rate oAccepAcAAcceptaAcceptance rate ofAccepAAcceptancAcceptance rate oAccepAAcceptancAcceptance rate ofAccepAAcceptancAcceptance rate oAccepAcceptanceAcceptance rate ofAccepAcceptanceAcceptance rate oAccepAcceptanceAcceptance rate ofAccepAcceptanceAcceptance rate of 0.99: 0.9957
+Acceptance rate of 0.25: 0.99
+Acceptance rate of 0.05: 0.977
+Acceptance rate of 0.75: 0.985
+Acceptance rate of 0.95: 0.931
+Acceptance rate oAcceAcceptance Acceptance rate of 0.25: 0.971
+Acceptance rate of 0.05: 0.972
+Acceptance rate of 0.75: 0.956
+Acceptance rate of 0.95: 0.927
+Acceptance rate [1] [1] "xAcceAccepAcceptance rate of 0.45: 0.9AcceAcceptance rate of 0.4: 0.99AcceAcceptance rate of 0.35: 0.99AcceAcceptance rate of 0.3: 0.99AcceAcceptance rate of 0.25: 0.98AcceAcceptance rate of 0.2: 0.93AcceAcceptance rate of 0.15: 0.08AcceAcceptance rate of 0.1: 0.06AcceAcceptance rate of 0.05: 0.04AcceAcceptance rate of 0.55: 0.99AcceAcceptance rate of 0.6: 0.98AcceAcceptance rate of 0.65: 0.99AcceAcceptance rate of 0.7: 0.99AcceAcceptance rate of 0.75: 0.99AcceAcceptance rate of 0.8: 0.9AAcceAcceptance rate of 0.85: 0.9AAcceAcceptance rate of 0.9: 0.AcAcceAcceptance rate of 0.95: 0AccAcceAcceptance rate of 0.9AcceAccAcceAcceptance rate of 0.45: 0AccAcceAcceptance rate of 0.4: 0AccAccAcceptance rate of 0.35: 0.AccAccAcceptance rate of 0.3: 0.AccAccAcceptance rate of 0.25: 0.AccAccAcceptance rate of 0.2: 0.AccAccAcceptance rate of 0.15: 0AAcceptance rate of 0.1: 0AAcceptance rate of 0.05: 0AAcceptance rate of 0.55: 0.9947AAcceptance rate of 0.6: 0.9979AAcceptance rate of 0.65: 0.999AAcceptance rate of 0.7: 0.9962AAcceptance rate of 0.75: 0.9876AAcceptance rate of 0.8: 0.9835AAcceptance rate of 0.85: 0.9861AAcceptance rate of 0.9: 0.7106AAcceptance rate of 0.95: 0.0995AAcceptance rate of 0.99: 0.0128
+Acceptance rate of 0.25: 0.982
+Acceptance rate of 0.05: 0.974
+Acceptance rate of 0.75: 0.97
+Acceptance rate of 0.95: 0.954
+Acceptance rate of 0.99: 0.901AAcceptance rate of 0.25: 0.977
+Acceptance rate of 0.05: 0.965
+Acceptance rate of 0.75: 0.963
+Acceptance rate of 0.95: 0.965
+Acceptance rate of 0.99: 0.949TType: EXEC [[1] "x1"AAcceptance Acceptance rate of 0.45: 0.976
+Acceptance rate of 0.4: 0.951
+Acceptance rate of 0.35: 0.947
+Acceptance rate of 0.3: 0.96
+Acceptance rate of 0.25: 0.962
+Acceptance rate of 0.2: 0.96
+Acceptance rate of 0.15: 0.972
+Acceptance rate of 0.1: 0.972
+Acceptance rate of 0.05: 0.939
+Acceptance rate of 0.55: 0.953
+Acceptance rate of 0.6: 0.966
+Acceptance rate of 0.65: 0.96
+Acceptance rate of 0.7: 0.967
+Acceptance rate of 0.75: 0.966
+Acceptance rate of 0.8: 0.965
+Acceptance rate of 0.85: 0.959
+Acceptance rate of 0.9: 0.926
+Acceptance rate of 0.95: 0.922
+Acceptance rate of 0.Acceptance Acceptance rate of 0.45: 0.945
+Acceptance rate of 0.4: 0.957
+Acceptance rate of 0.35: 0.917
+Acceptance rate of 0.3: 0.953
+Acceptance rate of 0.25: 0.916
+Acceptance rate of 0.2: 0.941
+Acceptance rate of 0.15: 0.925
+Acceptance rate of 0.1: 0.922
+Acceptance rate of 0.05: 0.928
+Acceptance rate of 0.55: 0.947
+Acceptance rate of 0.6: 0.956
+Acceptance rate of 0.65: 0.938
+Acceptance rate of 0.7: 0.948
+Acceptance rate of 0.75: 0.966
+Acceptance rate of 0.8: 0.943
+Acceptance rate of 0.85: 0.945
+Acceptance rate of 0.9: 0.931
+Acceptance rate of 0.95: 0.931
+Acceptance rate of Acceptance raAcceptance rate of 0.25: 0.93
+Acceptance rate of 0.05: 0.904
+Acceptance rate of 0.75: 0.897
+Acceptance rate of 0.95: 0.866
+Acceptance rate of AAcceptance rAcceptance rate of 0.25: 0.936
+Acceptance rate of 0.05: 0.907
+Acceptance rate of 0.75: 0.912
+Acceptance rate of 0.95: 0.87
+Acceptance rate of [1[1] "x2"AcAcceptance Acceptance rate of 0AAcceptance rAcceptance rate of AAcceptance rAcceptance rate of 0AAcceptance rAcceptance rate of AAcceptance rAcceptance rate of 0AAcceptance rAcceptance rate ofAcAcceptance rAcceptance rate ofAccAcceptance Acceptance rate ofAccAcceptance Acceptance rate of AccAcceptance Acceptance rate of AccAcceptance Acceptance rate ofAccAcceptance Acceptance rate of AccAcceptance Acceptance rate ofAccAcceptance Acceptance rate of AccAcceptance Acceptance rate ofAccAcceptance Acceptance rate of AccAcceptance Acceptance rate ofAccAcceptance Acceptance rate of AccAcceptance Acceptance rate of AccAcceptance Acceptance rate of AccAcceptance Acceptance rate oAcceAcceptance Acceptance rate ofAcceAcceptanceAcceptance rate ofAcceAcceptanceAcceptance rate of AccAcceptance Acceptance rate oAcAcceptance raAcceptance rate ofAcceptance rateAcceptance rate oAcceptance rateAcceptance rate oAcceptance rate of 0.55: 0.9944
+Acceptance rate of 0.6: 0.9985
+Acceptance rate of 0.65: 0.9938
+Acceptance rate of 0.7: 0.9896
+Acceptance rate of 0.75: 0.9891
+Acceptance rate of 0.8: 0.986
+Acceptance rate of 0.85: 0.9929
+Acceptance rate of 0.9: 0.9899
+Acceptance rate of 0.95: 0.9886
+Acceptance rate of 0.99: 0.991
+Acceptance rate of 0.25: 0.964
+Acceptance rate of 0.05: 0.992
+Acceptance rate of 0.75: 0.979
+Acceptance rate of 0.95: 0.977
+Acceptance rate of 0.99: 0.897
+Acceptance rate of 0.25: 0.985
+Acceptance rate of 0.05: 0.987
+Acceptance rate of 0.75: 0.977
+Acceptance rate of 0.95: 0.974
+Acceptance rate of 0.99: 0.955
+[1] "x3"
+Acceptance rate of 0.45: 0.9832
+Acceptance rate of 0.4: 0.987
+Acceptance rate of 0.35: 0.9909
+Acceptance rate of 0.3: 0.9832
+Acceptance rate of 0.25: 0.9911
+Acceptance rate of 0.2: 0.9826
+Acceptance rate of 0.15: 0.9636
+Acceptance rate of 0.1: 0.1106
+Acceptance rate of 0.05: 0.0589
+Acceptance rate of 0.55: 0.994
+Acceptance rate of 0.6: 0.9942
+Acceptance rate of 0.65: 0.986
+Acceptance rate of 0.7: 0.9932
+Acceptance rate of 0.75: 0.9905
+Acceptance rate of 0.8: 0.9834
+Acceptance rate of 0.85: 0.9969
+Acceptance rate of 0.9: 0.9899
+Acceptance rate of 0.95: 0.9933
+Acceptance rate of 0.99: 0.9886
+Acceptance rate of 0.45: 0.9986
+Acceptance rate of 0.4: 0.9838
+Acceptance rate of 0.35: 0.9847
+Acceptance rate of 0.3: 0.9432AAcceptance rate of 0.25: 0.1467AAcceptance rate of 0.2: 0.0782AAcceptance rate of 0.15: 0.0538AcAcceptance rate of 0.1: 0.050AccAcceptance rate of 0.05: AcceptanAcceptance rate of 0.55: AcceptanAcceptance rate of 0.6: AcceptanAcceptance rate of 0.65: AcceptaAcceptance rate of 0.7: 0AcceptaAcceptance rate of 0.75: 0AcceptaAcceptance rate of 0.8: 0AcceptaAcceptance rate of 0.85: 0AcceptaAcceptance rate of 0.9: 0AcceptaAcceptance rate of 0.95: 0AcceptAcceptance rate of 0.99: 0.0202
+Acceptance rate of 0.25: 0.982
+Acceptance rate of 0.05: 0.992
+Acceptance rate of 0.75: 0.951
+Acceptance rate of 0.95: 0.955
+Acceptance rate of 0.99:AcceptanAcceptance rate of 0.25: 0.944
+Acceptance rate of 0.05: 0.98
+Acceptance rate of 0.75: 0.968
+Acceptance rate of 0.95: 0.945
+Acceptance rate of 0.99: Type: EType: [1] "x1[1]AcceptaAcceptance rate of 0.45: 0.94
+Acceptance rate of 0.4: 0.958
+Acceptance rate of 0.35: 0.965
+Acceptance rate of 0.3: 0.978
+Acceptance rate of 0.25: 0.956
+Acceptance rate of 0.2: 0.962
+Acceptance rate of 0.15: 0.938
+Acceptance rate of 0.1: 0.889
+Acceptance rate of 0.05: 0.849
+Acceptance rate of 0.55: 0.963
+Acceptance rate of 0.6: 0.92
+Acceptance rate of 0.65: 0.967
+Acceptance rate of 0.7: 0.952
+Acceptance rate of 0.75: 0.957
+Acceptance rate of 0.8: 0.949
+Acceptance rate of 0.85: 0.956
+Acceptance rate of 0.9: 0.942
+Acceptance rate of 0.95: 0.914
+Acceptance rate of 0.99: 0.849
+Acceptance rate of 0.45: 0.945
+Acceptance rate of 0.4: 0.946
+Acceptance rate of 0.35: 0.947
+Acceptance rate of 0.3: 0.958
+Acceptance rate of 0.25: 0.953
+Acceptance rate of 0.2: 0.947
+Acceptance rate of 0.15: 0.951
+Acceptance rate of 0.1: 0.885
+Acceptance rate of 0.05: 0.848
+Acceptance rate of 0.55: 0.947
+Acceptance rate of 0.6: 0.949
+Acceptance rate of 0.65: 0.95
+Acceptance rate of 0.7: 0.944
+Acceptance rate of 0.75: 0.951
+Acceptance rate of 0.8: 0.926
+Acceptance rate of 0.85: 0.944
+Acceptance rate of 0.9: 0.917
+Acceptance rate of 0.95: 0.895
+Acceptance rate of 0.99: 0.853
+Acceptance rate of 0.25: 0.911
+Acceptance rate of 0.05: 0.922
+Acceptance rate of 0.75: 0.899
+Acceptance rate of 0.95: 0.865
+Acceptance rate of 0.99AcceptancAcceptance rate of 0.25: 0.924
+Acceptance rate of 0.05: 0.886
+Acceptance rate of 0.75: 0.914
+Acceptance rate of 0.95: 0.86
+Acceptance rate of 0.99[1] "x2"[1AcceptanAcceptance rate of 0.45: AcceptanAcceptance rate of 0.4: AcceptanAcceptance rate of 0.35: AcceptaAcceptance rate of 0.3: 0AcceptaAcceptance rate of 0.25: 0AcceptaAcceptance rate of 0.2: 0AcceptaAcceptance rate of 0.15: 0AcceptaAcceptance rate of 0.1: 0AcceptaAcceptance rate of 0.05: 0AcceptaAcceptance rate of 0.55: 0AcceptaAcceptance rate of 0.6: 0AcceptaAcceptance rate of 0.65: 0AcceptaAcceptance rate of 0.7: 0AcceptaAcceptance rate of 0.75: 0AcceptaAcceptance rate of 0.8: 0AccepAcceptance rate of 0.85: 0.9AccepAcceptance rate of 0.9: 0.9AccepAcceptance rate of 0.95: 0.9AccepAcceptance rate of 0.99: 0.AcceptAcceptance rate of 0.45: 0.AcceptAcceptance rate of 0.4: 0.AcceptAcceptance rate of 0.35: 0.AcceptAcceptance rate of 0.3: 0.AcceptAcceptance rate of 0.25: 0.AcceptAcceptance rate of 0.2: 0.AccepAcceptance rate of 0.15: 0.9AccepAcceptance rate of 0.1: 0.9AccepAcceptance rate of 0.05: 0.9AccepAcceptance rate of 0.55: 0.9AccepAcceptance rate of 0.6: 0.9AccepAcceptance rate of 0.65: 0.9AcceAcceptance rate of 0.7: 0.98AcceAcceptance rate of 0.75: 0.99AcceAcceptance rate of 0.8: 0.9AccepAcceptance rate of 0.85: 0.9AccepAcceptance rate of 0.9: 0.9AccepAcceptance rate of 0.95: 0.9AccepAcceptance rate of 0.99: 0.9AcceAcceptance rate of 0.25: 0.9AccAcceptance rate of 0.05: 0.99AccAcceptance rate of 0.75: 0.99AccAcceptance rate of 0.95: 0.95AccAcceptance rate of 0.99: 0.9AAcceptance rate of 0.25: 0.948AAcceptance rate of 0.05: 0.975AAcceptance rate of 0.75: 0.971AAcceptance rate of 0.95: 0.959AAcceptance rate of 0.99: 0.944[[1] "x3"AAcceptance rate of 0.45: 0.9958AAcceptance rate of 0.4: 0.9877AAcceptance rate of 0.35: 0.99
+Acceptance rate of 0.3: 0.9923
+Acceptance rate of 0.25: 0.9963
+Acceptance rate of 0.2: 0.9827
+Acceptance rate of 0.15: 0.9522
+Acceptance rate of 0.1: 0.805
+Acceptance rate of 0.05: 0.5832
+Acceptance rate of 0.55: 0.9802
+Acceptance rate of 0.6: 0.9916
+Acceptance rate of 0.65: 0.9889
 Acceptance rate of 0.7: 0.9957
-Acceptance rate of 0.75: 0.9953
-Acceptance rate of 0.8: 0.9935
-Acceptance rate of 0.85: 0.9857
-Acceptance rate of 0.9: 0.9903
-Acceptance rate ofAcceptance rateAcceptance rate of 0.99: 0.992
-[1] "Allocate eps: 0.Acceptance ratAcceptance rate of Acceptance ratAcceptance rate ofAcceptance raAcceptance rate of 0Acceptance rAcceptance rate of 0Acceptance rAcceptance rate of 0.25: 0.9968
-Acceptance rate of 0.2: 0.9937
-Acceptance rate of 0.15: 0.9832
-Acceptance rate of 0.1: 0.8264
-Acceptance rate of 0.05: 0.7795
-Acceptance rate of 0.55: 0.9893
-Acceptance rate of 0.6: 0.9885
-Acceptance rate of 0.65: 0.9981
-Acceptance rate of 0.7: 0.9911
-Acceptance rate of 0.75: 0.9949
-Acceptance rate of 0.8: 0.998
-Acceptance rate of 0.85: 0.9977
-Acceptance rate of 0.9: 0.9988
-Acceptance rate of 0.95: 0.9956
-Acceptance rate of 0.99: 0.9852
-[1] "Allocate eps: 0.3 Acceptance rAcceptance rate of 0.45: 0.9652
-Acceptance rate of 0.4: 0.9832
-Acceptance rate of 0.35: 0.9945
-Acceptance rate of 0.3: 0.9993
-Acceptance rate of 0.25: 0.9822
-Acceptance rate of 0.2: 0.9867
-Acceptance rate of 0.15: 0.9624AAcceptance rate of 0.1: 0.9395AAcceptance rate of 0.05: 0.92
-Acceptance rate of 0.55: 0.9876
-Acceptance rate of 0.6: 0.9818AAcceptance rate of 0.65: 0.9785AAcceptance rate of 0.7: 0.9939AAcceptance rate of 0.75: 0.9832AcAcceptance rate of 0.8: 0.9915AcAcceptance rate of 0.85: 0.9964AcAcceptance rate of 0.9: 0.9981AcAcceptance rate of 0.95: 0.983AAcceptance rate of 0.99: 0.9826
-[1] "Allocate eps: 0.3 rAcceptanceAAcceptance rate of 0.45: 0.9795AAcceptance rate of 0.4: 0.9938AAcceptance rate of 0.35: 0.9903AAcceptance rate of 0.3: 0.9116AAcceptance rate of 0.25: 0.8854AAcceptance rate of 0.2: 0.8337AAcceptance rate of 0.15: 0.6808AAcceptance rate of 0.1: 0.6359AAcceptance rate of 0.05: 0.5495AAcceptance rate of 0.55: 0.9838AAcceptance rate of 0.6: 0.9892AAcceptance rate of 0.65: 0.9975AAcceptance rate of 0.7: 0.9894AAcceptance rate of 0.75: 0.9911AAcceptance rate of 0.8: 0.9926AAcceptance rate of 0.85: 0.9848AAcceptance rate of 0.9: 0.9788AAcceptance rate of 0.95: 0.9841AAcceptance rate of 0.99: 0.9909
-[1] "Allocate eps: 0.Acceptance raAAcceptance rate of 0.45: 0.9891AAcceptance rate of 0.4: 0.987AAcceptance rate of 0.35: 0.9974AcAcceptance rate of 0.3: 0.9918AcAcceptance rate of 0.25: 0.9859AcAcceptance rate of 0.2: 0.973AccAcceptance rate of 0.15: 0.981TypType: EXECTypType: EXEC 
-[1] "Allocate eps: 0.3 reps:  1Acceptance rate of 0.45: 0.9965
-Acceptance rate of 0.4: 0.9929
-Acceptance rate of 0.35: 0.9952
-Acceptance rate of 0.3: 0.9878
-Acceptance rate of 0.25: 0.9918
-Acceptance rate of 0.2: 0.9903
-Acceptance rate of 0.15: 0.9933
-Acceptance rate of 0.1: 0.9883
-Acceptance rate of 0.05: 0.9982
-Acceptance rate of 0.55: 0.9904
-Acceptance rate of 0.6: 0.9822
-Acceptance rate of 0.65: 0.9979
-Acceptance rate of 0.7: 0.9891
-Acceptance rate of 0.75: 0.9883
-Acceptance rate of 0.8: 0.9952
-Acceptance rate of 0.85: 0.9885
-Acceptance rate of 0.9: 0.9793
-Acceptance rate of 0.95: 0.9935
-Acceptance rate of 0.99: 0.9779
-Error in unserialize(node$con) : error reading from connection
-Calls: local ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-In addition: Warning messages:
-1: package 'doRNG' was built under R version 3.6.3 
-2: package 'foreach' was built under R version 3.6.3 
-3: package 'rngtools' was built under R version 3.6.3 
-Execution halted
-d
-ptance rate of 0.55: 0.9AccepAcceptance rate of 0.6: 0.9978
-Acceptance rate of 0.65: 0.9AccepAcceptance rate of 0.7: 0.9931
-Acceptance rate of 0.75: 0.9861
-Acceptance rate of 0.8: 0.9966
-Acceptance rate of 0.85: 0.9916
-Acceptance rate of 0.9: 0.9947
-Acceptance rate of 0.95: 0.9958
-Acceptance rate of 0.99: 0.9919
-Error in unserialize(node$con) : error reading Error in unserialize(node$con) : error reading from connection
-Calls: local ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-In addition: Warning messages:
-1: package 'doRNG' was built under R version 3.6.3 
-2: package 'foreach' was built under R version 3.6.3 
-3: package 'rngtools' was built under R version 3.6.3 
-Execution halted
+Acceptance rate of 0.75: 0.9947
+Acceptance rate of 0.8: 0.9981
+Acceptance rate of 0.85: 0.9813
+Acceptance rate of 0.9: 0.9954
+Acceptance rate of 0.95: 0.995
+Acceptance rate of 0.99: 0.9876
+Acceptance rate of 0.45: 0.9853
+Acceptance rate of 0.4: 0.9774
+Acceptance rate of 0.35: 0.9869
+Acceptance rate of 0.3: 0.9701
+Acceptance rate of 0.25: 0.9222
+Acceptance rate of 0.2: 0.7889
+Acceptance rate of 0.15: 0.611
+Acceptance rate of 0.1: 0.3958
+Acceptance rate of 0.05: 0.0758
+Acceptance rate of 0.55: 0.9924
+Acceptance rate of 0.6: 0.9821
+Acceptance rate of 0.65: 0.9966
+Acceptance rate of 0.7: 0.9901
+Acceptance rate of 0.75: 0.9945
+Acceptance rate of 0.8: 0.9925
+Acceptance rate of 0.85: 0.9961
+Acceptance rate of 0.9: 0.999
+Acceptance rate of 0.95: 0.9894
+Acceptance rate of 0.99: 0.9804
+Acceptance rate of 0.25: 0.988
+Acceptance rate of 0.05: 0.99
+Acceptance rate of 0.75: 0.963
+Acceptance rate of 0.95: 0.929
+Acceptance rate of 0.99: 0.908
+Acceptance rate of 0.25: 0.972
+Acceptance rate of 0.05: 0.989
+Acceptance rate of 0.75: 0.972
+Acceptance rate of 0.95: 0.963
+Acceptance rate of 0.99: 0.946
+Type: DONE 
+There were 50 or more warnings (use warnings() to see the first 50)
+)
+s() to see the first 50)
+0.35: 0.97
+Acceptance rate of 0.3: 0.955
+Acceptance rate of 0.25: 0.968
+Acceptance rate of 0.2: 0.938
+Acceptance rate of 0.15: 0.961
+Acceptance rate of 0.1: 0.924
+Acceptance rate of 0.05: 0.959
+Acceptance rate of 0.55: 0.967
+Acceptance rate of 0.6: 0.963
+Acceptance rate of 0.65: 0.957
+Acceptance rate of 0.7: 0.953
+Acceptance rate of 0.75: 0.958
+Acceptance rate of 0.8: 0.952
+Acceptance rate of 0.85: 0.96
+Acceptance rate of 0.9: 0.955
+Acceptance rate of 0.95: 0.941
+Acceptance rate of 0.99: 0.86
+Acceptance rate of 0.45: 0.934
+Acceptance rate of 0.4: 0.958
+Acceptance rate of 0.35: 0.938
+Acceptance rate of 0.3: 0.953
+Acceptance rate of 0.25: 0.933
+Acceptance rate of 0.2: 0.966
+Acceptance rate of 0.15: 0.953
+Acceptance rate of 0.1: 0.956
+Acceptance rate of 0.05: 0.873
+Acceptance rate of 0.55: 0.966
+Acceptance rate of 0.6: 0.915
+Acceptance rate of 0.65: 0.94
+Acceptance rate of 0.7: 0.946
+Acceptance rate of 0.75: 0.963
+Acceptance rate of 0.8: 0.953
+Acceptance rate of 0.85: 0.943
+Acceptance rate of 0.9: 0.929
+Acceptance rate of 0.95: 0.931
+Acceptance rate of 0.99: 0.898
+Acceptance rate of 0.25: 0.93
+Acceptance rate of 0.05: 0.912
+Acceptance rate of 0.75: 0.91
+Acceptance rate of 0.95: 0.878
+Acceptance rate of 0.99: 0.891
+Acceptance rate of 0.25: 0.918
+Acceptance rate of 0.05: 0.947
+Acceptance rate of 0.75: 0.912
+Acceptance rate of 0.95: 0.852
+Acceptance rate of 0.99: 0.886
+[1] "x2"AAcceptance rate of 0.45: 0.992
+Acceptance rate of 0.4: 0.9917
+Acceptance rate of 0.35: 0.9888
+Acceptance rate of 0.3: 0.9952
+Acceptance rate of 0.25: 0.9927
+Acceptance rate of 0.2: 0.9952
+Acceptance rate of 0.15: 0.9871
+Acceptance rate of 0.1: 0.9082
+Acceptance rate of 0.05: 0.8322
+Acceptance rate of 0.55: 0.9932
+Acceptance rate of 0.6: 0.9912
+Acceptance rate of 0.65: 0.9986
+Acceptance rate of 0.7: 0.9971
+Acceptance rate of 0.75: 0.9963
+Acceptance rate of 0.8: 0.9953
+Acceptance rate of 0.85: 0.9975
+Acceptance rate of 0.9: 0.9968
+Acceptance rate of 0.95: 0.9966
+Acceptance rate of 0.99: 0.9879
+Acceptance rate of 0.45: 0.9949
+Acceptance rate of 0.4: 0.9944
+Acceptance rate of 0.35: 0.9982
+Acceptance rate of 0.3: 0.9937
+Acceptance rate of 0.25: 0.9878
+Acceptance rate of 0.2: 0.9567
+Acceptance rate of 0.15: 0.3835
+Acceptance rate of 0.1: 0.2862
+Acceptance rate of 0.05: 0.1373
+Acceptance rate of 0.55: 0.9851
+Acceptance rate of 0.6: 0.9928
+Acceptance rate of 0.65: 0.9959
+Acceptance rate of 0.7: 0.9921
+Acceptance rate of 0.75: 0.9958
+Acceptance rate of 0.8: 0.9976
+Acceptance rate of 0.85: 0.9973
+Acceptance rate of 0.9: 0.9936
+Acceptance rate of 0.95: 0.9924
+Acceptance rate of 0.99: 0.9937
+Acceptance rate of 0.25: 0.964
+Acceptance rate of 0.05: 0.976
+Acceptance rate of 0.75: 0.987
+Acceptance rate of 0.95: 0.974
+Acceptance rate of 0.99: 0.904
+Acceptance rate of 0.25: 0.984
+Acceptance rate of 0.05: 0.978
+Acceptance rate of 0.75: 0.986
+Acceptance rate of 0.95: 0.958
+Acceptance rate of 0.99: 0.94
+[1] "x3"AcAcceptance rate of 0.45: 0.9934
+Acceptance rate of 0.4: 0.9844
+Acceptance rate of 0.35: 0.9971
+Acceptance rate of 0.3: 0.9921
+Acceptance rate of 0.25: 0.9863
+Acceptance rate of 0.2: 0.9838
+Acceptance rate of 0.15: 0.9761
+Acceptance rate of 0.1: 0.9572
+Acceptance rate of 0.05: 0.9108
+Acceptance rate of 0.55: 0.9867
+Acceptance rate of 0.6: 0.9979
+Acceptance rate of 0.65: 0.9932
+Acceptance rate of 0.7: 0.9958
+Acceptance rate of 0.75: 0.9889
+Acceptance rate of 0.8: 0.9963
+Acceptance rate of 0.85: 0.9978
+Acceptance rate of 0.9: 0.9967
+Acceptance rate of 0.95: 0.9889
+Acceptance rate of 0.99: 0.9953
+Acceptance rate of 0.45: 0.9911
+Acceptance rate of 0.4: 0.9991
+Acceptance rate of 0.35: 0.9847
+Acceptance rate of 0.3: 0.9749
+Acceptance rate of 0.25: 0.6852
+Acceptance rate of 0.2: 0.3788
+Acceptance rate of 0.15: 0.1996
+Acceptance rate of 0.1: 0.0279
+Acceptance rate of 0.05: 0.0214
+Acceptance rate of 0.55: 0.9785
+Acceptance rate of 0.6: 0.9943
+Acceptance rate of 0.65: 0.9843
+Acceptance rate of 0.7: 0.9963
+Acceptance rate of 0.75: 0.9966
+Acceptance rate of 0.8: 0.9988
+Acceptance rate of 0.85: 0.9873
+Acceptance rate of 0.9: 0.9931
+Acceptance rate of 0.95: 0.7161
+Acceptance rate of 0.99: 0.2797
+Acceptance rate of 0.25: 0.98
+Acceptance rate of 0.05: 0.996
+Acceptance rate of 0.75: 0.972
+Acceptance rate of 0.95: 0.941
+Acceptance rate of 0.99: 0.863
+Acceptance rate of 0.25: 0.98
+Acceptance rate of 0.05: 0.956
+Acceptance rate of 0.75: 0.976
+Acceptance rate of 0.95: 0.944
+Acceptance rate of 0.99: 0.9Type: DONE 
+ThThThere were 50 or more warnings (use warnings() to see the first 50)
+the first 50)

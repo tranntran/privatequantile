@@ -1,7 +1,1 @@
-starting worker for localhost:11963 
-Type: EXEC 
-Error in unseError in unserialize(node$con) : error reading from connection
-Calls: local ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-In addition: Warning message:
-package 'data.table' was built under R version 3.6.3 
-Execution halted
+starting worker for localhost:11382 
