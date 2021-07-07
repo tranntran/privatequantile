@@ -174,15 +174,15 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       
       #c(1e-2, 1.5e-2, 3.5e-2, 1)
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.25, 
-                         tau = tau, scale = 0.04, change_scale = 0.1, change_quantile = 0.7,
+                         tau = tau, scale = 0.02, change_scale = 0.07, change_quantile = 0.75,
                          nbatch = runs, method = "fixed", 
                          lb = 0, ub = 1000, formula = fml)
       all_beta[[2]] = temp[[1]]
       
       
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.25, 
-                         tau = tau, scale = 0.035, change_scale = 0.1, 
-                         change_quantile = 0.70,
+                         tau = tau, scale = 0.02, change_scale = 0.07, 
+                         change_quantile = 0.75, #0.7
                          nbatch = runs, method = "varying", 
                          lb = 0, ub = 1000, formula = fml)
       all_beta[[3]] = temp[[1]]
@@ -190,7 +190,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.25,
                          main_tau_eps = 0.6, tau = tau, 
                          main_tau = main_tau, scale = 0.22, change_scale = 0.25, 
-                         change_quantile = 0.83, sw_scale = 0.08, sw_change_scale = 0.1,
+                         change_quantile = 0.83, sw_scale = 0.02, sw_change_scale = 0.1,
                          sw_change_quantile = 0.70,
                          nbatch = runs, method = "fixed", 
                          lb = 0, ub = 1000, formula = fml)
@@ -199,8 +199,8 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       
       temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.25,
                          main_tau_eps = 0.6, tau = tau, 
-                         main_tau = main_tau, scale = 0.25, change_scale = 0.25, 
-                         change_quantile = 0.83, sw_scale = 0.07, sw_change_scale = 0.1,
+                         main_tau = main_tau, scale = 0.22, change_scale = 0.25, 
+                         change_quantile = 0.83, sw_scale = 0.03, sw_change_scale = 0.08, #0.7 and 0.1
                          sw_change_quantile = 0.70,
                          nbatch = runs, method = "varying", lb = 0, ub = 1000, 
                          formula = fml)
