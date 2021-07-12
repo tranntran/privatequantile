@@ -151,7 +151,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
   
   vars = c("x1", "x2", "x3")
   #vars = c("x1", "x2")
-  #ep = toteps/length(vars)
+  ep = toteps/length(vars)
   
   check = 0
   while(check == 0){
@@ -174,34 +174,38 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       data = as.data.frame(data1[, 1])
       colnames(data) = "x1"
       all_beta = list()
-      temp = originalKNG(data = data, total_eps = 0.5, tau = tau_x1, nbatch = runs,
+      temp = originalKNG(data = data, total_eps = ep, tau = tau_x1, nbatch = runs,
                          scale = 1e-3, formula = fml)
       all_beta[[1]] = temp[[1]]
       
-      temp = stepwiseKNG(data = data, total_eps = 0.5, median_eps = 0.25, 
-                         tau = tau_x1, scale = 0.006, change_scale = 0.03, change_quantile = 0.7,
-                         nbatch = runs, method = "fixed", lb = 0, ub = 1000, formula = fml)
+      temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.25, #0.03 0.7
+                         tau = tau_x1, scale = 0.0075, change_scale = 0.06, change_quantile = 0.85,
+                         nbatch = runs, method = "fixed", 
+                         lb = 0, ub = 1000, formula = fml)
       all_beta[[2]] = temp[[1]]
       
       
-      temp = stepwiseKNG(data = data, total_eps = 0.5, median_eps = 0.25, 
-                         tau = tau_x1, scale = 0.007, change_scale = 0.04, 
+      temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.25, 
+                         tau = tau_x1, scale = 0.0075, change_scale = 0.03, 
                          change_quantile = 0.70,
                          nbatch = runs, method = "varying", 
                          lb = 0, ub = 1000, formula = fml)
       all_beta[[3]] = temp[[1]]
       
-      temp = sandwichKNG(data = data, total_eps = 0.5, median_eps = 0.25,
+      temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.25,
                          main_tau_eps = 0.6, tau = tau_x1, 
                          main_tau = main_tau_x1, scale = 0.1, change_scale = 0.1, 
+                         change_quantile = 0.7, sw_scale = 0.008, sw_change_scale = 0.03,
                          sw_change_quantile = 0.70,
                          nbatch = runs, method = "fixed", 
                          lb = 0, ub = 1000, formula = fml)
       all_beta[[4]] = temp[[1]]
       
       
-      temp = sandwichKNG(data = data, total_eps = 0.5, median_eps = 0.25,
+      temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.25,
                          main_tau_eps = 0.6, tau = tau_x1, 
+                         main_tau = main_tau_x1, scale = 0.06, change_scale = 0.08, 
+                         change_quantile = 0.7, sw_scale = 0.007, sw_change_scale = 0.025,
                          sw_change_quantile = 0.70,
                          nbatch = runs, method = "varying", lb = 0, ub = 1000, 
                          formula = fml)
@@ -243,7 +247,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       # dev.off()
       
     } else {
-      
+      ep = 0.25
       if (syn_var == "x2"){
         data = data = as.data.frame(data1[, c(1, 2)])
         colnames(data) = c("x1", "x2")
@@ -381,4 +385,4 @@ oper <- foreach(i=1:25, .combine=rbind, .multicombine=TRUE,
 
 stopCluster(workers)
 
-save(oper, file = "./output/pMSE/data_eps1_50q.Rdata")
+save(oper, file = "../output/pMSE/data_eps1_50q_morex1.Rdata")

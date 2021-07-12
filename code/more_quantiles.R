@@ -175,11 +175,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       
       #c(1e-2, 1.5e-2, 3.5e-2, 1)
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.25, 
-<<<<<<< HEAD
-                         tau = tau, scale = 0.017, change_scale = 0.07, change_quantile = 0.8, #0.75
-=======
                          tau = tau, scale = 0.017, change_scale = 0.07, change_quantile = 0.75,
->>>>>>> 90c3095c502abffd134abdc7de94fda525e7fcda
                          nbatch = runs, method = "fixed", 
                          lb = 0, ub = 1000, formula = fml)
       all_beta[[2]] = temp[[1]]
@@ -195,13 +191,8 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.25,
                          main_tau_eps = 0.6, tau = tau, 
                          main_tau = main_tau, scale = 0.22, change_scale = 0.25, 
-<<<<<<< HEAD
-                         change_quantile = 0.83, sw_scale = 0.02, sw_change_scale = 0.05,
-                         sw_change_quantile = 0.70,
-=======
                          change_quantile = 0.83, sw_scale = 0.02, sw_change_scale = 0.1,
                          sw_change_quantile = 0.8, #0.7
->>>>>>> 90c3095c502abffd134abdc7de94fda525e7fcda
                          nbatch = runs, method = "fixed", 
                          lb = 0, ub = 1000, formula = fml)
       all_beta[[4]] = temp[[1]]
@@ -209,15 +200,9 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       
       temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.25,
                          main_tau_eps = 0.6, tau = tau, 
-<<<<<<< HEAD
-                         main_tau = main_tau, scale = 0.22, change_scale = 0.25, 
-                         change_quantile = 0.83, sw_scale = 0.03, sw_change_scale = 0.06, #0.08
-                         sw_change_quantile = 0.70,
-=======
                          main_tau = main_tau, scale = 0.25, change_scale = 0.25, 
                          change_quantile = 0.8, sw_scale = 0.03, sw_change_scale = 0.1, #0.7 and 0.1
                          sw_change_quantile = 0.80,
->>>>>>> 90c3095c502abffd134abdc7de94fda525e7fcda
                          nbatch = runs, method = "varying", lb = 0, ub = 1000, 
                          formula = fml)
       all_beta[[5]] = temp[[1]]
@@ -256,7 +241,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       #         labs(fill='Methods')  + coord_cartesian(xlim=c(-50, 100)) +
       #         ggtitle(paste("Density of variable", syn_var, "- Eps", round(ep, 2))))
       # dev.off()
-
+      
     } else {
       ep = 0.25
       
