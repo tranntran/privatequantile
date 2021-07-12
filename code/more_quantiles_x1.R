@@ -179,12 +179,17 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       all_beta[[1]] = temp[[1]]
       
 <<<<<<< HEAD
+<<<<<<< HEAD
       temp = stepwiseKNG(data = data, total_eps = 0.5, median_eps = 0.25, 
                          tau = tau_x1, scale = 0.006, change_scale = 0.03, change_quantile = 0.7,
 =======
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.25, #0.03 0.7
                          tau = tau_x1, scale = 0.0075, change_scale = 0.06, change_quantile = 0.85,
 >>>>>>> 90c3095c502abffd134abdc7de94fda525e7fcda
+=======
+      temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.25, 
+                         tau = tau_x1, scale = 0.005, change_scale = 0.03, change_quantile = 0.7,
+>>>>>>> parent of 90c3095 (update draft code)
                          nbatch = runs, method = "fixed", 
                          lb = 0, ub = 1000, formula = fml)
       all_beta[[2]] = temp[[1]]
@@ -195,8 +200,12 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
                          tau = tau_x1, scale = 0.007, change_scale = 0.04, 
 =======
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.25, 
+<<<<<<< HEAD
                          tau = tau_x1, scale = 0.0075, change_scale = 0.03, 
 >>>>>>> 90c3095c502abffd134abdc7de94fda525e7fcda
+=======
+                         tau = tau_x1, scale = 0.005, change_scale = 0.03, 
+>>>>>>> parent of 90c3095 (update draft code)
                          change_quantile = 0.70,
                          nbatch = runs, method = "varying", 
                          lb = 0, ub = 1000, formula = fml)
@@ -206,10 +215,14 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
                          main_tau_eps = 0.6, tau = tau_x1, 
                          main_tau = main_tau_x1, scale = 0.1, change_scale = 0.1, 
 <<<<<<< HEAD
+<<<<<<< HEAD
                          change_quantile = 0.83, sw_scale = 0.008, sw_change_scale = 0.018,
 =======
                          change_quantile = 0.7, sw_scale = 0.008, sw_change_scale = 0.03,
 >>>>>>> 90c3095c502abffd134abdc7de94fda525e7fcda
+=======
+                         change_quantile = 0.83, sw_scale = 0.007, sw_change_scale = 0.03,
+>>>>>>> parent of 90c3095 (update draft code)
                          sw_change_quantile = 0.70,
                          nbatch = runs, method = "fixed", 
                          lb = 0, ub = 1000, formula = fml)
@@ -223,8 +236,12 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
                          change_quantile = 0.7, sw_scale = 0.008, sw_change_scale = 0.015,
 =======
                          main_tau = main_tau_x1, scale = 0.06, change_scale = 0.08, 
+<<<<<<< HEAD
                          change_quantile = 0.7, sw_scale = 0.007, sw_change_scale = 0.025,
 >>>>>>> 90c3095c502abffd134abdc7de94fda525e7fcda
+=======
+                         change_quantile = 0.7, sw_scale = 0.007, sw_change_scale = 0.01,
+>>>>>>> parent of 90c3095 (update draft code)
                          sw_change_quantile = 0.70,
                          nbatch = runs, method = "varying", lb = 0, ub = 1000, 
                          formula = fml)
@@ -266,7 +283,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       # dev.off()
       
     } else {
-      ep = 0.25
+      
       if (syn_var == "x2"){
         data = data = as.data.frame(data1[, c(1, 2)])
         colnames(data) = c("x1", "x2")
