@@ -145,7 +145,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
   
   vars = c("x1", "x2", "x3")
   #vars = c("x1", "x2")
-  ep = toteps/length(vars)
+  #ep = toteps/length(vars)
   
   check = 0
   while(check == 0){
@@ -164,6 +164,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
     syn_var = vars[k]
     print(syn_var)
     if (syn_var == "x1"){
+      ep = 0.5
       fml = "x1 ~ 1"
       data = as.data.frame(data1[, 1])
       colnames(data) = "x1"
@@ -174,14 +175,14 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       
       #c(1e-2, 1.5e-2, 3.5e-2, 1)
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.25, 
-                         tau = tau, scale = 0.02, change_scale = 0.07, change_quantile = 0.75,
+                         tau = tau, scale = 0.017, change_scale = 0.07, change_quantile = 0.75,
                          nbatch = runs, method = "fixed", 
                          lb = 0, ub = 1000, formula = fml)
       all_beta[[2]] = temp[[1]]
       
       
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.25, 
-                         tau = tau, scale = 0.02, change_scale = 0.07, 
+                         tau = tau, scale = 0.017, change_scale = 0.07, 
                          change_quantile = 0.75, #0.7
                          nbatch = runs, method = "varying", 
                          lb = 0, ub = 1000, formula = fml)
@@ -191,7 +192,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
                          main_tau_eps = 0.6, tau = tau, 
                          main_tau = main_tau, scale = 0.22, change_scale = 0.25, 
                          change_quantile = 0.83, sw_scale = 0.02, sw_change_scale = 0.1,
-                         sw_change_quantile = 0.70,
+                         sw_change_quantile = 0.8, #0.7
                          nbatch = runs, method = "fixed", 
                          lb = 0, ub = 1000, formula = fml)
       all_beta[[4]] = temp[[1]]
@@ -199,9 +200,9 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       
       temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.25,
                          main_tau_eps = 0.6, tau = tau, 
-                         main_tau = main_tau, scale = 0.22, change_scale = 0.25, 
-                         change_quantile = 0.83, sw_scale = 0.03, sw_change_scale = 0.08, #0.7 and 0.1
-                         sw_change_quantile = 0.70,
+                         main_tau = main_tau, scale = 0.25, change_scale = 0.25, 
+                         change_quantile = 0.8, sw_scale = 0.03, sw_change_scale = 0.1, #0.7 and 0.1
+                         sw_change_quantile = 0.80,
                          nbatch = runs, method = "varying", lb = 0, ub = 1000, 
                          formula = fml)
       all_beta[[5]] = temp[[1]]
@@ -213,16 +214,16 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       synx1 = mapply(syndata, beta_result = all_beta, x = X,
                      MoreArgs = list(sample(1:length(tau), n, replace = TRUE)), SIMPLIFY = FALSE)
       synall = synx1
-      synx1[[7]] = c(data[,1]) # change back to 7
-      synx1[[8]] = syn_pmse[,1]
-      names(synx1) = c("KNG", "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
-                       "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private",
-                       "Raw Data", "pMSE Mechanism")
-      for (i in 2:5){
-        plotdata = melt(synx1[c(i, 6, 7)])
-        print(ggplot(plotdata,aes(x=value, fill= L1)) + geom_density(alpha=0.51))
-        
-      }
+      # synx1[[7]] = c(data[,1]) # change back to 7
+      # synx1[[8]] = syn_pmse[,1]
+      # names(synx1) = c("KNG", "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
+      #                  "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private",
+      #                  "Raw Data", "pMSE Mechanism")
+      # for (i in 1:5){
+      #   plotdata = melt(synx1[c(i, 6, 7)])
+      #   print(ggplot(plotdata,aes(x=value, fill= L1)) + geom_density(alpha=0.51, bw = 2))
+      #   
+      # }
       
       
       # plotdata$L1 = factor(plotdata$L1, levels = c("Raw Data", "Non-Private", "pMSE Mechanism", "KNG",
@@ -242,6 +243,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       # dev.off()
 
     } else {
+      ep = 0.25
       
       if (syn_var == "x2"){
         data = data = as.data.frame(data1[, c(1, 2)])
@@ -254,59 +256,70 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       
       all_beta = list()
       temp = originalKNG(data = data, total_eps = ep, tau = tau, nbatch = 10000,
-                         scale = 0.0001, formula = mod)
+                         scale = ifelse(syn_var == "x2", 1e-5, 1e-5), formula = mod)
       all_beta[[1]] = temp[[1]]
       
       #0.006 #double check this
-      temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.8, #0.003
-                         tau = tau, scale = 0.02, change_scale = 0.08, 
-                         change_quantile = 0.7, nbatch = 10000, method = "fixed", 
-                         lb = 0, ub = ifelse(syn_var == "x2", 1000, 2000), formula = mod,
+      temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.8,tau = tau, 
+                         scale = ifelse(syn_var == "x2", 0.008, 0.003), 
+                         change_scale = ifelse(syn_var == "x2", 0.02, 0.02), 
+                         change_quantile = ifelse(syn_var == "x2", 0.8, 0.7), 
+                         nbatch = 10000, method = "fixed", lb = 0, 
+                         ub = ifelse(syn_var == "x2", 1000, 2000), formula = mod,
                          check_data = synall[[2]])
       all_beta[[2]] = temp[[1]]
       
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.8, #0.003
-                         tau = tau,scale = 6e-9, change_scale = 2e-8,  #5e-9
-                         change_quantile = 0.6, nbatch = 10000, method = "varying", 
-                         lb = 0, ub = ifelse(syn_var == "x2", 1000, 2000), formula = mod, 
+                         tau = tau,
+                         scale = ifelse(syn_var == "x2", 3e-9, 1e-10),
+                         change_scale = ifelse(syn_var == "x2", 6e-9, 2e-10),  #5e-9
+                         change_quantile = ifelse(syn_var == "x2", 0.55, 0.6),
+                         nbatch = 10000, method = "varying", lb = 0, 
+                         ub = ifelse(syn_var == "x2", 1000, 2000), formula = mod, 
                          check_data = synall[[3]])
       all_beta[[3]] = temp[[1]]
       
-      temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.6, main_tau_eps = 0.7,
-                         tau = tau, main_tau = main_tau, scale = 0.2, change_scale = 0.25, 
-                         change_quantile = 0.7, sw_scale = 0.04, sw_change_scale = 0.1,
-                         sw_change_quantile = 0.7,
+      temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.8, main_tau_eps = 0.8,
+                         tau = tau, main_tau = main_tau, 
+                         scale = ifelse(syn_var == "x2", 0.22, 0.2), 
+                         change_scale = ifelse(syn_var == "x2", 0.2, 0.2), #0.15
+                         sw_scale = ifelse(syn_var == "x2", 0.03, 0.03), 
+                         sw_change_scale = ifelse(syn_var == "x2", 0.1, 0.1),
+                         change_quantile = 0.7, sw_change_quantile = 0.7,
                          nbatch = runs, method = "fixed", lb = 0, check_data = synall[[4]],
                          ub = ifelse(syn_var == "x2", 1000, 2000), formula = mod)
       
       all_beta[[4]] = temp[[1]]
       
       temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.8, main_tau_eps = 0.8,
-                         tau = tau, main_tau = main_tau, scale = 2e-5, change_scale = 7e-6, #1.5e-5
-                         change_quantile = 0.75, sw_scale = 1.5e-6, sw_change_scale = 3e-6, #2e-6
-                         sw_change_quantile = 0.65,
+                         tau = tau, main_tau = main_tau, 
+                         scale = ifelse(syn_var == "x2", 2e-7, 2e-8),
+                         change_scale = ifelse(syn_var == "x2", 2e-7, 5e-9), #1.5e-5
+                         sw_scale = ifelse(syn_var == "x2", 5e-8, 1e-8), 
+                         sw_change_scale = ifelse(syn_var == "x2", 2e-7, 5e-9), #1.5e-6
+                         change_quantile = 0.7, sw_change_quantile = 0.65,
                          nbatch = runs, method = "varying", lb = 0, 
                          ub = ifelse(syn_var == "x2", 1000, 2000), formula = mod, 
                          check_data = synall[[5]])
       all_beta[[5]] = temp[[1]]
       
-      all_beta[[6]] = coef(rq(mod, tau, data = data)) # change back to 6
+      all_beta[[6]] = coef(rq(mod, tau, data = data))
       
       X = mapply(cbind, rep(list(matrix(1, nrow = n)), 6), synall, SIMPLIFY = FALSE)
       syn = mapply(syndata, beta_result = all_beta, x = X,
                    MoreArgs = list(sample(1:length(tau), n, replace = TRUE)), SIMPLIFY = FALSE)
       synall = mapply(cbind, synall, syn, SIMPLIFY = FALSE)
       
-      syn[[7]] = data[,2]
-      syn[[8]] = syn_pmse[,2]
-      names(syn) = c("KNG", "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
-                       "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private",
-                       "Raw Data", "pMSE Mechanism")
-      
-      for (i in 2:5){
-        plotdata = melt(syn[c(i, 6, 7)])
-        print(ggplot(plotdata,aes(x=value, fill= L1)) + geom_density(alpha=0.51))
-      }
+      # syn[[7]] = data[,k]
+      # syn[[8]] = syn_pmse[,k]
+      # names(syn) = c("KNG", "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
+      #                  "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private",
+      #                  "Raw Data", "pMSE Mechanism")
+      # 
+      # for (i in 1:5){
+      #   plotdata = melt(syn[c(i, 6, 7)])
+      #   print(ggplot(plotdata,aes(x=value, fill= L1)) + geom_density(alpha=0.51))
+      # }
       
       
       # syn[[7]] = data[, ncol(data)] #change to 7
@@ -354,9 +367,9 @@ num_cores=detectCores()-1 #use all available core but 1
 
 workers=makeCluster(num_cores,type="SOCK",outfile="log.txt")
 registerDoParallel(workers)
-oper <- foreach(i=1:25, .combine=rbind, .multicombine=TRUE, 
+oper <- foreach(i=1:100, .combine=rbind, .multicombine=TRUE, 
                 .init=list()) %dopar% {
-                  source("code/functions_final_scale.R")
+                  source("functions_final_scale.R") #code/functions.R
                   library(rmutil)
                   library(rpart)
                   library(mcmc)
@@ -380,4 +393,4 @@ oper <- foreach(i=1:25, .combine=rbind, .multicombine=TRUE,
 
 stopCluster(workers)
 
-save(oper, file = "./output/pMSE/data_eps1_50q.Rdata")
+save(oper, file = "../output/pMSE/data_eps1_50q.Rdata")

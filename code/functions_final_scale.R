@@ -209,9 +209,10 @@ stepwiseKNG = function(data, total_eps, median_eps = NULL, tau, scale = 1e-2,
     formula = paste(vars[i], " ~ .")
   }
   
+  #set specific scale for the median
   nonpriv = quantreg::rq(formula, data = as.data.frame(data), tau = 0.5)
   out = KNG(init = coef(nonpriv)/R, ep = total_eps*median_eps, tau = 0.5, sumX = sumX, X = X, 
-            Y = Y, nbatch = nbatch, scale = mean(scale), ub = ub, lb = lb, upper_accept = upper_accept, 
+            Y = Y, nbatch = nbatch, scale = 1e-4/R, ub = ub, lb = lb, upper_accept = upper_accept, 
             lower_accept = lower_accept, update_after = update_after, adjust_scale_by = adjust_scale_by)
   median_beta_kng = tail(out[[1]], 1)*R
   accept_rate = out[[2]]
