@@ -1,6 +1,6 @@
 starting worker for localhost:11680 
 Type: EXEC 
-Type: EXEC 
+Type: DONE 
 
 Attaching package: 'rmutil'
 
@@ -297,4 +297,4 @@ Acceptance rate of 0.75: 0.963
 Acceptance rate of 0.95: 0.941
 Acceptance rate of 0.97: 0.978
 Acceptance rate of 0.99: 0.959
-Acceptance rate of 0.995: 0.91
+Acceptance rate of 0.995Type: DOType:There weThere were 50 or more warnings (use warnings() to see the first 50)
