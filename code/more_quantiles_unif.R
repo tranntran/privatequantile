@@ -200,7 +200,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       
       temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.25,
                          main_tau_eps = 0.6, tau = tau, 
-                         main_tau = main_tau, scale = 0.25, change_scale = 0.25, 
+                         main_tau = main_tau, scale = 0.22, change_scale = 0.25, 
                          change_quantile = 0.8, sw_scale = 0.03, sw_change_scale = 0.1, #0.7 and 0.1
                          sw_change_quantile = 0.80,
                          nbatch = runs, method = "varying", lb = 0, ub = 1000, 
@@ -272,7 +272,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.8, #0.003
                          tau = tau,
-                         scale = ifelse(syn_var == "x2", 3e-9, 1e-10),
+                         scale = ifelse(syn_var == "x2", 2e-9, 1e-10),
                          change_scale = ifelse(syn_var == "x2", 6e-9, 2e-10),  #5e-9
                          change_quantile = ifelse(syn_var == "x2", 0.55, 0.6),
                          nbatch = 10000, method = "varying", lb = 0, 
@@ -294,9 +294,9 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       
       temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.8, main_tau_eps = 0.8,
                          tau = tau, main_tau = main_tau, 
-                         scale = ifelse(syn_var == "x2", 2e-7, 2e-8),
+                         scale = ifelse(syn_var == "x2", 1e-7, 2e-8),
                          change_scale = ifelse(syn_var == "x2", 2e-7, 5e-9), #1.5e-5
-                         sw_scale = ifelse(syn_var == "x2", 5e-8, 1e-8), 
+                         sw_scale = ifelse(syn_var == "x2", 3e-8, 1e-8), 
                          sw_change_scale = ifelse(syn_var == "x2", 2e-7, 5e-9), #1.5e-6
                          change_quantile = 0.7, sw_change_quantile = 0.65,
                          nbatch = runs, method = "varying", lb = 0, 
