@@ -215,16 +215,16 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
                      MoreArgs = list(sample(1:length(tau), n, replace = TRUE, prob = c(rep(0.02, 24), 0.04, rep(0.02, 24)))), 
                      SIMPLIFY = FALSE)
       synall = synx1
-      synx1[[7]] = c(data[,1]) # change back to 7
-      synx1[[8]] = syn_pmse[,1]
-      names(synx1) = c("KNG", "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
-                       "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private",
-                       "Raw Data", "pMSE Mechanism")
-      for (i in 1:5){
-        plotdata = melt(synx1[c(i, 6, 7)])
-        print(ggplot(plotdata,aes(x=value, fill= L1)) + geom_density(alpha=0.51, bw = 2))
-
-      }
+      # synx1[[7]] = c(data[,1]) # change back to 7
+      # synx1[[8]] = syn_pmse[,1]
+      # names(synx1) = c("KNG", "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
+      #                  "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private",
+      #                  "Raw Data", "pMSE Mechanism")
+      # for (i in 1:5){
+      #   plotdata = melt(synx1[c(i, 6, 7)])
+      #   print(ggplot(plotdata,aes(x=value, fill= L1)) + geom_density(alpha=0.51, bw = 2))
+      # 
+      # }
       
       
       # plotdata$L1 = factor(plotdata$L1, levels = c("Raw Data", "Non-Private", "pMSE Mechanism", "KNG",
@@ -312,16 +312,16 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
                    SIMPLIFY = FALSE)
       synall = mapply(cbind, synall, syn, SIMPLIFY = FALSE)
       
-      syn[[7]] = data[,k]
-      syn[[8]] = syn_pmse[,k]
-      names(syn) = c("KNG", "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
-                       "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private",
-                       "Raw Data", "pMSE Mechanism")
-
-      for (i in 1:5){
-        plotdata = melt(syn[c(i, 6, 7)])
-        print(ggplot(plotdata,aes(x=value, fill= L1)) + geom_density(alpha=0.51))
-      }
+      # syn[[7]] = data[,k]
+      # syn[[8]] = syn_pmse[,k]
+      # names(syn) = c("KNG", "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
+      #                  "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private",
+      #                  "Raw Data", "pMSE Mechanism")
+      # 
+      # for (i in 1:5){
+      #   plotdata = melt(syn[c(i, 6, 7)])
+      #   print(ggplot(plotdata,aes(x=value, fill= L1)) + geom_density(alpha=0.51))
+      # }
       
       
       # syn[[7]] = data[, ncol(data)] #change to 7
@@ -395,4 +395,4 @@ oper <- foreach(i=1:100, .combine=rbind, .multicombine=TRUE,
 
 stopCluster(workers)
 
-save(oper, file = "../output/data_eps1_50q.Rdata")
+save(oper, file = "../output/data_eps1_50q_unif.Rdata")
