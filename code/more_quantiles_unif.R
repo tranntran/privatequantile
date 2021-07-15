@@ -212,7 +212,8 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       
       X = rep(list(matrix(1, nrow = n)), 6)
       synx1 = mapply(syndata, beta_result = all_beta, x = X,
-                     MoreArgs = list(sample(1:length(tau), n, replace = TRUE, prob = c(rep(0.02, 24), 0.04, rep(0.02, 24)))), 
+                     MoreArgs = list(sample(1:length(tau), n, replace = TRUE, 
+                                            prob = c(0.01, rep(0.02, 23), 0.03, 0.03, rep(0.02, 22), 0.03))), 
                      SIMPLIFY = FALSE)
       synall = synx1
       # synx1[[7]] = c(data[,1]) # change back to 7
@@ -308,7 +309,8 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       
       X = mapply(cbind, rep(list(matrix(1, nrow = n)), 6), synall, SIMPLIFY = FALSE)
       syn = mapply(syndata, beta_result = all_beta, x = X,
-                   MoreArgs = list(sample(1:length(tau), n, replace = TRUE, prob = c(rep(0.02, 24), 0.04, rep(0.02, 24)))), 
+                   MoreArgs = list(sample(1:length(tau), n, replace = TRUE, 
+                                          prob = c(0.01, rep(0.02, 23), 0.03, 0.03, rep(0.02, 22), 0.03))), 
                    SIMPLIFY = FALSE)
       synall = mapply(cbind, synall, syn, SIMPLIFY = FALSE)
       
