@@ -1,4 +1,4 @@
-# Use this code with the output from compare_pMSE_utility.R
+# Use this code with the output from compare_pMSE_data.R
 # The output of this code is simulation_utility_results.Rdata
 
 # This code compare the performance of KNG methods, pMSE mechanism,
@@ -279,7 +279,44 @@ for (i in 2:5){
 
 
 
+# plotdata$L1 = factor(plotdata$L1, levels = c("Raw Data", "Non-Private", "pMSE Mechanism", "KNG",
+#                                              "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
+#                                              "Sandwich-Fixed Slope", "Sandwich-Varying Slope"))
+# filename = paste(paste0('seed', t), paste0('e', ep*2), syn_var, sep = '_')
+# png(paste("./plot/simulations/pMSE/",paste0('eps', ep*2) , "/simulation_", filename, ".png", sep = ""),
+#    width = 700, height = 400)
 
+
+# print(ggplot(plotdata, aes(x=value, fill = L1)) + facet_wrap(~L1, ncol = 4) +
+#         stat_density(geom = "area", bw = 5, alpha = 0.5, size = 1) +
+#         scale_color_brewer(palette="Dark2") + theme_minimal() +
+#         theme(legend.position='none') +
+#         labs(fill='Methods')  + coord_cartesian(xlim=c(-50, 100)) +
+#         ggtitle(paste("Density of variable", syn_var, "- Eps", round(ep, 2))))
+# dev.off()
+
+# syn[[7]] = data[, ncol(data)] #change to 7
+# syn[[8]] = syn_pmse[, 2]
+# names(syn) = c("KNG", "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
+#                "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private",
+#                "Raw Data", "pMSE Mechanism")
+# 
+# plotdata = melt(syn)
+# plotdata$L1 = factor(plotdata$L1, levels = c("Raw Data", "Non-Private", "pMSE Mechanism", "KNG",
+#                                              "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
+#                                              "Sandwich-Fixed Slope", "Sandwich-Varying Slope"))
+# 
+# filename = paste(paste0('seed', t), paste0('e', ep*2), syn_var, sep = '_')
+# png(paste("./plot/simulations/pMSE/",paste0('eps', ep*2) , "/simulation_", filename, ".png", sep = ""), 
+#     width = 700, height = 400)
+# print(ggplot(plotdata, aes(x=value, fill = L1)) + facet_wrap(~L1, ncol = 4) +
+#         stat_density(geom = "area", bw = ifelse(syn_var == "x2", 40, 80), alpha = 0.5, size = 1) + 
+#         scale_color_brewer(palette="Dark2") + theme_minimal() + xlim(c(-250, 500))+
+#         #coord_cartesian(xlim=c(-500, 1000)) +
+#         theme(legend.position='none') +
+#         ggtitle(paste("Density of variable", syn_var, "- Eps", round(ep, 2))) +
+#         labs(fill="Methods")) 
+# dev.off()
 
 
 
