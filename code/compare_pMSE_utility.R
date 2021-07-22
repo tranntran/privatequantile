@@ -1,9 +1,21 @@
-# Use this code with the output from .R
+# Use this code with the output from compare_pMSE_utility.R
+# The output of this code is simulation_utility_results.Rdata
+
+# This code compare the performance of KNG methods, pMSE mechanism,
+# and non-private (using quantile regression) synthetic data. 
+# The utility measures are: 
+# 1. Wasseinstein Randomization Test (Arnold and Neunhoeffer, 2020)
+# 2. pMSE score (Snoke et al, 2018)
+# 3. K-marginals (Task et al, 2021), 
+# 4. Standardized coefficient difference, 
+# 5. RMSE on holdout sample (Arnold and Neunhoeffer, 2020).
+
 rm(list = ls())
 load("./output/data_eps1_50q_unif.Rdata")
 
 methods = c("KNG", "StepF", "StepV", "SWF", "SWV", "NP","pMSE", "Raw")
 set.seed(6789)
+
 ###############################################################################
 ## WRT
 wasserstein_randomization_test <- function(a, b, n_rep = 1000){
@@ -55,7 +67,7 @@ colnames(tab_wrt) = methods[-8]
 rownames(tab_wrt) = c("Training WRT", "Testing WRT")
 saveRDS(tab_wrt, file="simulation_wrt.rds")
 ###############################################################################
-## utility
+## utility (pMSE score)
 
 utility_logit = function(data, inds){
   data = cbind(data, inds)
@@ -82,10 +94,10 @@ for (i in 1:100){
   
 }
 
-ut = rbind(apply(utility_training, 2, mean), apply(utility_testing, 2, mean))
-colnames(ut) = methods[-8]
-rownames(ut) = c("Training", "Testing")
-ut
+tab_ut = rbind(apply(utility_training, 2, mean), apply(utility_testing, 2, mean))
+colnames(tab_ut) = methods[-8]
+rownames(tab_ut) = c("Training", "Testing")
+tab_ut
 
 ###############################################################################
 ## k-marginals
@@ -95,13 +107,13 @@ nist_score = NULL
 for (j in 1:100){
   tab = CJ(x1=0:5,x2=0:5, x3=0:5)
   training_data = oper[j, 8][[1]]
-  # x1_check = quantile(training_data[,1], c(0.1, 0.25, 0.5, 0.75, 0.9))
-  # x2_check = quantile(training_data[,2], c(0.1, 0.25, 0.5, 0.75, 0.9))
-  # x3_check = quantile(training_data[,3], c(0.1, 0.25, 0.5, 0.75, 0.9))
+  x1_check = quantile(training_data[,1], c(0.1, 0.25, 0.5, 0.75, 0.9))
+  x2_check = quantile(training_data[,2], c(0.1, 0.25, 0.5, 0.75, 0.9))
+  x3_check = quantile(training_data[,3], c(0.1, 0.25, 0.5, 0.75, 0.9))
   
-  x1_check = quantile(training_data[,1])
-  x2_check = quantile(training_data[,2])
-  x3_check = quantile(training_data[,3])
+  # x1_check = quantile(training_data[,1])
+  # x2_check = quantile(training_data[,2])
+  # x3_check = quantile(training_data[,3])
   
   methods = c("KNG", "StepF", "StepV", "SWF", "SWV", "NP","pMSE", "Raw")
   for (i in 1:8){
@@ -167,6 +179,8 @@ tab_coef = rbind(apply(int_training, 2, mean), apply(sl_training, 2, mean),
 colnames(tab_coef) = methods[-8]
 rownames(tab_coef) = c("Training Intercept", "Training Slope", "Testing Intercept",
                        "Testing Slope")
+tab_coef_x2 = tab_coef
+tab_coef_x2
 
 
 # x3 ~ x1 + x2
@@ -204,6 +218,8 @@ tab_coef = rbind(apply(int_training, 2, mean), apply(sl1_training, 2, mean),
 colnames(tab_coef) = methods[-8]
 rownames(tab_coef) = c("Training Intercept", "Training Slope x1", "Training Slope x2",
                        "Testing Intercept", "Testing Slope x1", "Testing Slope x2")
+tab_coef_x3 = tab_coef
+tab_coef_x3
 
 ###############################################################################
 ## RMSE
@@ -240,7 +256,10 @@ rownames(tab_rmse) = c("x2 ~ x1", "x3 ~ x1 + x2")
 
 tab_rmse
 
-
+###############################################################################
+## save all simulation results in an Rdata file
+save(tab_wrt, tab_ut, tab_km, tab_coef_x2, tab_coef_x3, tab_rmse, 
+     file = "./output/simulation_utility_results.Rdata")
 
 
 ###############################################################################
@@ -248,7 +267,7 @@ tab_rmse
 library(ggplot2)
 plot_data = list()
 for (i in 1:8){
-  plot_data[[i]] = oper[96,][[i]][, 2]
+  plot_data[[i]] = oper[96,][[i]][, 3]
 }
 names(plot_data) = c("KNG", "StepFixed", "StepVarying", "SWFixed", 
                         "SWVarying", "NonPriv", "pMSE", "RawData")
@@ -260,75 +279,6 @@ for (i in 2:5){
 
 
 
-
-
-
-
-
-# wrt_training_1 = matrix(NA, ncol = 7, nrow = 100)
-# wrt_testing_1 = matrix(NA, ncol = 7, nrow = 100)
-# for (k in 1:100){
-#   training_data = oper[k, 8][[1]]
-#   testing_data = oper[k, 9][[1]]
-#   for (j in 1:7){
-#     test = oper[1, j][[1]]
-#     ans = rep(NA, 3)
-#     for (i in 1:3){
-#       tmp_wrt = wasserstein_randomization_test(a = test[,i], b = training_data[,i])
-#       ans[i] = tmp_wrt$sample_distance/median(tmp_wrt$dist)
-#     }
-#     wrt_training_1[k, j] = mean(ans)
-#     
-#     ans = rep(NA, 3)
-#     for (i in 1:3){
-#       tmp_wrt = wasserstein_randomization_test(a = test[,i], b = testing_data[,i])
-#       ans[i] = tmp_wrt$sample_distance/median(tmp_wrt$dist)
-#     }
-#     wrt_testing_1[k, j] = mean(ans)
-#   }
-# }
-# 
-# 
-# apply(wrt_testing_1, 2, mean)
-# apply(wrt_testing_1, 2, median)
-# apply(wrt_training_1, 2, mean)
-# apply(wrt_training_1, 2, median)
-
-wrt_tab = rbind(apply(wrt_training, 2, mean), apply(wrt_testing, 2, mean))
-colnames(wrt_tab) = methods[-8]
-rownames(wrt_tab) = c("Training", "Testing")
-
-
-
-
-
-# training_data = oper[1, 8][[1]]
-# testing_data = oper[1, 9][[1]]
-# ans = rep(NA, 7)
-# for (i in 1:7){
-#   tmp = wasserstein_randomization_test(oper[1, i][[1]][,3], training_data[,3])
-#   ans[i] = tmp$sample_distance/median(tmp$dist)
-#   
-# }
-# ansf = rbind(ansf, ans)
-# colnames(ansf) = c("KNG", "StepFixed", "StepVarying", "SWFixed", 
-#                         "SWVarying", "NonPriv","pMSE")
-# ansf = rbind(ansf, apply(ansf, 2, mean))
-# rownames(ansf) = c("x1", "x2", "x3", "Avg")
-# 
-# 
-# sum(abs(sort(training_data[,2]) - sort(oper[1, ][[1]][,2]))/2)
-# 
-# 
-# # Total variation distance
-# ans = matrix(NA, ncol = 7, nrow = 2)
-# for (i in 1:7){
-#   ans[1, i] = sum(abs(sort(c(oper[1, i][[1]])) - sort(c(oper[1, 8][[1]])))/2)
-#   ans[2, i] = (sum(abs(sort(c(oper[1, i][[1]][,1])) - sort(c(oper[1, 8][[1]][,1])))/2) + 
-#                  sum(abs(sort(c(oper[1, i][[1]][,2])) - sort(c(oper[1, 8][[1]][,2])))/2) +
-#                  sum(abs(sort(c(oper[1, i][[1]][,3])) - sort(c(oper[1, 8][[1]][,3])))/2))/3
-# 
-# }
 
 
 
