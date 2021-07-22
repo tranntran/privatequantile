@@ -1,8 +1,9 @@
-# Use this code with the output from compare_pMSE_data.R
+# Use this code with the output from .R
 rm(list = ls())
 load("./output/data_eps1_50q_unif.Rdata")
 
 methods = c("KNG", "StepF", "StepV", "SWF", "SWV", "NP","pMSE", "Raw")
+set.seed(6789)
 ###############################################################################
 ## WRT
 wasserstein_randomization_test <- function(a, b, n_rep = 1000){
@@ -52,7 +53,7 @@ apply(wrt_training, 2, median)
 tab_wrt = rbind(apply(wrt_training, 2, mean), apply(wrt_testing, 2, mean))
 colnames(tab_wrt) = methods[-8]
 rownames(tab_wrt) = c("Training WRT", "Testing WRT")
-
+saveRDS(tab_wrt, file="simulation_wrt.rds")
 ###############################################################################
 ## utility
 
