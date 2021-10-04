@@ -3,11 +3,11 @@
 library(ggplot2)
 library(data.table)
 rm(list = ls())
-filename = "sandwich_fixed_sd_1_e0.5"
+filename = "sandwich_fixed_sd_123_e0.5"
 load(paste("output/", filename, ".Rdata", sep = ""))
 
 tau = c(seq(0.05, 0.95, 0.05), 0.99)
-allocate_eps = seq(0.1, 0.9, 0.1)
+allocate_eps = c(1/length(tau), seq(0.1, 0.9, 0.1))
 reps = 100
 
 # this section plots the distance to the truth for intercept
@@ -18,7 +18,7 @@ sandwich_fixed_int = as.data.table(sandwich_fixed_int)
 sandwich_fixed_int$Eps = paste0(allocate_eps*100, '%')
 sandwich_fixed_int = melt(id.vars = 21, sandwich_fixed_int)
 colnames(sandwich_fixed_int) = c("Eps", "Quantile", "Value")
-sandwich_fixed_int$Eps = as.factor(sandwich_fixed_int$Eps)
+sandwich_fixed_int$Eps = factor(sandwich_fixed_int$Eps, paste0(allocate_eps*100, '%'))
 sandwich_fixed_int$Quantile = as.numeric(as.character(sandwich_fixed_int$Quantile))
 ggplot(sandwich_fixed_int, aes(x = Quantile, log10(Value))) +
   geom_line(aes(group = Eps, color = Eps, linetype = Eps),  size = 1) +
@@ -37,7 +37,7 @@ sandwich_fixed_slope = as.data.table(sandwich_fixed_slope)
 sandwich_fixed_slope$Eps = paste0(allocate_eps*100, '%')
 sandwich_fixed_slope = melt(id.vars = 21, sandwich_fixed_slope)
 colnames(sandwich_fixed_slope) = c("Eps", "Quantile", "Value")
-sandwich_fixed_slope$Eps = as.factor(sandwich_fixed_slope$Eps)
+sandwich_fixed_slope$Eps = factor(sandwich_fixed_slope$Eps, paste0(allocate_eps*100, '%'))
 sandwich_fixed_slope$Quantile = as.numeric(as.character(sandwich_fixed_slope$Quantile))
 ggplot(sandwich_fixed_slope, aes(x = Quantile, log10(Value))) +
   geom_line(aes(group = Eps, color = Eps, linetype = Eps),  size = 1) +
@@ -56,7 +56,7 @@ sandwich_fixed_l2$Eps = paste0(allocate_eps*100, '%')
 sandwich_fixed_l2 = melt(id.vars = c(21), sandwich_fixed_l2)
 sandwich_fixed_l2 = sandwich_fixed_l2[order(sandwich_fixed_l2$Eps)]
 colnames(sandwich_fixed_l2) = c("Eps", "Quantile", "Value")
-sandwich_fixed_l2$Eps = as.factor(sandwich_fixed_l2$Eps)
+sandwich_fixed_l2$Eps = factor(sandwich_fixed_l2$Eps, paste0(allocate_eps*100, '%'))
 sandwich_fixed_l2$Quantile = as.numeric(as.character(sandwich_fixed_l2$Quantile))
 
 png(paste("plot/distance/", filename, "_distance_meanl2.png", sep = ""), 
@@ -75,19 +75,19 @@ dev.off()
 # i.e. if l2 distance to the truth has been plot, skip the first block of the code
 colnames(sandwich_fixed_l2) = tau
 sandwich_fixed_l2 = as.data.table(sandwich_fixed_l2)
-sandwich_fixed_l2$Eps = allocate_eps
+sandwich_fixed_l2$Eps = paste0(allocate_eps*100, '%')
 sandwich_fixed_l2 = melt(id.vars = c(21), sandwich_fixed_l2)
 sandwich_fixed_l2 = sandwich_fixed_l2[order(sandwich_fixed_l2$Eps)]
 colnames(sandwich_fixed_l2) = c("Eps", "Quantile", "Value")
-sandwich_fixed_l2$Eps = as.factor(sandwich_fixed_l2$Eps)
+sandwich_fixed_l2$Eps = factor(sandwich_fixed_l2$Eps, paste0(allocate_eps*100, '%'))
 sandwich_fixed_l2$Quantile = as.numeric(as.character(sandwich_fixed_l2$Quantile))
 
 colnames(sd_l2) = tau
 sd_l2 = as.data.table(sd_l2)
-sd_l2$Eps = allocate_eps
+sd_l2$Eps = paste0(allocate_eps*100, '%')
 sd_l2_m = melt(sd_l2, id.vars = "Eps")
 colnames(sd_l2_m) = c("Eps", "Quantile", "Sd")
-sd_l2_m$Eps = as.factor(sd_l2_m$Eps)
+sd_l2_m$Eps = factor(sd_l2_m$Eps, paste0(allocate_eps*100, '%'))
 sd_l2_m$Quantile = as.numeric(as.character(sd_l2_m$Quantile))
 setkey(sandwich_fixed_l2, Eps, Quantile)
 setkey(sd_l2_m, Eps, Quantile)
