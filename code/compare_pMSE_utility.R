@@ -69,6 +69,7 @@ saveRDS(tab_wrt, file="simulation_wrt.rds")
 ###############################################################################
 ## utility (pMSE score)
 
+# without interaction
 utility_logit = function(data, inds){
   data = cbind(data, inds)
   mod = glm(inds ~ ., data = as.data.frame(data), family = binomial(link = "logit"))
@@ -99,6 +100,39 @@ colnames(tab_ut) = methods[-8]
 rownames(tab_ut) = c("Training", "Testing")
 tab_ut
 
+
+# with interaction
+
+utility_logit_inter = function(data, inds){
+  data = cbind(data, inds)
+  mod = glm(inds ~ . ^2, data = as.data.frame(data), family = "binomial")
+  preds = predict(mod, type = "response")
+  score = sum((preds-0.5)^2)/nrow(data)
+  return(score)
+}
+
+
+utility_training = matrix(NA, nrow = 100, ncol = 7)
+utility_testing = matrix(NA, nrow = 100, ncol = 7)
+inds = c(rep(0, 5000), rep(1, 5000))
+for (i in 1:100){
+  training_data = oper[i, 8][[1]]
+  testing_data = oper[i, 9][[1]]
+  
+  tmp = lapply(oper[i, c(1:7)], rbind, training_data)
+  utility_training[i, ] = sapply(tmp, utility_logit_inter, inds)
+  
+  tmp = lapply(oper[i, c(1:7)], rbind, testing_data)
+  utility_testing[i, ] = sapply(tmp, utility_logit_inter, inds)
+  
+  
+}
+
+tab_ut_inter = rbind(apply(utility_training, 2, mean), apply(utility_testing, 2, mean))
+colnames(tab_ut_inter) = methods[-8]
+rownames(tab_ut_inter) = c("Training", "Testing")
+tab_ut_inter
+
 ###############################################################################
 ## k-marginals
 library(data.table)
@@ -107,13 +141,13 @@ nist_score = NULL
 for (j in 1:100){
   tab = CJ(x1=0:5,x2=0:5, x3=0:5)
   training_data = oper[j, 8][[1]]
-  x1_check = quantile(training_data[,1], c(0.1, 0.25, 0.5, 0.75, 0.9))
-  x2_check = quantile(training_data[,2], c(0.1, 0.25, 0.5, 0.75, 0.9))
-  x3_check = quantile(training_data[,3], c(0.1, 0.25, 0.5, 0.75, 0.9))
+  # x1_check = quantile(training_data[,1], c(0.1, 0.25, 0.5, 0.75, 0.9))
+  # x2_check = quantile(training_data[,2], c(0.1, 0.25, 0.5, 0.75, 0.9))
+  # x3_check = quantile(training_data[,3], c(0.1, 0.25, 0.5, 0.75, 0.9))
   
-  # x1_check = quantile(training_data[,1])
-  # x2_check = quantile(training_data[,2])
-  # x3_check = quantile(training_data[,3])
+  x1_check = quantile(training_data[,1])
+  x2_check = quantile(training_data[,2])
+  x3_check = quantile(training_data[,3])
   
   methods = c("KNG", "StepF", "StepV", "SWF", "SWV", "NP","pMSE", "Raw")
   for (i in 1:8){
@@ -258,7 +292,7 @@ tab_rmse
 
 ###############################################################################
 ## save all simulation results in an Rdata file
-save(tab_wrt, tab_ut, tab_km, tab_coef_x2, tab_coef_x3, tab_rmse, 
+save(tab_wrt, tab_ut, tab_ut_inter, tab_km, tab_coef_x2, tab_coef_x3, tab_rmse, 
      file = "./output/simulation_utility_results.Rdata")
 
 
