@@ -1,4 +1,4 @@
-# This code compare the performance of the sandwich koenker function based on
+# This code compare the performance of the sandwich fixed slope function based on
 # the level of privacy budget used on the anchor quantiles vs other quantiles.
 # The code will compute the mean and std of the distance to the true parameters,
 # for each amount of allocation 10%, 20%,..., 90% of the total budget.
@@ -16,13 +16,13 @@ registerDoParallel(workers)
 total_eps = 0.5
 reps = 100 #change reps
 n = 5000
-runs = 1000
+runs = 10000
 lambda = 0.1
 a0 = 4
 b0 = 3
 tau = c(seq(0.05, 0.95, 0.05), 0.99)
 main_tau = c(0.05, 0.25, 0.5, 0.75, 0.95, 0.99)
-allocate_eps = seq(0.1, 0.9, 0.1)
+allocate_eps = c(1/length(tau), seq(0.1, 0.9, 0.1))
 
 true_beta = matrix(b0, nrow = 2, ncol = length(tau))
 invert_quantile = function (x) log(1-x)/(-lambda)
@@ -35,8 +35,6 @@ true_beta = apply(true_beta, 2, rep, reps)
 # Privacy budget allocated to the median is 0.7, based on the result of file
 # icds_distance_stepwise_fixed.R.
 distance_maintau_eps = function(main_tau_eps){
-  dist_intercept = matrix(NA, nrow = length(allocate_eps), ncol = length(tau))
-  dist_slope = matrix(NA, nrow = length(allocate_eps), ncol = length(tau))
   scale_vec = rep(0, length(tau))
   beta_ans = matrix(NA, nrow = 2*reps, ncol = length(tau))
   for (i in 1:reps){
@@ -72,18 +70,18 @@ distance_maintau_eps = function(main_tau_eps){
 }
 
 ctype = rbind
-t = 0
+t = 123
 
 Out = foreach(main_tau_eps = allocate_eps,.combine=ctype, .errorhandling='stop',
               .options.RNG = t) %dorng% distance_maintau_eps(main_tau_eps)
 
-sandwich_fixed_int = matrix(unlist(Out[,1]), nrow = 9, byrow = TRUE)
-sandwich_fixed_slope = matrix(unlist(Out[,2]), nrow = 9, byrow = TRUE)
-sandwich_fixed_l2 = matrix(unlist(Out[,3]), nrow = 9, byrow = TRUE)
+sandwich_fixed_int = matrix(unlist(Out[,1]), nrow = 10, byrow = TRUE)
+sandwich_fixed_slope = matrix(unlist(Out[,2]), nrow = 10, byrow = TRUE)
+sandwich_fixed_l2 = matrix(unlist(Out[,3]), nrow = 10, byrow = TRUE)
 
-sd_int = matrix(unlist(Out[,4]), nrow = 9, byrow = TRUE)
-sd_slope = matrix(unlist(Out[,5]), nrow = 9, byrow = TRUE)
-sd_l2 = matrix(unlist(Out[,6]), nrow = 9, byrow = TRUE)
+sd_int = matrix(unlist(Out[,4]), nrow = 10, byrow = TRUE)
+sd_slope = matrix(unlist(Out[,5]), nrow = 10, byrow = TRUE)
+sd_l2 = matrix(unlist(Out[,6]), nrow = 10, byrow = TRUE)
 
 filename = paste("../output/sandwich_fixed_sd_", t, "_e",total_eps, ".Rdata", sep = "")
 

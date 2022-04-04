@@ -27,6 +27,10 @@ scp -r tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/output/sandwich_dat
 scp -r tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/plot/simulations/eps1/*.png C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/plot/simulations/eps1/
 
 scp -r tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/code/functions_amh_cx.R C:/Users/ttran/OneDrive/Desktop/Code/privatequantile/
+
+scp -r tnt5276@submit.aci.ics.psu.edu:~/work/privatequantile/output/sandwich_fixed_sd_123_e0.5.Rdata ~/Desktop/Code/privatequantile/output
+
+
 # copy file to a directory and name the file
 cp step_k.pbs ~/work/privatequantile/code/step_k_copy.pbs
 cp icds_distance_stepwise_data.R ~/work/privatequantile/code/icds_distance_stepwise_data_copy.R

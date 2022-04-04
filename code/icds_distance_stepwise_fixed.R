@@ -1,9 +1,13 @@
+# This code compare the performance of the stepwise fixed slope function based on
+# the level of privacy budget used on the median.
+# The code will compute the mean and std of the distance to the true parameters,
+# for each amount of allocation 10%, 20%,..., 90% of the total budget.
+
 library(doParallel)
 library(snow)
 library(doRNG)
 source("functions_final.R") #change directory
-num_cores=detectCores()-1
-#the above uses all cores available except 1, but you can set it manually too.
+num_cores=detectCores()-1 #use all available core but 1
 
 workers=makeCluster(num_cores,type="SOCK",outfile="log.txt")
 registerDoParallel(workers)
@@ -17,7 +21,8 @@ lambda = 0.1
 a0 = 4
 b0 = 3
 tau = c(seq(0.05, 0.95, 0.05), 0.99)
-allocate_eps = seq(0.1, 0.9, 0.1)
+main_tau = c(0.05, 0.25, 0.5, 0.75, 0.95, 0.99)
+allocate_eps = c(1/length(tau), seq(0.1, 0.9, 0.1))
 
 true_beta = matrix(b0, nrow = 2, ncol = length(tau))
 invert_quantile = function (x) log(1-x)/(-lambda)
@@ -25,10 +30,9 @@ true_beta[1,] = sapply(tau, invert_quantile) + a0
 colnames(true_beta) = paste("q", tau*100, sep = "")
 true_beta = apply(true_beta, 2, rep, reps)
 
-
+# Privacy budget allocated to the median is 0.7, based on the result of file
+# icds_distance_stepwise_fixed.R.
 distance_median_eps = function(median_eps){
-  dist_intercept = matrix(NA, nrow = length(allocate_eps), ncol = length(tau))
-  dist_slope = matrix(NA, nrow = length(allocate_eps), ncol = length(tau))
   scale_vec = rep(0, length(tau))
   beta_ans = matrix(NA, nrow = 2*reps, ncol = length(tau))
   for (i in 1:reps){
@@ -39,7 +43,7 @@ distance_median_eps = function(median_eps){
     mod = "x2 ~ x1"
     
     ans = stepwiseKNG(data = data, total_eps = total_eps, median_eps = median_eps, 
-                      tau = tau, scale = 0.01, nbatch = 10000, method = "fixed", 
+                      tau = tau, scale = 0.01, nbatch = runs, method = "fixed", 
                       lb = 0, ub = 1000, formula = mod)
     
     beta_ans[c(i*2-1, i*2), ] = ans[[1]]
@@ -60,23 +64,22 @@ distance_median_eps = function(median_eps){
   dist_l2 = apply(beta_ans_l2, 2, mean)
   sd_l2 = apply(beta_ans_l2, 2, sd)
   
-  print(beta_ans)
   return(list(dist_intercept, dist_slope, dist_l2, sd_intercept, sd_slope, sd_l2))
 }
 
+ctype = rbind
+t = 123
 
-ctype = rbind #you can choose how you want the results combined across loop iterations
-t = 1
 Out = foreach(median_eps = allocate_eps,.combine=ctype, .errorhandling='stop',
               .options.RNG = t) %dorng% distance_median_eps(median_eps)
 
-stepwise_fixed_int = matrix(unlist(Out[,1]), nrow = 9, byrow = TRUE)
-stepwise_fixed_slope = matrix(unlist(Out[,2]), nrow = 9, byrow = TRUE)
-stepwise_fixed_l2 = matrix(unlist(Out[,3]), nrow = 9, byrow = TRUE)
+stepwise_fixed_int = matrix(unlist(Out[,1]), nrow = 10, byrow = TRUE)
+stepwise_fixed_slope = matrix(unlist(Out[,2]), nrow = 10, byrow = TRUE)
+stepwise_fixed_l2 = matrix(unlist(Out[,3]), nrow = 10, byrow = TRUE)
 
-sd_int = matrix(unlist(Out[,4]), nrow = 9, byrow = TRUE)
-sd_slope = matrix(unlist(Out[,5]), nrow = 9, byrow = TRUE)
-sd_l2 = matrix(unlist(Out[,6]), nrow = 9, byrow = TRUE)
+sd_int = matrix(unlist(Out[,4]), nrow = 10, byrow = TRUE)
+sd_slope = matrix(unlist(Out[,5]), nrow = 10, byrow = TRUE)
+sd_l2 = matrix(unlist(Out[,6]), nrow = 10, byrow = TRUE)
 
 filename = paste("../output/stepwise_fixed_sd_", t, "_e",total_eps, ".Rdata", sep = "")
 
