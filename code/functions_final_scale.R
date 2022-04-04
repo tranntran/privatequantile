@@ -1,5 +1,3 @@
-# library(mvtnorm)
-# library(quantreg)
 metrop = function(logA, init, nbatch = 10000, scale = 1e-4, X = X,
                   ub = Inf, lb = -Inf, lower_accept = 0, upper_accept = 1,
                   update_after = 10, adjust_scale_by = 2){
@@ -51,13 +49,13 @@ metrop = function(logA, init, nbatch = 10000, scale = 1e-4, X = X,
 }
 
 
-KNG = function(init, ep, tau, sumX, X, Y, nbatch = 10000, scale = 1e-4, ub = Inf, 
+KNG = function(init, ep, tau, sumX, X, Y, Cx, nbatch = 10000, scale = 1e-4, ub = Inf, 
                lb = -Inf, lower_accept = 0, upper_accept = 1, update_after = 10, 
                adjust_scale_by = 2){
   logA = function(beta){
     left = cbind(Y, X)%*% c(1, -beta)
     lessEq = (left <= 0)
-    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*1*max(X)) - (1e-5)*(beta%*%beta)
+    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*Cx) - (1/2)*(beta%*%beta)
     return(ans)
   }
   
@@ -153,7 +151,7 @@ constrMetrop = function(logA, init, nbatch = 10000, scale = 1e-4, check_beta, ch
 
 #what does blen do? should it be deleted?
 #manipulate check_data here
-constrKNG = function(init, ep, tau, sumX, X, Y, nbatch = 10000, scale = 1e-4,
+constrKNG = function(init, ep, tau, sumX, X, Y, Cx, nbatch = 10000, scale = 1e-4,
                      check_beta, check_data = NULL, ub = Inf, lb = -Inf, 
                      method = c("fixed", "varying"), type = c("upper", "lower"), 
                      lower_accept = 0, upper_accept = 1, 
@@ -169,7 +167,7 @@ constrKNG = function(init, ep, tau, sumX, X, Y, nbatch = 10000, scale = 1e-4,
   logA = function(beta) {
     left = cbind(Y, X) %*% c(1,-beta)
     lessEq = (left <= 0)
-    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*1*max(X)) - (1e-5)*(beta%*%beta)
+    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*Cx) - (1/2)*(beta%*%beta)
     return(ans)
   }
   
@@ -184,7 +182,7 @@ constrKNG = function(init, ep, tau, sumX, X, Y, nbatch = 10000, scale = 1e-4,
 #instead of having lower_scale and upper_scale, scale should be input as a vector, with
 #the same order as tau. If the same scale is used for all the quantiles, then it should be a
 #vector of the same value
-stepwiseKNG = function(data, total_eps, median_eps = NULL, tau, scale = 1e-2,
+stepwiseKNG = function(data, total_eps, median_eps = NULL, tau, scale = 1e-2, Cx,
                        change_scale = NULL, change_quantile = NULL, 
                        nbatch = 10000, method = c("fixed", "varying"), 
                        ub = Inf, lb = -Inf, check_data = NULL, lower_accept = 0, 
@@ -201,6 +199,7 @@ stepwiseKNG = function(data, total_eps, median_eps = NULL, tau, scale = 1e-2,
   Y = Y/R
   X = as.matrix(cbind(rep(1, nrow(data)), data))
   X = as.matrix(X[, -ncol(X)])
+  X[X > Cx] = Cx
   sumX = apply(X = X, 2, FUN = sum)
   m = ncol(X) - 1
   
@@ -211,9 +210,10 @@ stepwiseKNG = function(data, total_eps, median_eps = NULL, tau, scale = 1e-2,
   
   #set specific scale for the median
   nonpriv = quantreg::rq(formula, data = as.data.frame(data), tau = 0.5)
-  out = KNG(init = coef(nonpriv)/R, ep = total_eps*median_eps, tau = 0.5, sumX = sumX, X = X, 
-            Y = Y, nbatch = nbatch, scale = 1e-4/R, ub = ub, lb = lb, upper_accept = upper_accept, 
-            lower_accept = lower_accept, update_after = update_after, adjust_scale_by = adjust_scale_by)
+  out = KNG(init = coef(nonpriv)/R, ep = total_eps*median_eps, tau = 0.5, 
+            sumX = sumX, X = X, Y = Y, Cx = Cx, nbatch = nbatch, scale = 1e-4/R, 
+            ub = ub, lb = lb, upper_accept = upper_accept, lower_accept = lower_accept, 
+            update_after = update_after, adjust_scale_by = adjust_scale_by)
   median_beta_kng = tail(out[[1]], 1)*R
   accept_rate = out[[2]]
   scale_output = tail(out[[3]], 1)
@@ -234,13 +234,13 @@ stepwiseKNG = function(data, total_eps, median_eps = NULL, tau, scale = 1e-2,
       # } else {
       #   tmp = scale[2]
       # }
-      out = constrKNG(init = check_beta/R, ep = ep, tau = new_tau, sumX = sumX, X = X, Y = Y, 
-                      nbatch = nbatch, scale = scale/R, check_beta = check_beta/R, 
-                      check_data = check_data, ub = ub, lb = lb, method = method, 
-                      type = "lower", lower_accept = lower_accept, upper_accept = upper_accept, 
-                      update_after = update_after, adjust_scale_by = adjust_scale_by)
+      out = constrKNG(init = check_beta/R, ep = ep, tau = new_tau, sumX = sumX, X = X, 
+                      Y = Y, Cx = Cx, nbatch = nbatch, scale = scale/R, 
+                      check_beta = check_beta/R, check_data = check_data, ub = ub, 
+                      lb = lb, method = method, type = "lower", lower_accept = lower_accept, 
+                      upper_accept = upper_accept, update_after = update_after, 
+                      adjust_scale_by = adjust_scale_by)
       proposed_beta = tail(out[[1]], 1)*R
-      message("Acceptance rate of ", new_tau, ": ", out[[2]])
       
       check_beta = proposed_beta
       ans = cbind(t(proposed_beta), ans)
@@ -260,13 +260,12 @@ stepwiseKNG = function(data, total_eps, median_eps = NULL, tau, scale = 1e-2,
         tmp = scale
       }
       out = constrKNG(init = check_beta/R, ep = ep, tau = new_tau, sumX = sumX, X = X, Y = Y, 
-                      nbatch = nbatch, scale = tmp/R, check_beta = check_beta/R, 
+                      Cx = Cx, nbatch = nbatch, scale = tmp/R, check_beta = check_beta/R, 
                       check_data = check_data, ub = ub , lb = lb, method = method, 
                       type = "upper", lower_accept = lower_accept, upper_accept = upper_accept, 
                       update_after = update_after, adjust_scale_by = adjust_scale_by)
       proposed_beta = tail(out[[1]], 1)*R
-      message("Acceptance rate of ", new_tau, ": ", out[[2]])
-      
+
       check_beta = proposed_beta
       ans = cbind(ans, t(proposed_beta))
       scale_output = cbind(scale_output, tail(out[[3]], 1))
@@ -361,7 +360,7 @@ constrMetropSandwich = function(logA, init, nbatch = 10000, scale = 1e-4,
 }
 
 
-constrKNGSandwich = function(init, ep, tau, sumX, X, Y, nbatch = 1000, scale = 1e-4,
+constrKNGSandwich = function(init, ep, tau, sumX, X, Y, Cx, nbatch = 1000, scale = 1e-4,
                              lowerbeta, upperbeta, check_data = NULL, ub = Inf, 
                              lb = -Inf, method = c("fixed", "varying"),
                              lower_accept = 0, upper_accept = 1, 
@@ -376,7 +375,7 @@ constrKNGSandwich = function(init, ep, tau, sumX, X, Y, nbatch = 1000, scale = 1
   logA = function(beta) {
     left = cbind(Y, X) %*% c(1,-beta)
     lessEq = (left <= 0)
-    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*1*max(X)) - (1e-5)*(beta%*%beta)
+    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*Cx) - (1/2)*(beta%*%beta)
     return(ans)
   }
   
@@ -393,7 +392,7 @@ constrKNGSandwich = function(init, ep, tau, sumX, X, Y, nbatch = 1000, scale = 1
 #quantile vector does not need to be in an order
 sandwichKNG = function(data, total_eps, median_eps = NULL, main_tau_eps = NULL,
                        tau, main_tau, scale = c(1e-4, 1e-4), sw_scale = c(1e-4, 1e-4), 
-                       change_scale, change_quantile,
+                       change_scale, change_quantile, Cx,
                        sw_change_scale, sw_change_quantile,
                        nbatch = 10000, method = c("fixed", "varying"), ub = Inf, 
                        lb = -Inf, check_data = NULL, lower_accept = 0, upper_accept = 1, 
@@ -414,6 +413,7 @@ sandwichKNG = function(data, total_eps, median_eps = NULL, main_tau_eps = NULL,
   Y = Y/R
   X = as.matrix(cbind(rep(1, nrow(data)), data))
   X = as.matrix(X[, -ncol(X)])
+  X[X > Cx] = Cx
   sumX = apply(X = X, 2, FUN = sum)
   m = ncol(X) - 1
   
@@ -424,7 +424,7 @@ sandwichKNG = function(data, total_eps, median_eps = NULL, main_tau_eps = NULL,
   
   out = stepwiseKNG(data = data, total_eps = total_eps*main_tau_eps, median_eps = median_eps, 
                     tau = main_tau_order, scale = scale, change_scale = change_scale, 
-                    change_quantile = change_quantile, nbatch = nbatch, 
+                    change_quantile = change_quantile, nbatch = nbatch, Cx = Cx,
                     method = method, ub = ub, lb = lb, check_data = check_data, 
                     lower_accept = lower_accept, upper_accept = upper_accept, 
                     update_after = update_after, adjust_scale_by = adjust_scale_by,
@@ -458,8 +458,8 @@ sandwichKNG = function(data, total_eps, median_eps = NULL, main_tau_eps = NULL,
       upperbeta = b[, which(colnames(b) == uppertau)]
       #main_tau_eps
       out = constrKNGSandwich(init = upperbeta/R, ep = eps_sandwich, tau = curr_tau, 
-                              sumX = sumX, X = X, Y = Y, nbatch = nbatch, scale = sw_scale/R, 
-                              lowerbeta = lowerbeta/R, upperbeta = upperbeta/R, 
+                              sumX = sumX, X = X, Y = Y, Cx = Cx, nbatch = nbatch, 
+                              scale = sw_scale/R, lowerbeta = lowerbeta/R, upperbeta = upperbeta/R, 
                               check_data = check_data, ub = ub, lb = lb, method = method,
                               lower_accept = lower_accept, upper_accept = upper_accept, 
                               update_after = update_after, adjust_scale_by = adjust_scale_by)
@@ -501,7 +501,7 @@ sandwichKNG = function(data, total_eps, median_eps = NULL, main_tau_eps = NULL,
       
       out = constrKNGSandwich(init = lowerbeta/R, ep = eps_sandwich, tau = curr_tau, 
                               sumX = sumX, X = X, Y = Y, nbatch = nbatch, scale = tmp/R, 
-                              lowerbeta = lowerbeta/R, upperbeta = upperbeta/R, 
+                              lowerbeta = lowerbeta/R, upperbeta = upperbeta/R, Cx = Cx,
                               check_data = check_data, ub = ub, lb = lb, method = method,
                               lower_accept = lower_accept, upper_accept = upper_accept, 
                               update_after = update_after, adjust_scale_by = adjust_scale_by)

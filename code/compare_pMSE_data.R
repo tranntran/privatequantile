@@ -68,7 +68,7 @@ syn_exp = function(param, pred_mat, nObs){
 
 ## implementation of KNG (Reimherr and Awan, 2019)
 originalKNG = function(data, total_eps, tau, nbatch = 10000, scale = 1e-4, 
-                       lower_accept = 0, upper_accept = 1, 
+                       lower_accept = 0, upper_accept = 1, Cx,
                        formula = NULL, update_after = 10, adjust_scale_by = 2){
   ep = total_eps/length(tau)
   i = ncol(data)
@@ -77,6 +77,7 @@ originalKNG = function(data, total_eps, tau, nbatch = 10000, scale = 1e-4,
   Y = Y/R
   X = as.matrix(cbind(rep(1, nrow(data)), data))
   X = as.matrix(X[, -ncol(X)])
+  X[X > Cx] = Cx
   sumX = apply(X = X, 2, FUN = sum)
   m = ncol(X) - 1
   
@@ -86,7 +87,7 @@ originalKNG = function(data, total_eps, tau, nbatch = 10000, scale = 1e-4,
   for (i in 1:length(tau)){
     curr_scale = scale[i]
     temp = KNG(init = rep(0, ncol(X)), ep = ep, tau = tau[i], sumX = sumX, X = X, 
-               Y = Y, nbatch = nbatch, scale = scale/R,
+               Y = Y, Cx = Cx,  nbatch = nbatch, scale = scale/R,
                lower_accept = lower_accept, upper_accept = upper_accept, 
                update_after = update_after, adjust_scale_by = adjust_scale_by)
     ans = cbind(ans, t(tail(temp[[1]], 1)*R))
@@ -147,20 +148,20 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       
       # generate private quantiles using KNG mechanism
       temp = originalKNG(data = data, total_eps = ep, tau = tau, nbatch = runs,
-                         scale = 5e-4, formula = fml)
+                         scale = 5e-4, Cx = 1, formula = fml)
       all_beta[[1]] = temp[[1]]
       
       # generate private quantiles using stepwise fixed slope KNG
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.25, 
                          tau = tau, scale = 0.015, change_scale = 0.07, 
-                         change_quantile = 0.75, nbatch = runs, 
+                         change_quantile = 0.75, nbatch = runs, Cx = 1,
                          method = "fixed", lb = 0, ub = 1000, formula = fml)
       all_beta[[2]] = temp[[1]]
       
       # generate private quantiles using stepwise varying slope KNG
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.25, 
                          tau = tau, scale = 0.015, change_scale = 0.07, 
-                         change_quantile = 0.75, nbatch = runs, 
+                         change_quantile = 0.75, nbatch = runs, Cx = 1,
                          method = "varying", lb = 0, ub = 1000, formula = fml)
       all_beta[[3]] = temp[[1]]
       
@@ -168,7 +169,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.25,
                          main_tau_eps = 0.6, tau = tau, main_tau = main_tau, 
                          scale = 0.2, change_scale = 0.25, change_quantile = 0.83, 
-                         sw_scale = 0.02, sw_change_scale = 0.1,
+                         sw_scale = 0.02, sw_change_scale = 0.1, Cx = 1,
                          sw_change_quantile = 0.8, nbatch = runs, method = "fixed", 
                          lb = 0, ub = 1000, formula = fml)
       all_beta[[4]] = temp[[1]]
@@ -177,7 +178,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.25,
                          main_tau_eps = 0.6, tau = tau, main_tau = main_tau, 
                          scale = 0.22, change_scale = 0.25, change_quantile = 0.8, 
-                         sw_scale = 0.03, sw_change_scale = 0.1,
+                         sw_scale = 0.03, sw_change_scale = 0.1, Cx = 1,
                          sw_change_quantile = 0.80, nbatch = runs, method = "varying", 
                          lb = 0, ub = 1000, formula = fml)
       all_beta[[5]] = temp[[1]]
@@ -219,16 +220,20 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
         data = data = as.data.frame(data1[, c(1, 2)])
         colnames(data) = c("x1", "x2")
         mod = "x2 ~ x1"
+        Cx = 46
+        ub = 1000
       } else {
         data = as.data.frame(data1)
         mod = "x3 ~ x1 + x2"
+        Cx = 106
+        ub = 2000
       }
       
       all_beta = list()
       
       # generate private coef (beta) using the KNG mechanism (Reimherr and Awan, 2019)
-      temp = originalKNG(data = data, total_eps = ep, tau = tau, nbatch = 10000,
-                         scale = ifelse(syn_var == "x2", 1e-5, 1e-5), formula = mod)
+      temp = originalKNG(data = data, total_eps = ep, tau = tau, nbatch = runs,
+                         scale = 1e-5, Cx = Cx, formula = mod)
       all_beta[[1]] = temp[[1]]
       
       # generate private coef (beta) using stepwise fixed slope KNG
@@ -236,9 +241,8 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
                          scale = ifelse(syn_var == "x2", 0.008, 0.003), 
                          change_scale = ifelse(syn_var == "x2", 0.02, 0.02), 
                          change_quantile = ifelse(syn_var == "x2", 0.8, 0.7), 
-                         nbatch = 10000, method = "fixed", lb = 0, 
-                         ub = ifelse(syn_var == "x2", 1000, 2000), formula = mod,
-                         check_data = synall[[2]])
+                         Cx = Cx, nbatch = runs, method = "fixed", lb = 0, 
+                         ub = ub, formula = mod, check_data = synall[[2]])
       all_beta[[2]] = temp[[1]]
       
       # generate private coef (beta) using stepwise varying slope KNG
@@ -246,9 +250,8 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
                          scale = ifelse(syn_var == "x2", 2e-9, 1e-10),
                          change_scale = ifelse(syn_var == "x2", 6e-9, 2e-10),  #5e-9
                          change_quantile = ifelse(syn_var == "x2", 0.55, 0.6),
-                         nbatch = 10000, method = "varying", lb = 0, 
-                         ub = ifelse(syn_var == "x2", 1000, 2000), formula = mod, 
-                         check_data = synall[[3]])
+                         Cx = Cx, nbatch = runs, method = "varying", lb = 0, 
+                         ub = ub, formula = mod, check_data = synall[[3]])
       all_beta[[3]] = temp[[1]]
       
       # generate private coef (beta) using sandwich fixed slope KNG
@@ -258,9 +261,9 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
                          change_scale = ifelse(syn_var == "x2", 0.2, 0.2), #0.15
                          sw_scale = ifelse(syn_var == "x2", 0.03, 0.03), 
                          sw_change_scale = ifelse(syn_var == "x2", 0.1, 0.1),
-                         change_quantile = 0.7, sw_change_quantile = 0.7,
-                         nbatch = runs, method = "fixed", lb = 0, check_data = synall[[4]],
-                         ub = ifelse(syn_var == "x2", 1000, 2000), formula = mod)
+                         change_quantile = 0.7, sw_change_quantile = 0.7, Cx = Cx,
+                         nbatch = runs, method = "fixed", lb = 0, ub = ub, 
+                         check_data = synall[[4]], formula = mod)
       
       all_beta[[4]] = temp[[1]]
       
@@ -271,10 +274,9 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
                          change_scale = ifelse(syn_var == "x2", 2e-7, 5e-9), #1.5e-5
                          sw_scale = ifelse(syn_var == "x2", 3e-8, 1e-8), 
                          sw_change_scale = ifelse(syn_var == "x2", 2e-7, 5e-9), #1.5e-6
-                         change_quantile = 0.7, sw_change_quantile = 0.65,
-                         nbatch = runs, method = "varying", lb = 0, 
-                         ub = ifelse(syn_var == "x2", 1000, 2000), formula = mod, 
-                         check_data = synall[[5]])
+                         change_quantile = 0.7, sw_change_quantile = 0.65, 
+                         Cx = Cx, nbatch = runs, method = "varying", lb = 0, 
+                         ub = ub, formula = mod, check_data = synall[[5]])
       all_beta[[5]] = temp[[1]]
       
       # generate private coef (beta) using quantile regression
@@ -361,4 +363,4 @@ stopCluster(workers)
 # save(oper, file = "./output/data_eps1_50q_unif.Rdata")
 
 # if run on icds cluster
-save(oper, file = "../output/data_eps1_50q_unif.Rdata")
+save(oper, file = "../output/data_eps1_50q.Rdata")
