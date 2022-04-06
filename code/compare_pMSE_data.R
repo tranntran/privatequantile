@@ -148,7 +148,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       
       # generate private quantiles using KNG mechanism
       temp = originalKNG(data = data, total_eps = ep, tau = tau, nbatch = runs,
-                         scale = 5e-4, Cx = 1, formula = fml)
+                         scale = 0.1, Cx = 1, formula = fml)
       all_beta[[1]] = temp[[1]]
       
       # generate private quantiles using stepwise fixed slope KNG
@@ -363,4 +363,4 @@ stopCluster(workers)
 # save(oper, file = "./output/data_eps1_50q_unif.Rdata")
 
 # if run on icds cluster
-save(oper, file = "../output/data_eps1_50q.Rdata")
+save(oper, file = "../output/data_eps1_50q_v2.Rdata")
