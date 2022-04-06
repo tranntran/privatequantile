@@ -11,7 +11,7 @@
 # 5. RMSE on holdout sample (Arnold and Neunhoeffer, 2020).
 
 rm(list = ls())
-load("./output/data_eps1_50q_unif.Rdata")
+load("./output/data_eps1_50q_v2.Rdata")
 
 methods = c("KNG", "StepF", "StepV", "SWF", "SWV", "NP","pMSE", "Raw")
 set.seed(6789)
@@ -65,7 +65,12 @@ apply(wrt_training, 2, median)
 tab_wrt = rbind(apply(wrt_training, 2, mean), apply(wrt_testing, 2, mean))
 colnames(tab_wrt) = methods[-8]
 rownames(tab_wrt) = c("Training WRT", "Testing WRT")
-saveRDS(tab_wrt, file="simulation_wrt.rds")
+
+tab_wrt_se = rbind(apply(wrt_training, 2, sd), apply(wrt_testing, 2, sd))/sqrt(100)
+rownames(tab_wrt_se) = paste(c("Training WRT", "Testing WRT"), "SE")
+tab_wrt = rbind(tab_wrt, tab_wrt_se)
+
+saveRDS(tab_wrt, file="output/simulation_wrt.rds")
 ###############################################################################
 ## utility (pMSE score)
 
@@ -96,9 +101,14 @@ for (i in 1:100){
 }
 
 tab_ut = rbind(apply(utility_training, 2, mean), apply(utility_testing, 2, mean))
+tab_ut_se = rbind(apply(utility_training, 2, sd), apply(utility_testing, 2, sd))/sqrt(100)
 colnames(tab_ut) = methods[-8]
-rownames(tab_ut) = c("Training", "Testing")
+rownames(tab_ut) = paste(c("Training", "Testing"), "Mean pMSE")
+colnames(tab_ut_se) = methods[-8]
+rownames(tab_ut_se) = paste(c("Training", "Testing"), "SE")
 tab_ut
+tab_ut_se
+tab_ut = rbind(tab_ut, tab_ut_se)
 
 
 # with interaction
@@ -130,8 +140,15 @@ for (i in 1:100){
 
 tab_ut_inter = rbind(apply(utility_training, 2, mean), apply(utility_testing, 2, mean))
 colnames(tab_ut_inter) = methods[-8]
-rownames(tab_ut_inter) = c("Training", "Testing")
+rownames(tab_ut_inter) = paste(c("Training", "Testing"), "Mean pMSE")
 tab_ut_inter
+
+tab_ut_inter_se = rbind(apply(utility_training, 2, sd), apply(utility_testing, 2, sd))/sqrt(100)
+colnames(tab_ut_inter_se) = methods[-8]
+rownames(tab_ut_inter_se) = paste(c("Training", "Testing"), "SE")
+tab_ut_inter_se
+
+tab_ut_inter = rbind(tab_ut_inter, tab_ut_inter_se)
 
 ###############################################################################
 ## k-marginals
@@ -178,8 +195,9 @@ for (j in 1:100){
 tab_km = apply(nist_score, 2, mean)
 
 names(tab_km) = methods[-8]
+tab_km = rbind(tab_km, apply(nist_score, 2, sd)/sqrt(100))
+rownames(tab_km) = c('Mean', 'SE')
 tab_km
-
 
 ###############################################################################
 ## standardized coef difference
@@ -188,7 +206,7 @@ int_training = matrix(NA, ncol = 7, nrow = 100)
 sl_training = matrix(NA, ncol = 7, nrow = 100)
 int_testing = matrix(NA, ncol = 7, nrow = 100)
 sl_testing = matrix(NA, ncol = 7, nrow = 100)
-  
+
 for (i in 1:100){
   training_data = oper[i, 8][[1]]
   testing_data = oper[i, 9][[1]]
@@ -213,8 +231,16 @@ tab_coef = rbind(apply(int_training, 2, mean), apply(sl_training, 2, mean),
 colnames(tab_coef) = methods[-8]
 rownames(tab_coef) = c("Training Intercept", "Training Slope", "Testing Intercept",
                        "Testing Slope")
-tab_coef_x2 = tab_coef
-tab_coef_x2
+
+tab_coef_se = rbind(apply(int_training, 2, sd), apply(sl_training, 2, sd),
+                    apply(int_testing, 2, sd), apply(sl_testing, 2, sd)) / sqrt(100)
+
+colnames(tab_coef_se) = methods[-8]
+rownames(tab_coef_se) = paste(c("Training Intercept", "Training Slope", "Testing Intercept",
+                                "Testing Slope"), "SE")
+
+tab_coef_x2 = rbind(tab_coef, tab_coef_se)
+tab_coef_x2[c(1:2, 5:6),]
 
 
 # x3 ~ x1 + x2
@@ -252,7 +278,15 @@ tab_coef = rbind(apply(int_training, 2, mean), apply(sl1_training, 2, mean),
 colnames(tab_coef) = methods[-8]
 rownames(tab_coef) = c("Training Intercept", "Training Slope x1", "Training Slope x2",
                        "Testing Intercept", "Testing Slope x1", "Testing Slope x2")
-tab_coef_x3 = tab_coef
+
+tab_coef_se = rbind(apply(int_training, 2, sd), apply(sl_training, 2, sd),
+                    apply(int_testing, 2, sd), apply(sl_testing, 2, sd)) / sqrt(100)
+
+colnames(tab_coef_se) = methods[-8]
+rownames(tab_coef_se) = paste(c("Training Intercept", "Training Slope", "Testing Intercept",
+                                "Testing Slope"), "SE")
+
+tab_coef_x3 = rbind(tab_coef, tab_coef_se)
 tab_coef_x3
 
 ###############################################################################
@@ -268,7 +302,7 @@ for (i in 1: 100){
   std_rmse[i, ] = tmp_rmse
 }
 
-tab_rmse = apply(std_rmse, 2, mean)
+tab_rmse = rbind(apply(std_rmse, 2, mean), apply(std_rmse, 2, sd)/sqrt(100))
 
 
 std_rmse = matrix(NA, ncol = 7, nrow = 100)
@@ -283,10 +317,10 @@ for (i in 1: 100){
   std_rmse[i, ] = tmp_rmse
 }
 
-tab_rmse = rbind(tab_rmse, apply(std_rmse, 2, mean))
+tab_rmse = rbind(tab_rmse, apply(std_rmse, 2, mean),apply(std_rmse, 2, sd)/sqrt(100))
 
 colnames(tab_rmse) = methods[-8]
-rownames(tab_rmse) = c("x2 ~ x1", "x3 ~ x1 + x2")
+rownames(tab_rmse) = c("x2 ~ x1", "x2 ~ x1 SE", "x3 ~ x1 + x2", "x3 ~ x1 + x2 SE")
 
 tab_rmse
 
@@ -299,18 +333,27 @@ save(tab_wrt, tab_ut, tab_ut_inter, tab_km, tab_coef_x2, tab_coef_x3, tab_rmse,
 ###############################################################################
 ## plot data
 library(ggplot2)
+library(gridExtra)
+
 plot_data = list()
 for (i in 1:8){
   plot_data[[i]] = oper[96,][[i]][, 3]
 }
-names(plot_data) = c("KNG", "StepFixed", "StepVarying", "SWFixed", 
-                        "SWVarying", "NonPriv", "pMSE", "RawData")
+m = c("KNG", "StepFixed", "StepVarying", "SWFixed", 
+      "SWVarying", "NonPrivate", "pMSE", "RawData")
+names(plot_data) = m
+plot_output = list() 
 
-for (i in 2:5){
+j = 1
+for (i in c(1:5, 7)){
   plotdata = reshape2::melt(plot_data[c(i, 6, 8)])
-  print(ggplot(plotdata,aes(x=value, fill= L1)) + geom_density(alpha=0.51))
+  plotdata$L1 = factor(plotdata$L1, levels = c(m[6], m[8], m[i]))
+  plot_output[[j]] = ggplot(plotdata,aes(x=value, fill= L1)) +
+    geom_density(alpha=0.51) + 
+    labs(fill='Methods')
+  j = j + 1
 } 
-
+do.call(grid.arrange, plot_output)
 
 
 # plotdata$L1 = factor(plotdata$L1, levels = c("Raw Data", "Non-Private", "pMSE Mechanism", "KNG",
@@ -319,8 +362,8 @@ for (i in 2:5){
 # filename = paste(paste0('seed', t), paste0('e', ep*2), syn_var, sep = '_')
 # png(paste("./plot/simulations/pMSE/",paste0('eps', ep*2) , "/simulation_", filename, ".png", sep = ""),
 #    width = 700, height = 400)
-
-
+# 
+# 
 # print(ggplot(plotdata, aes(x=value, fill = L1)) + facet_wrap(~L1, ncol = 4) +
 #         stat_density(geom = "area", bw = 5, alpha = 0.5, size = 1) +
 #         scale_color_brewer(palette="Dark2") + theme_minimal() +
@@ -334,22 +377,22 @@ for (i in 2:5){
 # names(syn) = c("KNG", "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
 #                "Sandwich-Fixed Slope", "Sandwich-Varying Slope", "Non-Private",
 #                "Raw Data", "pMSE Mechanism")
-# 
+#
 # plotdata = melt(syn)
 # plotdata$L1 = factor(plotdata$L1, levels = c("Raw Data", "Non-Private", "pMSE Mechanism", "KNG",
 #                                              "Stepwise-Fixed Slope", "Stepwise-Varying Slope",
 #                                              "Sandwich-Fixed Slope", "Sandwich-Varying Slope"))
-# 
+#
 # filename = paste(paste0('seed', t), paste0('e', ep*2), syn_var, sep = '_')
-# png(paste("./plot/simulations/pMSE/",paste0('eps', ep*2) , "/simulation_", filename, ".png", sep = ""), 
+# png(paste("./plot/simulations/pMSE/",paste0('eps', ep*2) , "/simulation_", filename, ".png", sep = ""),
 #     width = 700, height = 400)
 # print(ggplot(plotdata, aes(x=value, fill = L1)) + facet_wrap(~L1, ncol = 4) +
-#         stat_density(geom = "area", bw = ifelse(syn_var == "x2", 40, 80), alpha = 0.5, size = 1) + 
+#         stat_density(geom = "area", bw = ifelse(syn_var == "x2", 40, 80), alpha = 0.5, size = 1) +
 #         scale_color_brewer(palette="Dark2") + theme_minimal() + xlim(c(-250, 500))+
 #         #coord_cartesian(xlim=c(-500, 1000)) +
 #         theme(legend.position='none') +
 #         ggtitle(paste("Density of variable", syn_var, "- Eps", round(ep, 2))) +
-#         labs(fill="Methods")) 
+#         labs(fill="Methods"))
 # dev.off()
 
 
