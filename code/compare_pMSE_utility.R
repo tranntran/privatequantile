@@ -11,7 +11,7 @@
 # 5. RMSE on holdout sample (Arnold and Neunhoeffer, 2020).
 
 rm(list = ls())
-load("./output/data_eps1_50q_v2.Rdata")
+load("./output/simulation_data_eps1.Rdata")
 
 methods = c("KNG", "StepF", "StepV", "SWF", "SWV", "NP","pMSE", "Raw")
 set.seed(6789)
@@ -337,7 +337,7 @@ library(gridExtra)
 
 plot_data = list()
 for (i in 1:8){
-  plot_data[[i]] = oper[96,][[i]][, 3]
+  plot_data[[i]] = oper[96,][[i]][, 2]
 }
 m = c("KNG", "StepFixed", "StepVarying", "SWFixed", 
       "SWVarying", "NonPrivate", "pMSE", "RawData")

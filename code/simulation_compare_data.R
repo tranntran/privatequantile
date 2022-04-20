@@ -149,7 +149,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       
       # generate private quantiles using KNG mechanism
       temp = originalKNG(data = data, total_eps = ep, tau = tau, nbatch = runs,
-                         scale = 0.1, Cx = 1, formula = fml)
+                         scale = 0.01, Cx = 1, formula = fml)
       all_beta[[1]] = temp[[1]]
       
       # generate private quantiles using stepwise fixed slope KNG
@@ -241,7 +241,7 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       all_beta[[2]] = temp[[1]]
       
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.8, #0.003
-                         tau = tau, scale = 5e-5, nbatch = 10000, method = "varying", 
+                         tau = tau, scale = 1e-5, nbatch = 10000, method = "varying", 
                          lb = 0, ub = ub, Cx = Cx, formula = mod, 
                          check_data = synall[[3]])
       all_beta[[3]] = temp[[1]]
