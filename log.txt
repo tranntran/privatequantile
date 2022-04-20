@@ -1,10 +1,16 @@
-starting worker for localhost:11943 
+starting worker for localhost:11024 
 Type: EXEC 
 Type: EXEC 
-Error in unserialize(node$con) : error reading from connection
-Calls: local ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
-   as.data.frame, units
+
+Attaching package: 'rmutil'
+
+The following object is masked from 'package:stats':
+
+    nobs
+
+The following objects are masked from 'package:base':
+
+    as.data.frame, units
 
 
 Attaching package: 'mcmc'
@@ -23,14 +29,4 @@ The following object is masked from 'package:base':
 
 [1] "x1"
 [1] "x2"
-Type: EXEC 
-Type: EXEC 
-Error in unserialize(node$con)Error in unserialize(node$con) : error reading from connection
-Calls: local ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-In addition: There were 50 or more warnings (use warnings() to see the first 50)
-Execution halted
-f, env) :
-  undefined subclass "packedMatrix" of class "replValueSp"; definition not updated
-3: In .recacheSubclasses(def@className, def, env) :
-  undefined subclass "packedMatrix" of class "mMatrix"; definition not updated
-Execution halted
+[1] "x3"

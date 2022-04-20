@@ -55,7 +55,7 @@ KNG = function(init, ep, tau, sumX, X, Y, Cx, nbatch = 10000, scale = 1e-4, ub =
   logA = function(beta){
     left = cbind(Y, X)%*% c(1, -beta)
     lessEq = (left <= 0)
-    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*Cx) - (1/2)*(beta%*%beta)
+    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*Cx) - (1e-5)*(beta%*%beta)
     return(ans)
   }
   
@@ -167,7 +167,7 @@ constrKNG = function(init, ep, tau, sumX, X, Y, Cx, nbatch = 10000, scale = 1e-4
     left = cbind(Y, X) %*% c(1,-beta)
     lessEq = (left <= 0)
     # 1e-5
-    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*Cx) - (1/2)*(beta%*%beta)
+    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*Cx) - (1e-5)*(beta%*%beta)
     return(ans)
   }
   
@@ -207,7 +207,7 @@ stepwiseKNG = function(data, total_eps, median_eps = NULL, tau, scale = 1e-4, Cx
   
   nonpriv = quantreg::rq(formula, data = as.data.frame(data), tau = 0.5)
   out = KNG(init = coef(nonpriv), ep = total_eps*median_eps, tau = 0.5, sumX = sumX, 
-            X = X, Y = Y, Cx = Cx, nbatch = nbatch, scale = scale, ub = ub, lb = lb, 
+            X = X, Y = Y, Cx = Cx, nbatch = nbatch, scale = 1e-4, ub = ub, lb = lb, 
             upper_accept = upper_accept, lower_accept = lower_accept, 
             update_after = update_after, adjust_scale_by = adjust_scale_by)
   median_beta_kng = tail(out[[1]], 1)#*R
@@ -358,7 +358,7 @@ constrKNGSandwich = function(init, ep, tau, sumX, X, Y, Cx, nbatch = 1000, scale
   logA = function(beta) {
     left = cbind(Y, X) %*% c(1,-beta)
     lessEq = (left <= 0)
-    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*Cx) - (1/2)*(beta%*%beta)
+    ans = -(ep/2) * max(abs(-tau*sumX + t(X)%*%lessEq)) / ((1-tau)*2*Cx) - (1e-5)*(beta%*%beta)
     return(ans)
   }
   
@@ -404,7 +404,7 @@ sandwichKNG = function(data, total_eps, median_eps = NULL, main_tau_eps = NULL,
   }
   
   out = stepwiseKNG(data = data, total_eps = total_eps*main_tau_eps, median_eps = median_eps, 
-                    tau = main_tau_order, scale = scale, nbatch = nbatch, 
+                    tau = main_tau_order, scale = scale, nbatch = nbatch, Cx = Cx,
                     method = method, ub = ub, lb = lb, check_data = check_data, 
                     lower_accept = lower_accept, upper_accept = upper_accept, 
                     update_after = update_after, adjust_scale_by = adjust_scale_by,
