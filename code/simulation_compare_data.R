@@ -154,13 +154,13 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       
       # generate private quantiles using stepwise fixed slope KNG
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.25, Cx = 1,
-                         tau = tau, scale = 0.03, nbatch = runs, method = "fixed", 
+                         tau = tau, scale = 0.025, nbatch = runs, method = "fixed", 
                          lb = 0, ub = 1000, formula = fml)
       all_beta[[2]] = temp[[1]]
       
       # generate private quantiles using stepwise varying slope KNG     
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.25, Cx = 1, 
-                         tau = tau, scale = 0.05, nbatch = runs, method = "varying", 
+                         tau = tau, scale = 0.025, nbatch = runs, method = "varying", 
                          lb = 0, ub = 1000, formula = fml)
       all_beta[[3]] = temp[[1]]
       
@@ -235,26 +235,26 @@ compare_methods = function(data1, holdout_dat = holdout_dat,
       all_beta[[1]] = temp[[1]]
       
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.6, #0.003
-                         tau = tau, scale = 0.03, nbatch = 10000, method = "fixed", 
+                         tau = tau, scale = 0.01, nbatch = runs, method = "fixed", 
                          lb = 0, ub = ub, Cx = Cx, formula = mod,
                          check_data = synall[[2]])
       all_beta[[2]] = temp[[1]]
       
       temp = stepwiseKNG(data = data, total_eps = ep, median_eps = 0.8, #0.003
-                         tau = tau, scale = 1e-5, nbatch = 10000, method = "varying", 
+                         tau = tau, scale = 6e-6, nbatch = runs, method = "varying", 
                          lb = 0, ub = ub, Cx = Cx, formula = mod, 
                          check_data = synall[[3]])
       all_beta[[3]] = temp[[1]]
       
       temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.6, main_tau_eps = 0.7,
-                         tau = tau, main_tau = main_tau, scale = 0.06, sw_scale = 0.02,
+                         tau = tau, main_tau = main_tau, scale = 0.05, sw_scale = 0.01,
                          nbatch = runs, method = "fixed", lb = 0, check_data = synall[[4]],
                          ub =  ub, Cx = Cx, formula = mod)
       
       all_beta[[4]] = temp[[1]]
       
       temp = sandwichKNG(data = data, total_eps = ep, median_eps = 0.8, main_tau_eps = 0.8,
-                         tau = tau, main_tau = main_tau, scale = 0.00005, sw_scale = 0.00001,
+                         tau = tau, main_tau = main_tau, scale = 3e-5, sw_scale = 9e-6,
                          nbatch = runs, method = "varying", lb = 0, 
                          ub =  ub, Cx = Cx, formula = mod, check_data = synall[[5]])
       all_beta[[5]] = temp[[1]]
