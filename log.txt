@@ -1,14 +1,9 @@
 starting worker for localhost:11024 
 Type: EXEC 
-Type: EXEC 
-
-Attaching package: 'rmutil'
-
-The following object is masked from 'package:stats':
-
-    nobs
-
-The following objects are masked from 'package:base':
+Error in unserialize(node$con) : error reading from connection
+Calls: local ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+e:base':
 
     as.data.frame, units
 
@@ -30,3 +25,7 @@ The following object is masked from 'package:base':
 [1] "x1"
 [1] "x2"
 [1] "x3"
+Error in unserialize(node$con) : error reading from connection
+Calls: local ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: There were 50 or more warnings (use warnings() to see the first 50)
+Execution halted
